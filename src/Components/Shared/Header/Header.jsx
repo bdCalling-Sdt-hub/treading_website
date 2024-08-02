@@ -8,11 +8,11 @@ const Header = () => {
             label: 'Home'
         },
         {
-            path: '#',
+            path: '/chat',
             label: 'Chat'
         },
         {
-            path: '#',
+            path: '/swap',
             label: 'Swap'
         },
     ]
