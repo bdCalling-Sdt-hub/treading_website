@@ -1,3 +1,4 @@
+import { Collapse } from 'antd'
 import React from 'react'
 import { BiSolidCategory } from 'react-icons/bi'
 import { CiSearch } from 'react-icons/ci'
@@ -5,21 +6,33 @@ import { MdKeyboardArrowRight } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 const Categories = () => {
-    return (
-        <div className='flex justify-between items-start gap-2 container mx-auto mt-6'>
-            <div className='w-[311px] bg-white'>
+    return (//
+        <div className='flex justify-start items-start flex-col md:grid-cols-4 lg:grid grid-cols-5  gap-2 container mx-auto mt-6'>
+            <div className=' bg-white w-full h-full'>
                 <button className='flex  justify-center items-center gap-2 text-base bg-blue-500 text-white w-full py-2 rounded-t-md'>
                     <BiSolidCategory /> Categories
                 </button>
-                {
-                    [...Array(10).keys()].map(item => {
-                        return <button key={item} className='flex  justify-between items-center gap-2 text-base text-[#666666] w-full py-2 px-2'>
-                            Categories <MdKeyboardArrowRight />
-                        </button>
-                    })
-                }
+                <div className='flex flex-col gap-1 mt-1'>
+                    {
+                        [...Array(10).keys()].map((item, i) => {
+                            return <Collapse key={i}
+                                items={[{
+                                    key: i, label: <span key={i}>Category Name</span>, children: <div className='flex flex-col justify-start items-start gap-2' key={i}>
+                                        {
+                                            [...Array(10).keys()].map((item, i) => {
+                                                return <Link key={i}>
+                                                    category
+                                                </Link>
+                                            })
+                                        }
+                                    </div>
+                                }]}
+                            />
+                        })
+                    }
+                </div>
             </div>
-            <div className='w-full px-4 box-border'>
+            <div className='w-full h-full px-4 box-border col-span-3'>
                 <div className='grid grid-cols-2 justify-center items-center'>
                     <div className='  text-[#666666]'>
                         <p className='text-2xl font-medium'> Get <span className='text-[#222222]'>$40-620</span> when you
@@ -72,7 +85,7 @@ const Categories = () => {
 
                 </div>
             </div>
-            <div className='w-[280px] text-center  flex flex-col gap-2'>
+            <div className=' text-center w-full h-full hidden lg:flex flex-col gap-2'>
                 <div className='p-3 bg-white rounded-md'>
                     <p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>
                     <p className='text-base text-[#666666] my-3'>Did you Know?</p>

@@ -24,3 +24,8 @@ body {
 *::-webkit-scrollbar{
     display: none;
 }
+.ant-collapse-icon-position-start{
+    border-radius: 0px !important;
+    background: none !important;
+    border: none !important;
+}
