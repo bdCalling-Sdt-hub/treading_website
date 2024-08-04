@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const Categories = () => {
     return (//
-        <div className='flex justify-start items-start flex-col md:grid-cols-4 lg:grid grid-cols-5  gap-2 container mx-auto mt-6'>
+        <div className='flex justify-start items-start flex-col md:grid md:grid-cols-4 lg:grid-cols-5  gap-2 container mx-auto mt-6'>
             <div className=' bg-white w-full h-full'>
                 <button className='flex  justify-center items-center gap-2 text-base bg-blue-500 text-white w-full py-2 rounded-t-md'>
                     <BiSolidCategory /> Categories
@@ -32,7 +32,7 @@ const Categories = () => {
                     }
                 </div>
             </div>
-            <div className='w-full h-full px-4 box-border col-span-3'>
+            <div className='w-full h-full px-4 box-border col-span-4'>
                 <div className='grid grid-cols-2 justify-center items-center'>
                     <div className='  text-[#666666]'>
                         <p className='text-2xl font-medium'> Get <span className='text-[#222222]'>$40-620</span> when you
@@ -83,30 +83,6 @@ const Categories = () => {
                         </div>
                     </div>
 
-                </div>
-            </div>
-            <div className=' text-center w-full h-full hidden lg:flex flex-col gap-2'>
-                <div className='p-3 bg-white rounded-md'>
-                    <p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>
-                    <p className='text-base text-[#666666] my-3'>Did you Know?</p>
-                    <p className='text-[#4E4E4E] font-semibold text-xl'>“Facts”</p>
-                    <p className='text-base text-[#666666] my-3'>SWAPS ARE
-                        PARM/TEMP AN
-                        SEASONAL</p>
-                </div>
-                <div className='p-3 bg-white rounded-md'>
-                    <p className='text-base text-[#666666] my-3'>You can swap
-                        International & Locally </p>
-                </div>
-                <div className='p-3 bg-white rounded-md'>
-                    <p className='text-base text-[#666666] my-3'>No $  needed
-                        just pre-appruval</p>
-                </div>
-                <div className='p-3 bg-white rounded-md'>
-                    <p className='text-base text-[#666666] my-3'>SWIFT SWAP HAS 1,000's of SWAPS DATLY</p>
-                </div>
-                <div className='p-3 bg-white rounded-md'>
-                    <Link className='text-base text-[#666666] my-3'>More...</Link>
                 </div>
             </div>
         </div>

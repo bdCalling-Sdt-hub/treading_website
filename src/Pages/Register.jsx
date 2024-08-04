@@ -1,0 +1,135 @@
+import { Form, Input, Modal } from 'antd'
+import React, { useState } from 'react'
+import { FaEye, FaEyeSlash, FaLocationDot } from 'react-icons/fa6'
+import loginImage from '../assets/icon/loginImage.png'
+import { Link } from 'react-router-dom'
+import { MdOutlineEmail } from 'react-icons/md'
+import { FiPhone } from 'react-icons/fi'
+import { CiLock } from 'react-icons/ci'
+
+const Register = () => {
+    const [passwordType, setPasswordType] = useState('password')
+    const [confirmPasswordType, setConfirmPasswordType] = useState('password')
+    const [open, setOpen] = useState(false)
+    const onFinish = (value) => {
+
+    }
+    return (
+        <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>
+            <div className='w-full h-full flex flex-col justify-center items-center bg-white'>
+                <div className='w-[320px] sm:w-[520px] md:w-[320px] lg:w-[500px]'>
+                    <h3 className='text-4xl font-semibold '>Sign Up</h3>
+                    <p className='pt-3 pb-6'>Just a few quick things to get started</p>
+                    <Form
+                        layout='vertical'
+                        onFinish={onFinish}
+                    >
+                        <Form.Item
+                            name={`email`}
+                            label={<span>Email</span>}
+                            rules={[
+                                {
+                                    message: 'this field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<MdOutlineEmail />} type='email' className='py-2' placeholder='input your email' />
+                        </Form.Item>
+                        <Form.Item
+                            name={`phone`}
+                            label={<span>Phone Number</span>}
+                            rules={[
+                                {
+                                    message: 'this field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<FiPhone />} type='text' className='py-2' placeholder='input your phone number' />
+                        </Form.Item>
+                        <Form.Item
+                            name={`address`}
+                            label={<span>Address (Optional)</span>}
+                            rules={[
+                                {
+                                    message: 'this field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<FaLocationDot />} type='text' className='py-2' placeholder='input your address' />
+                        </Form.Item>
+                        <Form.Item
+                            name={`password`}
+                            label={<span>password</span>}
+                            rules={[
+                                {
+                                    message: 'this field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<CiLock />} type={passwordType} suffix={passwordType === 'text' ? <FaEye className='cursor-pointer text-xl' onClick={() => {
+                                setPasswordType('password')
+                            }} /> : <FaEyeSlash className='cursor-pointer text-xl' onClick={() => {
+                                setPasswordType('text')
+                            }} />} className='py-2' placeholder='input your password' />
+                        </Form.Item>
+                        <Form.Item
+                            name={`confirm_password`}
+                            label={<span>confirm password</span>}
+                            rules={[
+                                {
+                                    message: 'this field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<CiLock />} type={confirmPasswordType} suffix={confirmPasswordType === 'text' ? <FaEye className='cursor-pointer text-xl' onClick={() => {
+                                setConfirmPasswordType('password')
+                            }} /> : <FaEyeSlash className='cursor-pointer text-xl' onClick={() => {
+                                setConfirmPasswordType('text')
+                            }} />} className='py-2' placeholder='input your password' />
+                        </Form.Item>
+                        <div className='flex justify-between items-center gap-2'>
+                            <Form.Item className=''
+                                name={`remember`}
+                            >
+                                <label className='flex justify-start items-center gap-2 whitespace-nowrap ' htmlFor='checkbox'>
+                                    <Input id='checkbox' type='checkbox' className='py-2' /> agree terms and condition
+                                </label>
+                            </Form.Item>
+                            <button type='button' onClick={() => {
+                                setOpen(true)
+                            }} className='text-blue-500 -mt-5'>
+                                see terms & conditions
+                            </button>
+                        </div>
+                        <button className='w-full py-3 rounded-md bg-blue-500 text-white'>
+                            Sign in
+                        </button>
+                    </Form>
+                    <p className='text-center mt-2'>Don’t have a account? <Link to={`/sign-in`} className='text-blue-500'>Sign Up</Link> </p>
+                </div>
+            </div>
+            <div className='bg-[#ebf1fe] flex justify-center items-center'>
+                <img src={loginImage} alt="" />
+            </div>
+            <Modal
+                open={open}
+                onCancel={() => setOpen(false)}
+                footer={false}
+                centered
+                width={1000}
+            >
+                <div className=''>
+                    <p className='text-3xl'>Terms of Use</p>
+                </div>
+            </Modal>
+        </div>
+    )
+}
+
+
+export default Register

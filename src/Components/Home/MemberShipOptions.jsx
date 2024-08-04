@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const MemberShipOptions = () => {
     return (
@@ -12,9 +13,9 @@ const MemberShipOptions = () => {
                             <p className='text-7xl font-bold'>$19.99</p>
                             <p className='text-xl font-semibold'>Points Need to Auto Upgrade</p>
                             <p className='text-xl font-semibold'>From (25,000-99,999) points</p>
-                            <button className='px-8 rounded-md py-2 bg-white text-black'>
+                            <Link to={`/pre-questions`} className='px-8 rounded-md py-2 bg-white text-black'>
                                 Apply
-                            </button>
+                            </Link>
                         </div>
                     })
                 }

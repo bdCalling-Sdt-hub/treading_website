@@ -10,14 +10,13 @@ const Footer = () => {
             <div className='container mx-auto'>
                 <div className=" grid grid-cols-2 gap-x-3 gap-y-8 sm:grid-cols-3">
                     <div className="flex flex-col space-y-4">
-                        <h2 className="font-medium">About Us</h2>
+                        <Link to={`/about-us`} className="font-medium">About Us</Link>
                         <div className="flex flex-col space-y-2 text-sm ">
-                            <Link rel="noopener noreferrer" href="#">Facts</Link>
-                            <Link rel="noopener noreferrer" href="#">Help Center</Link>
-                            <Link rel="noopener noreferrer" href="#">Sponsor Ship</Link>
-                            <Link rel="noopener noreferrer" href="#">Dark Mode</Link>
-                            <Link rel="noopener noreferrer" href="#">Rules & Regulation</Link>
-                            <Link rel="noopener noreferrer" href="#">Careers + Job Opportunities</Link>
+                            <Link to={`/facts`}>Facts</Link>
+                            <Link to={`help-center`}>Help Center</Link>
+                            <Link to={`/sponsor-ship`}>Sponsor Ship</Link>
+                            <Link to={`/rules-regulation`}>Rules & Regulation</Link>
+                            <Link to={`/careers-opportunities`}>Careers + Job Opportunities</Link>
                         </div>
                     </div>
                     <div className="flex flex-col space-y-4">

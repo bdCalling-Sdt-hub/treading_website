@@ -1,11 +1,36 @@
-import { Drawer } from "antd";
+import { Drawer, Dropdown } from "antd";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { IoLanguage, IoNotificationsOutline } from "react-icons/io5";
-import { NavLink } from "react-router-dom";
-
+import { Link, NavLink } from "react-router-dom";
 const Header = () => {
     const [open, setOpen] = useState(false);
+    const items = [
+        {
+            key: '1',
+            label: (
+                <Link to={`/profile`}>
+                    Profile
+                </Link>
+            ),
+        },
+        {
+            key: '1',
+            label: (
+                <Link to={`/sign-in`}>
+                    Sign In
+                </Link>
+            ),
+        },
+        {
+            key: '1',
+            label: (
+                <button onClick={()=>localStorage.removeItem('token')}>
+                    Log Out
+                </button>
+            ),
+        },
+    ];
     const navlinks = [
         {
             path: '/',
@@ -22,6 +47,10 @@ const Header = () => {
         {
             path: '/swift-points',
             label: 'Swift Points'
+        },
+        {
+            path: '/agreements',
+            label: 'Agreements'
         },
     ]
     return (
@@ -87,13 +116,21 @@ const Header = () => {
                         <button className="text-2xl p-3 rounded-full bg-[#77A3F6] md:block hidden">
                             <IoNotificationsOutline />
                         </button>
-                        <button className="flex justify-between items-center bg-white text-blue-500 md:px-3 rounded-md gap-2">
-                            <img src="https://i.ibb.co/dDzHtWX/pexels-photo-771742.jpg" className="h-8 w-8 rounded-full" alt="" />
-                            <div className="text-left md:block hidden">
-                                <p className="text-base font-normal">siyam</p>
-                                <p className="text-sm -mt-1">point :238475</p>
-                            </div>
-                        </button>
+                        <Dropdown
+                            menu={{
+                                items,
+                            }}
+                            placement="bottom"
+                            arrow
+                        >
+                            <button className="flex justify-between items-center bg-white text-blue-500 md:px-3 rounded-md gap-2">
+                                <img src="https://i.ibb.co/dDzHtWX/pexels-photo-771742.jpg" className="h-8 w-8 rounded-full" alt="" />
+                                <div className="text-left md:block hidden">
+                                    <p className="text-base font-normal">siyam</p>
+                                    <p className="text-sm -mt-1">point :238475</p>
+                                </div>
+                            </button>
+                        </Dropdown>
                         <button onClick={() => setOpen(true)} className="text-2xl p-[7px] rounded-full bg-[#77A3F6] block md:hidden">
                             <FiMenu />
                         </button>
