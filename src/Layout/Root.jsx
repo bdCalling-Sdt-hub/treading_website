@@ -15,7 +15,7 @@ const Root = () => {
                 Facts
             </button>
             <Drawer title={<p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>} onClose={() => setOpen(false)} open={open}>
-                <div className=' text-center w-full h-full hidden lg:flex flex-col gap-2 '>
+                <div className=' text-center w-full h-full flex flex-col gap-2 '>
                     <div className='p-3 bg-gray-100 rounded-md'>
                         <p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>
                         <p className='text-base text-[#666666] my-3'>Did you Know?</p>

@@ -9,7 +9,7 @@ const Header = () => {
         {
             key: '1',
             label: (
-                <Link to={`/profile`}>
+                <Link to={`/my-profile`}>
                     Profile
                 </Link>
             ),
@@ -52,6 +52,10 @@ const Header = () => {
             path: '/agreements',
             label: 'Agreements'
         },
+        {
+            path: '/tutorial',
+            label: 'Tutorial'
+        },
     ]
     return (
         <div className="bg-[#5D91F4] py-2 text-white">
@@ -83,9 +87,9 @@ const Header = () => {
                     </div>
                 </div>
                 <div className='flex justify-between items-center gap-2 mt-2'>
-                    <div className='flex justify-start items-center gap-3'>
+                    <div className='flex justify-start w-full items-center gap-3'>
                         <img src='./logo.png' alt="" />
-                        <ul className="md:flex hidden justify-start items-center gap-2">
+                        <ul className="md:flex hidden justify-center w-full  items-center gap-6">
                             {
                                 navlinks?.map((item, i) => {
                                     return <li>
@@ -123,11 +127,11 @@ const Header = () => {
                             placement="bottom"
                             arrow
                         >
-                            <button className="flex justify-between items-center bg-white text-blue-500 md:px-3 rounded-md gap-2">
+                            <button className="flex justify-between items-center bg-white text-blue-500 md:px-3 w-fit rounded-md gap-2">
                                 <img src="https://i.ibb.co/dDzHtWX/pexels-photo-771742.jpg" className="h-8 w-8 rounded-full" alt="" />
-                                <div className="text-left md:block hidden">
-                                    <p className="text-base font-normal">siyam</p>
-                                    <p className="text-sm -mt-1">point :238475</p>
+                                <div className="text-left md:block hidden mr-3">
+                                    <p className="text-base font-normal whitespace-nowrap">siyam</p>
+                                    <p className="text-sm -mt-1 whitespace-nowrap">point :238475</p>
                                 </div>
                             </button>
                         </Dropdown>

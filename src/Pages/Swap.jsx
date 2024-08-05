@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { BiSolidCategory } from 'react-icons/bi'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { Link } from 'react-router-dom'
@@ -7,13 +7,14 @@ import { Collapse, Input } from 'antd'
 import { IoSearch } from 'react-icons/io5'
 import earth from '../assets/icon/earth.png'
 const Swap = () => {
+    const [open, setOpen] = useState(false)
     return (
         <div className='flex justify-start items-start flex-col md:grid-cols-4 lg:grid grid-cols-5  gap-2 container mx-auto mt-6'>
-            <div className=' bg-white w-full h-full'>
-                <button className='flex  justify-center items-center gap-2 text-base bg-blue-500 text-white w-full py-2 rounded-t-md'>
+         <div className={` bg-white w-full ${open?'h-full':'h-fit lg:h-full'}`}>
+                <button onClick={()=>{setOpen(!open)}} className='flex  justify-center items-center gap-2 text-base bg-blue-500 text-white w-full py-2 rounded-t-md'>
                     <BiSolidCategory /> Categories
                 </button>
-                <div className='flex flex-col gap-1 mt-1'>
+                <div className={` flex-col gap-1 mt-1 ${open?'flex':'hidden lg:flex'}`}>
                     {
                         [...Array(10).keys()].map((item, i) => {
                             return <Collapse key={i}

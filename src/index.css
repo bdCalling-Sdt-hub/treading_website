@@ -31,12 +31,12 @@ body {
 }
 #assignment .slider-container {
     position: relative;
-    width: 600px; /* Adjust the width as needed */
+    max-width: 600px; 
 }
 
 #assignment .slider {
     width: 100%;
-    -webkit-appearance: none; /* Override default appearance */
+    -webkit-appearance: none;
     appearance: none;
     height: 10px;
     background: blue;
@@ -76,7 +76,7 @@ body {
 }
 
 #assignment .label {
-    top: -25px; /* Adjust vertical position */
+    top: -25px; 
     cursor: pointer;
 }
 
@@ -95,7 +95,7 @@ body {
     width: 2px;
     background-color: rgb(255, 255, 255);
     position: absolute;
-    top: -5px; /* Adjust as necessary */
+    top: -5px; 
 }
 
 #assignment .divider-container .divider:first-child { left: 33.3%; }

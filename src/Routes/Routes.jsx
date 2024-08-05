@@ -21,6 +21,7 @@ import RulesRegulation from '../Pages/RulesRegulation'
 import CareersOpportunities from '../Pages/CareersOpportunities'
 import HelpCenter from '../Pages/HelpCenter'
 import PreQuestions from '../Pages/PreQuestions'
+import Tutorial from '../Pages/Tutorial'
 
 export const router = createBrowserRouter([
     {
@@ -90,6 +91,10 @@ export const router = createBrowserRouter([
             {
                 path: '/pre-questions',
                 element: <PreQuestions />
+            },
+            {
+                path: '/tutorial',
+                element: <Tutorial />
             },
         ]
     },

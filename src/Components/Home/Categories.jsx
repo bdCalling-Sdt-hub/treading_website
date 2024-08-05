@@ -1,18 +1,19 @@
 import { Collapse } from 'antd'
-import React from 'react'
+import React, { useState } from 'react'
 import { BiSolidCategory } from 'react-icons/bi'
 import { CiSearch } from 'react-icons/ci'
 import { MdKeyboardArrowRight } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 const Categories = () => {
+    const [open, setOpen] = useState(false)
     return (//
         <div className='flex justify-start items-start flex-col md:grid md:grid-cols-4 lg:grid-cols-5  gap-2 container mx-auto mt-6'>
-            <div className=' bg-white w-full h-full'>
-                <button className='flex  justify-center items-center gap-2 text-base bg-blue-500 text-white w-full py-2 rounded-t-md'>
+            <div className={` bg-white w-full ${open?'h-full':'h-fit lg:h-full'}`}>
+                <button onClick={()=>{setOpen(!open)}} className='flex justify-center items-center gap-2 text-base bg-blue-500 text-white w-full py-2 rounded-t-md'>
                     <BiSolidCategory /> Categories
                 </button>
-                <div className='flex flex-col gap-1 mt-1'>
+                <div className={` flex-col gap-1 mt-1 ${open?'flex':'hidden lg:flex'}`}>
                     {
                         [...Array(10).keys()].map((item, i) => {
                             return <Collapse key={i}
@@ -33,7 +34,7 @@ const Categories = () => {
                 </div>
             </div>
             <div className='w-full h-full px-4 box-border col-span-4'>
-                <div className='grid grid-cols-2 justify-center items-center'>
+                <div className='md:grid grid-cols-2 flex flex-col md:justify-center md:items-center justify-start items-start'>
                     <div className='  text-[#666666]'>
                         <p className='text-2xl font-medium'> Get <span className='text-[#222222]'>$40-620</span> when you
                             trade in an iPhone.
@@ -57,7 +58,7 @@ const Categories = () => {
                     </div>
                     <img className='w-full' src="https://i.ibb.co/X3L0Srn/image-21.png" alt="" />
                 </div>
-                <div className='grid grid-cols-2 justify-center items-center gap-4'>
+                <div className='sm:grid grid-cols-2 flex flex-col justify-start items-start sm:justify-center sm:items-center gap-4'>
                     <div className='grid grid-cols-2 justify-center items-center  bg-[#2D357B] text-white p-4'>
                         <div>
                             <p className='text-xl font-semibold'>“SWAPING AT YOUR
