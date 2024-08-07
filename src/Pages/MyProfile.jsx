@@ -1,7 +1,7 @@
 import { Carousel, Form, Input, Modal } from 'antd';
 import React, { useState } from 'react'
 import { FaRegComment, FaRegStar, FaStar } from 'react-icons/fa6'
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, } from 'react-router-dom';
 import ProductCard from '../Components/Shared/ProductCard/ProductCard';
 import { MdKeyboardArrowDown, MdOutlineSwapHorizontalCircle, MdOutlineSwapVerticalCircle } from 'react-icons/md';
 import { IoMdSwap } from 'react-icons/io';
@@ -21,6 +21,11 @@ const MyProfile = () => {
     }
     const onRating = (value) => {
         console.log(value)
+    }
+    const Navigate = useNavigate()
+
+    const handleSendMessage = ()=>{
+        Navigate('/chat')
     }
     return (
         <>
@@ -278,7 +283,7 @@ const MyProfile = () => {
                         <button onClick={() => setOpenAcceptModal(false)} className='text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
                             Not now
                         </button>
-                        <button className='bg-blue-500 border text-white border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
+                        <button onClick={()=> handleSendMessage()} className='bg-blue-500 border text-white border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
                             Message
                         </button>
                     </div>
