@@ -1,6 +1,5 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { BiSolidCategory } from 'react-icons/bi'
-import { MdKeyboardArrowRight } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import ProductCard from '../Components/Shared/ProductCard/ProductCard'
 import { Collapse, Input } from 'antd'
@@ -138,8 +137,8 @@ const Swap = () => {
             </div>
             <div className='col-span-3 px-2  h-full w-full'>
                 <div className='flex justify-between items-center gap-6 sm:flex-row flex-col'>
-                    <Input className='py-2' prefix={<IoSearch />} />
-                    <Input className='py-2' prefix={<img src={earth} />} />
+                    <Input placeholder='search here' className='py-2' prefix={<IoSearch />} />
+                    <Input placeholder='location' className='py-2' prefix={<img src={earth} />} />
                     <button className='bg-blue-500 text-white px-8 rounded-md py-2 whitespace-nowrap'>
                         Add new Product
                     </button>
@@ -170,7 +169,7 @@ const Swap = () => {
                         just pre-appruval</p>
                 </div>
                 <div className='p-3 bg-white rounded-md'>
-                    <p className='text-base text-[#666666] my-3'>SWIFT SWAP HAS 1,000's of SWAPS DATLY</p>
+                    <p className='text-base text-[#666666] my-3'>{`SWIFT SWAP HAS 1,000's of SWAPS DATLY`}</p>
                 </div>
                 <div className='p-3 bg-white rounded-md'>
                     <Link className='text-base text-[#666666] my-3'>More...</Link>

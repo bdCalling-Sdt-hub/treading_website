@@ -1,5 +1,5 @@
 import { Form, Input, Modal } from 'antd'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaEye, FaEyeSlash, FaLocationDot } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
 import { Link } from 'react-router-dom'
@@ -12,7 +12,7 @@ const Register = () => {
     const [confirmPasswordType, setConfirmPasswordType] = useState('password')
     const [open, setOpen] = useState(false)
     const onFinish = (value) => {
-
+        console.log(value)
     }
     return (
         <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>

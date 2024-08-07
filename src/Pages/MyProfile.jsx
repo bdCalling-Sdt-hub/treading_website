@@ -1,9 +1,8 @@
 import { Carousel, Form, Input, Modal } from 'antd';
-import React, { useState } from 'react'
-import { FaRegComment, FaRegStar, FaStar } from 'react-icons/fa6'
-import { Link } from 'react-router-dom';
+import { useState } from 'react'
+import {  FaRegStar, FaStar } from 'react-icons/fa6'
+import { Link, useNavigate, } from 'react-router-dom';
 import ProductCard from '../Components/Shared/ProductCard/ProductCard';
-import { MdKeyboardArrowDown, MdOutlineSwapHorizontalCircle, MdOutlineSwapVerticalCircle } from 'react-icons/md';
 import { IoMdSwap } from 'react-icons/io';
 import TextArea from 'antd/es/input/TextArea';
 import { GrLocation } from 'react-icons/gr';
@@ -21,6 +20,11 @@ const MyProfile = () => {
     }
     const onRating = (value) => {
         console.log(value)
+    }
+    const Navigate = useNavigate()
+
+    const handleSendMessage = () => {
+        Navigate('/chat')
     }
     return (
         <>
@@ -42,14 +46,14 @@ const MyProfile = () => {
                             <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'>12/08/22</p>
                         </div>
                     </div>
-                    <div className='flex justify-center items-center gap-2 mt-3'>
+                    {/* <div className='flex justify-center items-center gap-2 mt-3'>
                         <button className='px-6 py-3 bg-blue-500 text-white rounded-md'>
                             Comments (20)
                         </button>
                         <button className='p-3 text-blue-500 bg-transparent rounded-md text-2xl'>
                             <FaRegComment />
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='max-w-[600px] mx-auto'>
                     <Carousel arrows infinite={false}>
@@ -75,14 +79,14 @@ const MyProfile = () => {
                     </Carousel>
                 </div>
                 {
-                    <div className='max-w-3xl mx-auto flex justify-between items-center gap-2 flex-wrap'>
-                        <button onClick={() => setTab('info')} className={`text-xl font-bold pb-3 ${tab === 'info' ? 'border-b-4' : ''} border-blue-500`}>
+                    <div className='max-w-3xl mx-auto flex justify-between items-center gap-2 px-[3%] mb-8 flex-wrap'>
+                        <button onClick={() => setTab('info')} className={`sm:text-xl text-sm   sm:font-bold pb-3 ${tab === 'info' ? 'border-b-4' : ''} border-blue-500`}>
                             Personal info
                         </button>
-                        <button onClick={() => setTab('history')} className={`text-xl font-bold pb-3 ${tab === 'history' ? 'border-b-4' : ''} border-blue-500`}>
+                        <button onClick={() => setTab('history')} className={`sm:text-xl text-sm  sm:font-bold pb-3 ${tab === 'history' ? 'border-b-4' : ''} border-blue-500`}>
                             Swiping History
                         </button>
-                        <button onClick={() => setTab('request')} className={`text-xl font-bold pb-3 ${tab === 'request' ? 'border-b-4' : ''} border-blue-500`}>
+                        <button onClick={() => setTab('request')} className={`sm:text-xl text-sm  sm:font-bold pb-3 ${tab === 'request' ? 'border-b-4' : ''} border-blue-500`}>
                             Swiping Request
                         </button>
                     </div>
@@ -106,19 +110,19 @@ const MyProfile = () => {
                                 <Input placeholder='siyam' />
                             </Form.Item>
                             <Form.Item className='w-full'
-                                label='Last Name'
+                                label='Email'
                                 name={`email`}
                             >
                                 <Input type='email' placeholder='siyam@gmail.com' />
                             </Form.Item>
                             <Form.Item className='w-full'
-                                label='Last Name'
+                                label='Phone Number'
                                 name={`phone`}
                             >
                                 <Input type='text' placeholder='65421541850' />
                             </Form.Item>
                             <Form.Item className='w-full col-span-2'
-                                label='Last Name'
+                                label='Address'
                                 name={`address`}
                             >
                                 <Input type='text' placeholder='bogra bangladesh ' />
@@ -133,15 +137,15 @@ const MyProfile = () => {
                 }
 
                 {
-                    tab === 'history' && <div className='container mx-auto px-4 '>
-                        <div className='md:flex justify-around items-center gap-2 hidden mt-10 mb-4'>
-                            <p className='font-semibold'>swap With</p>
+                    tab === 'history' && <div className='container mx-auto px-[2%] md:px-[6%] lg:px-[8%] '>
+                        <div className='md:flex justify-between  items-center gap-2 hidden mt-10 mb-4'>
+                            <p className='font-semibold'>Swap With</p>
                             <p className='font-semibold'>Swap Items</p>
                             <p className='font-semibold'>Action</p>
                         </div>
                         {
                             [...Array(9).keys()].map((item, i) => {
-                                return <div key={i} className='flex flex-col gap-2 md:grid grid-cols-3 my-2 text-[#222222]'>
+                                return <div key={i} className='flex flex-col  gap-2 md:grid grid-cols-3 my-2 text-[#222222]   border-b pb-8'>
                                     <div className='w-full flex md:justify-start justify-center items-center gap-2'>
                                         <img src="https://images.unsplash.com/photo-1721679241368-465acff29360?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMDV8fHxlbnwwfHx8fHw%3D" className='w-10 h-10 rounded-full object-cover' alt="" />
                                         <div>
@@ -154,7 +158,7 @@ const MyProfile = () => {
                                         <IoMdSwap className='text-blue-500' />
                                         <p>Sony Y1G Android TV</p>
                                     </div>
-                                    <div className='text-center'>
+                                    <div className='md:text-end text-center'>
                                         <button onClick={() => setOpen(true)} className='text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit'>
                                             Review
                                         </button>
@@ -278,7 +282,7 @@ const MyProfile = () => {
                         <button onClick={() => setOpenAcceptModal(false)} className='text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
                             Not now
                         </button>
-                        <button className='bg-blue-500 border text-white border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
+                        <button onClick={() => handleSendMessage()} className='bg-blue-500 border text-white border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
                             Message
                         </button>
                     </div>

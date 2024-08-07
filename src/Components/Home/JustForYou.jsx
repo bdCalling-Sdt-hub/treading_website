@@ -1,4 +1,4 @@
-import React from 'react'
+
 import ProductCard from '../Shared/ProductCard/ProductCard'
 import { Link } from 'react-router-dom'
 
@@ -7,7 +7,7 @@ const JustForYou = () => {
         <div className='container mx-auto mt-10'>
             <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Just For You</p>
             <div className='text-end'>
-                <Link className='text-blue-500'>
+                <Link to={`/swap`} className='text-blue-500'>
                     view all
                 </Link>
             </div>

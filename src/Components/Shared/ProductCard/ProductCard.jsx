@@ -1,7 +1,9 @@
-import React from 'react'
+
+import { MdOutlineSwapHorizontalCircle } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 
 const ProductCard = ({ data }) => {
+    console.log(data)
     return (
         <div className='p-4 bg-white rounded-md text-center flex flex-col justify-center items-center gap-2 w-full'>
             <div className='w-full h-[230px]'>
@@ -12,7 +14,7 @@ const ProductCard = ({ data }) => {
             <Link to={`/product-details/324`} className='bg-blue-100 text-blue-500 w-full py-2 rounded-md'>
                 Details
             </Link>
-            <button className='flex w-full justify-center items-center'>Add to Swap</button>
+            <button className='flex w-full justify-center items-center gap-2'><MdOutlineSwapHorizontalCircle /> Add to Swap</button>
         </div>
     )
 }
