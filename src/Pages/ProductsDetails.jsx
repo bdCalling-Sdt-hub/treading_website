@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaRegStar, FaStar } from 'react-icons/fa6'
 import { GrLocation } from 'react-icons/gr'
 import { MdKeyboardArrowDown, MdOutlineSwapVerticalCircle } from 'react-icons/md'
@@ -17,7 +17,7 @@ const ProductsDetails = () => {
                 <div className='w-full h-[190px] rounded-md grid grid-cols-3 mt-1 gap-3 bg-white px-1'>
                     {
                         images?.map((item, i) => {
-                            return <img className='w-full h-full object-contain rounded-md cursor-pointer hover:scale-105 transition-all' onClick={() => {
+                            return <img key={i} className='w-full h-full object-contain rounded-md cursor-pointer hover:scale-105 transition-all' onClick={() => {
                                 setImageIndex(i)
                             }} src={item} alt="" />
                         })
@@ -33,7 +33,7 @@ const ProductsDetails = () => {
                 <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
                     <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Value : </span> <span className='text-blue-600 font-bold'>$465+</span></p>
                     <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'>Earned</p>
-                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
+                    {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p> */}
                 </div>
                 <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
                     <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>Zahid Hossain (Gold)</span></p>
@@ -64,7 +64,7 @@ const ProductsDetails = () => {
             <div className='container w-full mx-auto mt-10 col-span-3'>
                 <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Similar Products</p>
                 <div className='text-end'>
-                    <Link className='text-blue-500'>
+                    <Link to={`/swap`} className='text-blue-500'>
                         view all
                     </Link>
                 </div>

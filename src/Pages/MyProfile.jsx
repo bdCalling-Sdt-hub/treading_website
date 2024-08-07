@@ -42,14 +42,14 @@ const MyProfile = () => {
                             <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'>12/08/22</p>
                         </div>
                     </div>
-                    <div className='flex justify-center items-center gap-2 mt-3'>
+                    {/* <div className='flex justify-center items-center gap-2 mt-3'>
                         <button className='px-6 py-3 bg-blue-500 text-white rounded-md'>
                             Comments (20)
                         </button>
                         <button className='p-3 text-blue-500 bg-transparent rounded-md text-2xl'>
                             <FaRegComment />
                         </button>
-                    </div>
+                    </div> */}
                 </div>
                 <div className='max-w-[600px] mx-auto'>
                     <Carousel arrows infinite={false}>
@@ -75,7 +75,7 @@ const MyProfile = () => {
                     </Carousel>
                 </div>
                 {
-                    <div className='max-w-3xl mx-auto flex justify-between items-center gap-2 flex-wrap'>
+                    <div className='max-w-3xl mx-auto flex justify-between items-center gap-2 flex-wrap mt-10'>
                         <button onClick={() => setTab('info')} className={`text-xl font-bold pb-3 ${tab === 'info' ? 'border-b-4' : ''} border-blue-500`}>
                             Personal info
                         </button>
@@ -106,19 +106,19 @@ const MyProfile = () => {
                                 <Input placeholder='siyam' />
                             </Form.Item>
                             <Form.Item className='w-full'
-                                label='Last Name'
+                                label='Email'
                                 name={`email`}
                             >
                                 <Input type='email' placeholder='siyam@gmail.com' />
                             </Form.Item>
                             <Form.Item className='w-full'
-                                label='Last Name'
+                                label='Phone Number'
                                 name={`phone`}
                             >
                                 <Input type='text' placeholder='65421541850' />
                             </Form.Item>
                             <Form.Item className='w-full col-span-2'
-                                label='Last Name'
+                                label='Address'
                                 name={`address`}
                             >
                                 <Input type='text' placeholder='bogra bangladesh ' />

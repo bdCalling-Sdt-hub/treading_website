@@ -1,12 +1,14 @@
 import { Form, Input } from 'antd'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 const Login = () => {
+    const navigate = useNavigate()
     const [passwordType, setPasswordType] = useState('password')
     const onFinish = (value) => {
-
+        console.log(value)
+        navigate('/')
     }
     return (
         <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>

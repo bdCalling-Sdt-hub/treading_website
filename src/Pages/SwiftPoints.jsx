@@ -1,5 +1,4 @@
 import { Input } from 'antd'
-import React from 'react'
 import { FaRegStar } from 'react-icons/fa'
 import { GrLocation } from 'react-icons/gr'
 import { IoSearch, IoSwapHorizontalSharp } from 'react-icons/io5'
@@ -20,8 +19,8 @@ const SwiftPoints = () => {
             <div className='flex flex-col justify-start items-center gap-2 mt-6 bg-white'>
                 {
                     [...Array(8).keys()].map((item, i) => {
-                        return <div className='flex justify-between md:flex-row flex-col items-center w-full pb-4 border-b'>
-                            <div className='md:w-[48.5%] w-full flex justify-between items-center gap-[2%]'>
+                        return <div key={i} className='flex justify-between md:flex-row flex-col items-center w-full pb-4 border-b'>
+                            <div className='md:w-[45%] w-full flex justify-between items-center gap-[2%]'>
                                 <div className='w-[25%] flex justify-center items-center'>
                                     <img src="https://i.ibb.co/mcqPdYF/Rectangle-216-1.png" className='w-full object-contain' alt="" />
                                 </div>
@@ -43,9 +42,9 @@ const SwiftPoints = () => {
                                 </div>
                             </div>
                             <div className='md:w-[3%] w-full flex justify-center items-center text-4xl'>
-                            <IoSwapHorizontalSharp className='rotate-90 md:rotate-0' />
+                                <IoSwapHorizontalSharp className='rotate-90 md:rotate-0' />
                             </div>
-                            <div className='md:w-[48.5%] w-full flex justify-between items-center gap-[2%]'>
+                            <div className='md:w-[45%] w-full flex justify-between items-center gap-[2%]'>
                                 <div className='w-[25%] flex justify-center items-center'>
                                     <img src="https://i.ibb.co/mcqPdYF/Rectangle-216-1.png" className='w-full object-contain' alt="" />
                                 </div>
@@ -65,6 +64,9 @@ const SwiftPoints = () => {
                                         <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> Naperville</p>
                                     </div>
                                 </div>
+                            </div>
+                            <div className='md:w-[6%] w-full flex flex-col justify-center items-center '>
+                                <p className=' text-[#4E4E4E] flex justify-start flex-col items-center gap-2 '><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
                             </div>
                         </div>
                     })

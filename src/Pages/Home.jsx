@@ -1,4 +1,4 @@
-import React from 'react'
+
 import Categories from '../Components/Home/Categories'
 import TopRatedProducts from '../Components/Home/TopRatedProducts'
 import MemberShipOptions from '../Components/Home/MemberShipOptions'

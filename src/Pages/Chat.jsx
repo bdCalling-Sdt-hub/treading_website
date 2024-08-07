@@ -1,5 +1,5 @@
-import { Form, Input } from 'antd'
-import React, { useState } from 'react'
+import { Input } from 'antd'
+import { useState } from 'react'
 import { BsFillTriangleFill, BsThreeDotsVertical } from 'react-icons/bs'
 import { FaArrowLeft } from 'react-icons/fa'
 import { IoIosSend } from 'react-icons/io'
@@ -22,7 +22,7 @@ const Chat = () => {
                             }} className='flex justify-between items-start gap-2 hover:bg-black hover:bg-opacity-10 w-full rounded-md p-1 cursor-pointer' key={i}>
                                 <div className='flex justify-start items-center gap-2'>
                                     <img className='w-16 h-16 rounded-full object-cover' src="https://plus.unsplash.com/premium_photo-1682123606812-4fb939492af0?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8aG90JTIwd29tYW4lMjBwcm9maWxlfGVufDB8fDB8fHww" alt="" />
-                                    <div>
+                                    <div className=''>
                                         <p className='text-[#4E4E4E] text-lg font-medium'>Farrel Kurniawan</p>
                                         <p className='text-[#666666] text-sm '>Hi Friends, Wassup!</p>
                                     </div>
