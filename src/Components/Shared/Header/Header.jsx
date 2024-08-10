@@ -2,9 +2,10 @@ import { Drawer, Dropdown } from "antd";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { IoLanguage, IoNotificationsOutline } from "react-icons/io5";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom";
 const Header = () => {
     const [open, setOpen] = useState(false);
+    const navigate = useNavigate()
     const items = [
         {
             key: '1',
@@ -25,7 +26,7 @@ const Header = () => {
         {
             key: '1',
             label: (
-                <button onClick={()=>localStorage.removeItem('token')}>
+                <button onClick={() => localStorage.removeItem('token')}>
                     Log Out
                 </button>
             ),
@@ -88,7 +89,7 @@ const Header = () => {
                 </div>
                 <div className='flex justify-between items-center gap-2 mt-2'>
                     <div className='flex justify-start w-full items-center gap-3'>
-                        <img src='./logo.png' alt="" />
+                        <img onClick={()=>navigate('/')} className="cursor-pointer" src='./logo.png' alt="" />
                         <ul className="md:flex hidden justify-center w-full  items-center gap-6">
                             {
                                 navlinks?.map((item, i) => {
@@ -103,7 +104,7 @@ const Header = () => {
                             onClose={() => setOpen(false)}
                             width={320}
                             height='100vh'
-                            title={<img src='./logo.png' alt="" />}
+                            title={<img onClick={()=>navigate('/')} className="cursor-pointer" src='./logo.png' alt="" />}
                         >
                             <ul className="flex justify-start items-center gap-2 flex-col">
                                 {

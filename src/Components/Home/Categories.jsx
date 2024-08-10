@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom'
 
 const Categories = () => {
     const [open, setOpen] = useState(false)
-    const Category = [
+    const Category =[
         {
             "name": "Electronics",
             "subcategories": [
@@ -107,8 +107,61 @@ const Categories = () => {
                 "Pet Health",
                 "Aquariums & Accessories"
             ]
+        },
+        {
+            "name": "Miscellaneous",
+            "subcategories": [
+                "Vehicles",
+                "Sports Bikes",
+                "Jewelry",
+                "Yachts",
+                "Homes",
+                "Mansions",
+                "Land"
+            ]
+        },
+        {
+            "name": "Music",
+            "subcategories": [
+                "Instruments",
+                "Vinyl Records",
+                "CDs & Vinyl",
+                "Sheet Music",
+                "Music Accessories"
+            ]
+        },
+        {
+            "name": "Garden & Outdoors",
+            "subcategories": [
+                "Garden Tools",
+                "Outdoor Furniture",
+                "Plants & Seeds",
+                "Grills",
+                "Outdoor Decor"
+            ]
+        },
+        {
+            "name": "Office Supplies",
+            "subcategories": [
+                "Stationery",
+                "Office Furniture",
+                "Office Electronics",
+                "Organization & Storage",
+                "Office Decor"
+            ]
+        },
+        {
+            "name": "Travel & Luggage",
+            "subcategories": [
+                "Luggage",
+                "Travel Accessories",
+                "Travel Guides",
+                "Backpacks",
+                "Travel Clothing"
+            ]
         }
     ]
+    
     return (//
         <div className='flex justify-start items-start flex-col md:grid md:grid-cols-4 lg:grid-cols-5  gap-2 container mx-auto mt-6'>
             <div className={` bg-white w-full ${open ? 'h-full' : 'h-fit lg:h-full'}`}>
@@ -138,7 +191,7 @@ const Categories = () => {
             <div className='w-full h-full px-4 box-border col-span-4'>
                 <div className='md:grid grid-cols-2 flex flex-col md:justify-center md:items-center justify-start items-start'>
                     <div className='  text-[#666666]'>
-                        <p className='text-2xl font-medium'> Get <span className='text-[#222222]'>$40-620</span> when you
+                        <p className='text-2xl font-medium'> Get <span className='text-[#222222]'>40-620 points</span> when you
                             trade in an iPhone.
                         </p>
                         <div className='flex justify-between items-center gap-2 mb-3'>

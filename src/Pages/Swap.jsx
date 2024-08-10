@@ -107,8 +107,61 @@ const Swap = () => {
                 "Pet Health",
                 "Aquariums & Accessories"
             ]
+        },
+        {
+            "name": "Miscellaneous",
+            "subcategories": [
+                "Vehicles",
+                "Sports Bikes",
+                "Jewelry",
+                "Yachts",
+                "Homes",
+                "Mansions",
+                "Land"
+            ]
+        },
+        {
+            "name": "Music",
+            "subcategories": [
+                "Instruments",
+                "Vinyl Records",
+                "CDs & Vinyl",
+                "Sheet Music",
+                "Music Accessories"
+            ]
+        },
+        {
+            "name": "Garden & Outdoors",
+            "subcategories": [
+                "Garden Tools",
+                "Outdoor Furniture",
+                "Plants & Seeds",
+                "Grills",
+                "Outdoor Decor"
+            ]
+        },
+        {
+            "name": "Office Supplies",
+            "subcategories": [
+                "Stationery",
+                "Office Furniture",
+                "Office Electronics",
+                "Organization & Storage",
+                "Office Decor"
+            ]
+        },
+        {
+            "name": "Travel & Luggage",
+            "subcategories": [
+                "Luggage",
+                "Travel Accessories",
+                "Travel Guides",
+                "Backpacks",
+                "Travel Clothing"
+            ]
         }
     ]
+
     return (
         <div className='flex justify-start items-start flex-col md:grid-cols-4 lg:grid grid-cols-5  gap-2 container mx-auto mt-6'>
             <div className={` bg-white w-full ${open ? 'h-full' : 'h-fit lg:h-full'}`}>
