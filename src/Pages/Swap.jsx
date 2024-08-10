@@ -192,9 +192,9 @@ const Swap = () => {
                 <div className='flex justify-between items-center gap-6 sm:flex-row flex-col'>
                     <Input placeholder='search here' className='py-2' prefix={<IoSearch />} />
                     <Input placeholder='location' className='py-2' prefix={<img src={earth} />} />
-                    <button className='bg-blue-500 text-white px-8 rounded-md py-2 whitespace-nowrap'>
+                    <Link to={`/add-product`} className='bg-blue-500 text-white px-8 rounded-md py-2 whitespace-nowrap'>
                         Add new Product
-                    </button>
+                    </Link>
                 </div>
                 <div className='pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'>
                     {
@@ -204,7 +204,7 @@ const Swap = () => {
                     }
                 </div>
             </div>
-            <div className=' text-center hidden lg:flex flex-col gap-2  h-full w-full'>
+            {/* <div className=' text-center hidden lg:flex flex-col gap-2  h-full w-full'>
                 <div className='p-3 bg-white rounded-md'>
                     <p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>
                     <p className='text-base text-[#666666] my-3'>Did you Know?</p>
@@ -227,7 +227,7 @@ const Swap = () => {
                 <div className='p-3 bg-white rounded-md'>
                     <Link className='text-base text-[#666666] my-3'>More...</Link>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
