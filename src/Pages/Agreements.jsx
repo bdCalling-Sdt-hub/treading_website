@@ -10,6 +10,9 @@ const Agreements = () => {
     const handleChange = (event) => {
         setValue(event.target.value);
     };
+    const data = [
+        'Can exchange products','Earn upto 1000 points by a single swap','Exclusive offers','Partner benefits'
+    ]
     return (
         <div id='assignment' className='py-8 container mx-auto bg-white my-10 rounded-md text-[#FEFEFE]'>
             <div className='max-w-[850px] bg-[#FAA316] py-10 flex flex-col gap-4 justify-center items-center mx-auto rounded-md'>
@@ -55,9 +58,9 @@ const Agreements = () => {
                     <div className=' px-4 box-border'>
                         <p className='font-medium'>Your Membership Benefits:</p>
                         {
-                            [...Array(4).keys()].map((item, i) => {
-                                return <p className='flex justify-start items-center gap-1 my-1'>
-                                    <FaCircleCheck className='text-blue-500' /> Can exchange products
+                            data.map((item, i) => {
+                                return <p key={i} className='flex justify-start items-center gap-1 my-2'>
+                                    <FaCircleCheck className='text-blue-500' /> {item}
                                 </p>
                             })
                         }
@@ -65,6 +68,8 @@ const Agreements = () => {
                     <button className='py-3 rounded-md mt-3 w-full bg-blue-500 text-white'>
                         Pay Now
                     </button>
+                    <p className='my-2 text-center '>Pay your subscription fee in time otherwise you may 
+                    lose your points or downgrade your membership.</p>
                 </div>
             </div>
         </div>
