@@ -7,7 +7,7 @@ const MemberShipOptions = () => {
             name: 'Gold',
             price: '$19.99',
             desc: 'Per Months',
-            points: 'From (25,000-99,999) points'
+            points: 'From (0-24,999) points'
         },
         {
             name: 'Platinum',

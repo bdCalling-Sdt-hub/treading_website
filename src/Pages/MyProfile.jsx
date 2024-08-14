@@ -1,6 +1,6 @@
 import { Carousel, Form, Input, Modal } from 'antd';
 import { useState } from 'react'
-import {  FaRegStar, FaStar } from 'react-icons/fa6'
+import { FaRegStar, FaStar } from 'react-icons/fa6'
 import { Link, useNavigate, } from 'react-router-dom';
 import ProductCard from '../Components/Shared/ProductCard/ProductCard';
 import { IoMdSwap } from 'react-icons/io';
@@ -84,10 +84,10 @@ const MyProfile = () => {
                             Personal info
                         </button>
                         <button onClick={() => setTab('history')} className={`sm:text-xl text-sm  sm:font-bold pb-3 ${tab === 'history' ? 'border-b-4' : ''} border-blue-500`}>
-                            Swiping History
+                            Swapping History
                         </button>
                         <button onClick={() => setTab('request')} className={`sm:text-xl text-sm  sm:font-bold pb-3 ${tab === 'request' ? 'border-b-4' : ''} border-blue-500`}>
-                            Swiping Request
+                            Swapping Request
                         </button>
                     </div>
                 }
@@ -170,9 +170,9 @@ const MyProfile = () => {
                     </div>
                 }
                 {
-                    tab === 'request' && <div className='container mx-auto px-4 '>
+                    tab === 'request' && <div className='container mx-auto  px-[2%] md:px-[6%] lg:px-[8%] '>
                         <div className='md:flex justify-around items-center gap-2 hidden mt-10 mb-4'>
-                            <p className='font-semibold'>swap With</p>
+                            <p className='font-semibold '>swap With</p>
                             <p className='font-semibold'>Swap Items</p>
                             <p className='font-semibold'>Action</p>
                         </div>
