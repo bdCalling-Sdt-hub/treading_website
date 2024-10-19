@@ -5,13 +5,35 @@ import { imageUrl } from '../../../Redux/States/baseApi'
 import { useState } from 'react'
 import { Modal, Select } from 'antd'
 import { useFetchMyProductsQuery } from '../../../Redux/Apis/productsApis'
+import { useAddToSwapMutation } from '../../../Redux/Apis/swapApis'
+import toast from 'react-hot-toast'
 
 const ProductCard = ({ data }) => {
     const { data: myProducts } = useFetchMyProductsQuery()
     const [open, setOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState()
+    const [addToSwap] = useAddToSwapMutation()
+    // console.log(selectedProduct)
     const handleSubmit = () => {
+        const SwapData = {
+            "userTo": data?.user,
+            "productFrom": selectedProduct?._id,
+            "productTo": data?._id
+        }
+        addToSwap(SwapData).unwrap().then(res => {
+            // console.log(res)
+            toast.dismiss()
+            toast.success(res?.message)
+            setOpen(false)
+            setSelectedProduct({})
+        }).catch(err => {
+            // console.log(err)
+            toast.dismiss()
+            toast.error(err?.data?.message)
+        })
+        // console.log('SwapData', SwapData)
         //console.log()
+        // console.log('myProducts', myProducts)
     }
     return (
         <div className='p-4 bg-white rounded-md text-center flex flex-col justify-center items-center gap-2 w-full'>
@@ -73,7 +95,7 @@ const ProductCard = ({ data }) => {
                     />
 
                     {/* Submit Button */}
-                    <button
+                    <button onClick={handleSubmit}
                         className="flex justify-center items-center w-full px-4 py-2 bg-blue-500 text-white mt-6 rounded-md hover:bg-blue-600 transition"
                     // onClick={handleSubmit} // Assuming you have a handleSubmit function
                     >

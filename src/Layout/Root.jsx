@@ -3,9 +3,11 @@ import { Link, Outlet } from 'react-router-dom'
 import Header from '../Components/Shared/Header/Header'
 import Footer from '../Components/Shared/Footer/Footer'
 import { Drawer } from 'antd'
+import { useGetSwapQuery } from '../Redux/Apis/settingApis'
 
 const Root = () => {
     const [open, setOpen] = useState(false);
+    const { data, isLoading } = useGetSwapQuery()
     return (
         <div>
             <Header />
@@ -15,8 +17,8 @@ const Root = () => {
                 Facts
             </button>
             <Drawer title={<p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>} onClose={() => setOpen(false)} open={open}>
-                <div className=' text-center w-full h-full flex flex-col gap-2 '>
-                    <div className='p-3 bg-gray-100 rounded-md'>
+                <div dangerouslySetInnerHTML={{ __html: data?.data?.description || '' }} className=' text-center w-full h-full flex flex-col gap-2 '>
+                    {/* <div className='p-3 bg-gray-100 rounded-md'>
                         <p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>
                         <p className='text-base text-[#666666] my-3'>Did you Know?</p>
                         <p className='text-[#4E4E4E] font-semibold text-xl'>“Facts”</p>
@@ -37,7 +39,7 @@ const Root = () => {
                     </div>
                     <div className='p-3 bg-gray-100 rounded-md'>
                         <Link className='text-base text-[#666666] my-3'>More...</Link>
-                    </div>
+                    </div> */}
                 </div>
             </Drawer>
         </div>

@@ -40,7 +40,7 @@ const Swap = () => {//add-product
                     }
                 </div>
             </div>
-            <div className=' text-center hidden lg:flex flex-col gap-2  h-full w-full'>
+            {/* <div className=' text-center hidden lg:flex flex-col gap-2  h-full w-full'>
                 <div className='p-3 bg-white rounded-md'>
                     <p className='text-[#4E4E4E] font-semibold text-xl'>In My Words !</p>
                     <p className='text-base text-[#666666] my-3'>Did you Know?</p>
@@ -63,7 +63,7 @@ const Swap = () => {//add-product
                 <div className='p-3 bg-white rounded-md'>
                     <Link className='text-base text-[#666666] my-3'>More...</Link>
                 </div>
-            </div>
+            </div> */}
         </div>
     )
 }
