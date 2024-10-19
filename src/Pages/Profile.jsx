@@ -3,9 +3,10 @@ import React from 'react'
 import { FaRegComment, FaRegStar } from 'react-icons/fa6'
 import { Link } from 'react-router-dom';
 import ProductCard from '../Components/Shared/ProductCard/ProductCard';
+import { useUserData } from '../ContextProvider/UserDataProvider';
 
 const Profile = () => {
-
+    const { user } = useUserData()
     return (
         <>
             <div className='container mx-auto bg-white'>
@@ -59,21 +60,21 @@ const Profile = () => {
                     </Carousel>
                 </div>
             </div>
-                <div className='container w-full mx-auto mt-10 col-span-3'>
-                    <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Available Items</p>
-                    <div className='text-end'>
-                        <Link className='text-blue-500'>
-                            view all
-                        </Link>
-                    </div>
-                    <div className='pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-4'>
-                        {
-                            [...Array(4).keys()].map((item, i) => {
-                                return <ProductCard key={i} data={item} />
-                            })
-                        }
-                    </div>
+            <div className='container w-full mx-auto mt-10 col-span-3'>
+                <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Available Items</p>
+                <div className='text-end'>
+                    <Link className='text-blue-500'>
+                        view all
+                    </Link>
                 </div>
+                <div className='pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-4'>
+                    {
+                        [...Array(4).keys()].map((item, i) => {
+                            return <ProductCard key={i} data={item} />
+                        })
+                    }
+                </div>
+            </div>
         </>
     )
 }

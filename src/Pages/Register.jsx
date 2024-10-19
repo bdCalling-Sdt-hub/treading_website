@@ -1,18 +1,32 @@
-import { Form, Input, Modal } from 'antd'
+import { Empty, Form, Input, Modal } from 'antd'
 import { useState } from 'react'
 import { FaEye, FaEyeSlash, FaLocationDot } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { MdOutlineEmail } from 'react-icons/md'
 import { FiPhone } from 'react-icons/fi'
-import { CiLock } from 'react-icons/ci'
+import { CiLock, CiUser } from 'react-icons/ci'
+import { useRegisterUserMutation } from '../Redux/Apis/authApis'
+import toast from 'react-hot-toast'
 
 const Register = () => {
     const [passwordType, setPasswordType] = useState('password')
     const [confirmPasswordType, setConfirmPasswordType] = useState('password')
+    const [registerUser, { isLoading }] = useRegisterUserMutation()
+    const navigate = useNavigate()
     const [open, setOpen] = useState(false)
     const onFinish = (value) => {
-        console.log(value)
+        registerUser({ data: value }).unwrap().then(res => {
+            // //console.log(res)
+            localStorage.setItem('email', value?.email)
+            toast.dismiss()
+            toast.success(res?.message || 'Registered Successfully')
+            navigate('/otp')
+        }).catch(err => {
+            // //console.log(err)
+            toast.dismiss()
+            toast.error(err?.data?.message || 'Something went wrong')
+        })
     }
     return (
         <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>
@@ -25,11 +39,23 @@ const Register = () => {
                         onFinish={onFinish}
                     >
                         <Form.Item
+                            name={`name`}
+                            label={<span>Name</span>}
+                            rules={[
+                                {
+                                    message: 'Name field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<CiUser />} type='text' className='py-2' placeholder='input your email' />
+                        </Form.Item>
+                        <Form.Item
                             name={`email`}
                             label={<span>Email</span>}
                             rules={[
                                 {
-                                    message: 'this field is required',
+                                    message: 'Email field is required',
                                     required: true
                                 }
                             ]}
@@ -37,11 +63,11 @@ const Register = () => {
                             <Input prefix={<MdOutlineEmail />} type='email' className='py-2' placeholder='input your email' />
                         </Form.Item>
                         <Form.Item
-                            name={`phone`}
+                            name={`phone_number`}
                             label={<span>Phone Number</span>}
                             rules={[
                                 {
-                                    message: 'this field is required',
+                                    message: 'Phone Number field is required',
                                     required: true
                                 }
                             ]}
@@ -53,8 +79,8 @@ const Register = () => {
                             label={<span>Address (Optional)</span>}
                             rules={[
                                 {
-                                    message: 'this field is required',
-                                    required: true
+                                    message: 'Address field is required',
+                                    required: false
                                 }
                             ]}
                         >
@@ -65,7 +91,7 @@ const Register = () => {
                             label={<span>password</span>}
                             rules={[
                                 {
-                                    message: 'this field is required',
+                                    message: 'password field is required',
                                     required: true
                                 }
                             ]}
@@ -77,11 +103,11 @@ const Register = () => {
                             }} />} className='py-2' placeholder='input your password' />
                         </Form.Item>
                         <Form.Item
-                            name={`confirm_password`}
+                            name={`confirmPassword`}
                             label={<span>confirm password</span>}
                             rules={[
                                 {
-                                    message: 'this field is required',
+                                    message: 'confirm password is required',
                                     required: true
                                 }
                             ]}
@@ -106,8 +132,8 @@ const Register = () => {
                                 see terms & conditions
                             </button>
                         </div>
-                        <button className='w-full py-3 rounded-md bg-blue-500 text-white'>
-                            Sign in
+                        <button disabled={isLoading} className='w-full py-3 rounded-md bg-blue-500 text-white'>
+                            {isLoading ? "Loading please wait" : " Sign Up"}
                         </button>
                     </Form>
                     <p className='text-center mt-2'>Don’t have a account? <Link to={`/sign-in`} className='text-blue-500'>Sign Up</Link> </p>

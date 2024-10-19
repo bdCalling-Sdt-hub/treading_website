@@ -1,16 +1,44 @@
 import { Form, Input } from 'antd'
 import loginImage from '../assets/icon/loginImage.png'
-import { MdOutlineEmail } from 'react-icons/md'
 import { useNavigate } from 'react-router-dom'
+import { useResendOtpMutation, useVerifyUserMutation } from '../Redux/Apis/authApis'
+import toast from 'react-hot-toast'
 
 const VerifyCode = () => {
     const navigate = useNavigate()
+    const [verifyCode, { isLoading }] = useVerifyUserMutation()
     const onFinish = (value) => {
-        navigate('/')
+        const data = {
+            email: localStorage.getItem('email'),
+            code: value?.code
+        }
+        verifyCode(data).unwrap().then(res => {
+            // //console.log(res)
+            toast.dismiss()
+            toast.success(res?.message || 'Verified Successfully')
+            // localStorage.removeItem('email')
+            navigate('/reset-password')
+        }).catch(err => {
+            // //console.log(err)
+            toast.dismiss()
+            toast.error(err?.data?.message || 'Something went wrong')
+        })
+        // navigate('/')
     }
     const onChange = (text) => {
-        console.log('onChange:', text);
+        //console.log('onChange:', text);
     };
+    //resend otp 
+    const [sendOtp, { isLoading: sendingOtp }] = useResendOtpMutation()
+    const handleResend = () => {
+        sendOtp(localStorage.getItem('email')).unwrap().then(res => {
+            toast.dismiss()
+            toast.success(res?.message || 'Resend Otp Send Successfully')
+        }).catch(err => {
+            toast.dismiss()
+            toast.error(err?.data?.message || 'Something went wrong')
+        })
+    }
     return (
         <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>
             <div className='w-full h-full flex flex-col justify-center items-center bg-white'>
@@ -18,7 +46,7 @@ const VerifyCode = () => {
                     <h3 className='text-4xl font-semibold '>Verification Code</h3>
                     <p className='pt-3 pb-6'>We send you a verification code to verify
                         your email.</p>
-                    <Form
+                    <Form className='w-full'
                         layout='vertical'
                         onFinish={onFinish}
                     >
@@ -32,10 +60,11 @@ const VerifyCode = () => {
                                 }
                             ]}
                         >
-                            <Input.OTP length={4} onChange={onChange} />
+                            <Input.OTP length={6} onChange={onChange} />
                         </Form.Item>
-                        <button className='w-fit px-10 py-3 rounded-md bg-blue-500 text-white'>
-                            Sign in
+                        <p className='-mt-5 mb-2'>didn't received the code? <strong onClick={() => handleResend()} className='text-blue-500 cursor-pointer'>resend</strong></p>
+                        <button disabled={isLoading} className='w-fit px-10 py-3 rounded-md bg-blue-500 text-white'>
+                            {isLoading ? "Verifying please wait" : " Verify"}
                         </button>
                     </Form>
                 </div>

@@ -3,19 +3,23 @@ import { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
 import { Link, useNavigate } from 'react-router-dom'
-import { useLoginUserMutation } from '../Redux/Apis/authApis'
+import { useResetPasswordMutation } from '../Redux/Apis/authApis'
 import toast from 'react-hot-toast'
-const Login = () => {
+
+const ResetPassword = () => {
     const navigate = useNavigate()
     const [passwordType, setPasswordType] = useState('password')
-    const [loginUser, { isLoading }] = useLoginUserMutation()
+    const [cPasswordType, setCPasswordType] = useState('password')
+    const [resetPassword, { isLoading }] = useResetPasswordMutation()
     const onFinish = (value) => {
-        loginUser(value).unwrap().then(res => {
-            localStorage.setItem('token', JSON.stringify(res?.data?.accessToken))
+        value.email = localStorage.getItem('email')
+        resetPassword(value).unwrap().then(res => {
+            //console.log(res)
             toast.dismiss()
-            toast.success(res?.message || 'Login Successfully')
-            navigate('/')
-            window.location.reload()
+            toast.success(res?.message || 'Password Reset Successfully')
+            localStorage.removeItem('email')
+            localStorage.removeItem('token')
+            navigate('/sign-in')
         }).catch(err => {
             //console.log(err)
             toast.dismiss()
@@ -26,27 +30,15 @@ const Login = () => {
         <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>
             <div className='w-full h-full flex flex-col justify-center items-center bg-white'>
                 <div className='w-[320px] sm:w-[520px] md:w-[320px] lg:w-[500px]'>
-                    <h3 className='text-4xl font-semibold '>Welcome back!</h3>
-                    <p className='pt-3 pb-6'>Welcome back! please enter your details</p>
+                    <h3 className='text-4xl font-semibold '>Reset Your Password</h3>
+                    <p className='pt-3 pb-6'>please insert you new password to reset your password</p>
                     <Form
                         layout='vertical'
                         onFinish={onFinish}
                     >
                         <Form.Item
-                            name={`email`}
-                            label={<span>Email</span>}
-                            rules={[
-                                {
-                                    message: 'Email field is required',
-                                    required: true
-                                }
-                            ]}
-                        >
-                            <Input type='email' className='py-2' placeholder='input your email' />
-                        </Form.Item>
-                        <Form.Item
-                            name={`password`}
-                            label={<span>Password</span>}
+                            name={`newPassword`}
+                            label={<span> Password</span>}
                             rules={[
                                 {
                                     message: 'password field is required',
@@ -60,7 +52,23 @@ const Login = () => {
                                 setPasswordType('text')
                             }} />} className='py-2' placeholder='input your password' />
                         </Form.Item>
-                        <div className='flex justify-between items-center gap-2'>
+                        <Form.Item
+                            name={`confirmPassword`}
+                            label={<span>Confirm Password</span>}
+                            rules={[
+                                {
+                                    message: 'Confirm password field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input type={cPasswordType} suffix={cPasswordType === 'text' ? <FaEye className='cursor-pointer text-xl' onClick={() => {
+                                setCPasswordType('password')
+                            }} /> : <FaEyeSlash className='cursor-pointer text-xl' onClick={() => {
+                                setCPasswordType('text')
+                            }} />} className='py-2' placeholder='input your password' />
+                        </Form.Item>
+                        {/* <div className='flex justify-between items-center gap-2'>
                             <Form.Item className=''
                                 name={`remember`}
                             >
@@ -71,12 +79,12 @@ const Login = () => {
                             <Link to={`/forget-password`} className='text-blue-500 -mt-5'>
                                 forget password
                             </Link>
-                        </div>
+                        </div> */}
                         <button disabled={isLoading} className='w-full py-3 rounded-md bg-blue-500 text-white'>
-                            {isLoading ? "Loading please wait" : " Sign in"}
+                            {isLoading ? "Resting please wait" : " Reset Password"}
                         </button>
                     </Form>
-                    <p className='text-center mt-2'>Don’t have a account? <Link to={`/sign-up`} className='text-blue-500'>Sign Up</Link> </p>
+                    {/* <p className='text-center mt-2'>Don’t have a account? <Link to={`/sign-up`} className='text-blue-500'>Sign Up</Link> </p> */}
                 </div>
             </div>
             <div className='bg-[#ebf1fe] flex justify-center items-center'>
@@ -86,4 +94,4 @@ const Login = () => {
     )
 }
 
-export default Login
+export default ResetPassword

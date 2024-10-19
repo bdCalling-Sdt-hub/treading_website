@@ -22,6 +22,7 @@ import CareersOpportunities from '../Pages/CareersOpportunities'
 import HelpCenter from '../Pages/HelpCenter'
 import PreQuestions from '../Pages/PreQuestions'
 import Tutorial from '../Pages/Tutorial'
+import ResetPassword from '../Pages/ResetPassword'
 
 export const router = createBrowserRouter([
     {
@@ -89,7 +90,7 @@ export const router = createBrowserRouter([
                 element: <HelpCenter />
             },
             {
-                path: '/pre-questions',
+                path: '/pre-questions/:id',
                 element: <PreQuestions />
             },
             {
@@ -113,5 +114,9 @@ export const router = createBrowserRouter([
     {
         path: '/otp',
         element: <VerifyCode />
+    },
+    {
+        path: '/reset-password',
+        element: <ResetPassword />
     },
 ])
