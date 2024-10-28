@@ -6,22 +6,25 @@ import ProductCard from '../Components/Shared/ProductCard/ProductCard'
 import { Link, useParams } from 'react-router-dom'
 import { useFetchProductDetailsQuery } from '../Redux/Apis/productsApis'
 import { imageUrl } from '../Redux/States/baseApi'
+import { useFetchMyPlnQuery } from '../Redux/Apis/subscriptionApis'
 
 const ProductsDetails = () => {
     const { id } = useParams()
     const { data } = useFetchProductDetailsQuery(id)
+    const { data: myPlan } = useFetchMyPlnQuery();
     const [imageIndex, setImageIndex] = useState(0)//.slice(0, 4)?
     const images = data?.data?.product?.images?.map(item => item) || []//['https://i.ibb.co/Z2zHG1r/Rectangle-210.png', 'https://i.ibb.co/WysMnRt/Rectangle-210-1.png', 'https://i.ibb.co/ZYgRK5t/Rectangle-210-2.png']
+    console.log(data?.data?.product?.user)
     return (
         <div className='container mx-auto md:grid grid-cols-3 flex flex-col mt-10 gap-6'>
             <div className='w-full h-full'>
                 <div className='w-full h-[400px] bg-white rounded-md flex justify-center items-center'>
                     <img className='w-full h-full object-contain' src={imageUrl(images[imageIndex])} alt="" />
                 </div>
-                <div className='w-full h-[190px] rounded-md grid grid-cols-3 mt-1 gap-3 bg-white px-1'>
+                <div className='w-full h-[190px] rounded-md grid grid-cols-3 mt-1 gap-3 bg-white px-1 py-2'>
                     {
                         images?.map((item, i) => {
-                            return <img key={i} className='w-full h-full object-contain rounded-md cursor-pointer hover:scale-105 transition-all' onClick={() => {
+                            return <img key={i} className='w-full h-[174px] object-contain rounded-md cursor-pointer hover:scale-105 transition-all' onClick={() => {
                                 setImageIndex(i)
                             }} src={imageUrl(item)} alt="" />
                         })
@@ -40,14 +43,14 @@ const ProductsDetails = () => {
                     {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p> */}
                 </div>
                 <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
-                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>Zahid Hossain (Gold)</span></p>
-                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> Naperville</p>
+                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>{data?.data?.product?.user?.name}</span></p>
+                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> {data?.data?.product?.address}</p>
                 </div>
                 <p className='font-medium mt-2'>Description: </p>
                 <p className='text-justify mb-2'>{data?.data?.product?.description}</p>
                 <p className=' flex justify-start items-center gap-2'>By swapping you can earn up to  <FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
                 <div className='flex justify-start items-center gap-2 mt-3'>
-                    <img src="https://plus.unsplash.com/premium_photo-1688740375397-34605b6abe48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHx8MA%3D%3D" className='w-12 h-12 rounded-full object-cover' alt="" />
+                    <img src={data?.data?.product?.user?.profile_image} className='w-12 h-12 rounded-full object-cover' alt="" />
                     <div>
                         <p className='font-semibold'>MD. Abdullah Al Mamun</p>
                         <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaStar className='text-yellow-400 text-2xl' /> 4.7/5.0</p>

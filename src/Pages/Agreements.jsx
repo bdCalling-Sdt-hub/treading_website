@@ -99,11 +99,19 @@ import React, { useEffect, useState } from 'react';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { useFetchMyPlnQuery, useFetchSubscriptionPackageQuery } from '../Redux/Apis/subscriptionApis';
 import { useUserData } from '../ContextProvider/UserDataProvider';
-
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import { Modal } from 'antd';
+import PaymentComponent from '../Components/Payment/PaymentComponent';
+import { useConfirmPaymentMutation } from '../Redux/Apis/paymentApis';
+import toast from 'react-hot-toast';
 const Agreements = () => {
+    const [openPaymentModal, setOpenPaymentModal] = useState(false)
+    const location = useLocation()
+    const navigate = useNavigate();
+    const [confirmPayment] = useConfirmPaymentMutation()
+    const { user, isLoading, isFetching } = useUserData();
     const { data } = useFetchSubscriptionPackageQuery();
     const { data: myPlan } = useFetchMyPlnQuery();
-    const { user } = useUserData();
     const [plan, setPlan] = useState({})
     const formattedData = transformData(data?.data || []);
     const { minPointRange, maxPointRange, data: planData } = formattedData;
@@ -115,9 +123,37 @@ const Agreements = () => {
         if (!myPlan || !data) {
             return
         }
-        const filterData = data?.data?.filter(item => item?._id === myPlan?.data?.plan_id)
+        const filterData = data?.data?.filter(item => item?._id === myPlan?.data?.plan_id?._id)
         setPlan(filterData?.[0])
     }, [myPlan, data])
+    console.log(myPlan?.data?.plan_id)
+    const benefit = ['Can exchange products', 'Earn upto 1000 points by a single swap', 'Exclusive offers', 'Partner benefits']
+    useEffect(() => {
+        if ((!user || !user?.data?._id) && (!isFetching || !isLoading)) {
+            navigate('/sign-in', { state: { from: location?.pathname } });
+        }
+    }, [user, isFetching, isLoading, navigate, location]);
+    const handlePayment = (data) => {
+        // console.log(data)
+        const formateData = {
+            "amount": Number(plan?.fee) || 0,
+            "user": user?.data?._id,
+            "transaction_id": data?.paymentIntent?.id,
+            "plan_id": myPlan?.data?._id,
+            "subscriptions_id": myPlan?.data?.plan_id
+        }
+        confirmPayment(formateData).then(res => {
+            // console.log(res)
+            toast.success(res?.data?.message)
+        }).catch(err => {
+            // console.log(err)
+            toast.error(err?.data?.message)
+        }).finally(() => {
+            setOpenPaymentModal(false)
+            window.location.reload()
+        })
+    }
+    // console.log(myPlan?.data?._id,myPlan?.data?.plan_id)
     return (
         <div id='assignment' className='py-8 container mx-auto bg-white my-10 rounded-md text-[#FEFEFE]'>
             <div className='max-w-[850px] bg-[#FAA316] py-10 flex flex-col gap-4 justify-center items-center mx-auto rounded-md'>
@@ -170,17 +206,35 @@ const Agreements = () => {
                 <div className='w-[80%] text-left'>
                     <div className='px-4 box-border'>
                         <p className='font-medium'>Your Membership Benefits:</p>
-                        {[...Array(4).keys()].map((item, i) => (
-                            <p className='flex justify-start items-center gap-1 my-1' key={i}>
-                                <FaCircleCheck className='text-blue-500' /> Can exchange products
+                        {benefit.map((item, i) => (
+                            <p className='flex justify-start items-center gap-2 my-2' key={i}>
+                                <FaCircleCheck className='text-blue-500' /> {item}
                             </p>
                         ))}
                     </div>
-                    <button disabled={myPlan?.data?.status === 'pending'} className='py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white'>
-                        Pay Now
-                    </button>
+                    {
+                        myPlan?.data?.plan_type !== 'Trial' ? <button onClick={() => setOpenPaymentModal(true)} disabled={myPlan?.data?.status === 'pending' || myPlan?.data?.payment_status == 'paid'} className='py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white'>
+                            {myPlan?.data?.status === 'pending' ? 'wait For Admins Approval' : myPlan?.data?.payment_status == 'paid' ? 'Already Paid For This Month' : 'Pay Now'}
+                        </button> :
+                            <button disabled className='py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white'>
+                                7 days free Trial
+                            </button>
+                    }
+
+                    {
+                        <p className='text-center mt-5 px-8'>Pay your subscription fee in time otherwise you may
+                            lose your points or downgrade your membership.</p>
+                    }
                 </div>
             </div>
+            <Modal
+                open={openPaymentModal}
+                onCancel={() => setOpenPaymentModal(false)}
+                centered
+                footer={false}
+            >
+                <PaymentComponent onPaymentSuccess={handlePayment} amount={Number(plan?.fee) || 0} />
+            </Modal>
         </div>
     );
 };

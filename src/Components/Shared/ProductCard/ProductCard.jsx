@@ -1,19 +1,21 @@
 
 import { MdOutlineSwapHorizontalCircle } from 'react-icons/md'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { imageUrl } from '../../../Redux/States/baseApi'
 import { useState } from 'react'
 import { Modal, Select } from 'antd'
 import { useFetchMyProductsQuery } from '../../../Redux/Apis/productsApis'
 import { useAddToSwapMutation } from '../../../Redux/Apis/swapApis'
 import toast from 'react-hot-toast'
+import { useUserData } from '../../../ContextProvider/UserDataProvider'
 
 const ProductCard = ({ data }) => {
+    const navigate = useNavigate()
+    const { user } = useUserData()
     const { data: myProducts } = useFetchMyProductsQuery()
     const [open, setOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState()
     const [addToSwap] = useAddToSwapMutation()
-    // console.log(selectedProduct)
     const handleSubmit = () => {
         const SwapData = {
             "userTo": data?.user,
@@ -45,7 +47,16 @@ const ProductCard = ({ data }) => {
             <Link to={`/product-details/${data?._id}`} className='bg-blue-100 text-blue-500 w-full py-2 rounded-md'>
                 Details
             </Link>
-            <button onClick={() => setOpen(true)} className='flex w-full justify-center items-center gap-2'><MdOutlineSwapHorizontalCircle /> Add to Swap</button>
+            <button onClick={() => {
+                if (data?.user === user?.data?._id) {
+                    navigate('/sign-in')
+                }
+                if (data?.user === user?.data?._id) {
+                    toast.dismiss()
+                    return toast.error("This is you won Product")
+                }
+                setOpen(true)
+            }} className='flex w-full justify-center items-center gap-2'><MdOutlineSwapHorizontalCircle /> Add to Swap</button>
             <Modal
                 open={open}
                 onCancel={() => setOpen(false)}
@@ -57,8 +68,8 @@ const ProductCard = ({ data }) => {
                     <p className="text-xl font-semibold my-4 text-center">
                         Swap Your Product With This Product
                     </p>
-                    <div className="w-full h-[200px] grid grid-cols-2 gap-4">
-                        <div className="w-full h-full flex flex-col items-center">
+                    <div className="w-full h-[230px] grid grid-cols-2 gap-4">
+                        <div className="w-full h-[200px] flex flex-col items-center">
                             <p className="mb-2 font-medium">Selected Product</p>
                             <img
                                 src={imageUrl(data?.images?.[0])}
@@ -67,7 +78,7 @@ const ProductCard = ({ data }) => {
                             />
                         </div>
                         {selectedProduct?.images && (
-                            <div className="w-full h-full flex flex-col items-center">
+                            <div className="w-full h-[200px] flex flex-col items-center">
                                 <p className="mb-2 font-medium">Your Product</p>
                                 <img
                                     src={imageUrl(selectedProduct?.images[0])}

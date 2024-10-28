@@ -23,7 +23,7 @@ const Register = () => {
             toast.success(res?.message || 'Registered Successfully')
             navigate('/otp')
         }).catch(err => {
-            // //console.log(err)
+            console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message || 'Something went wrong')
         })
@@ -39,11 +39,23 @@ const Register = () => {
                         onFinish={onFinish}
                     >
                         <Form.Item
-                            name={`name`}
-                            label={<span>Name</span>}
+                            name={`firstName`}
+                            label={<span>First Name</span>}
                             rules={[
                                 {
-                                    message: 'Name field is required',
+                                    message: 'first Name field is required',
+                                    required: true
+                                }
+                            ]}
+                        >
+                            <Input prefix={<CiUser />} type='text' className='py-2' placeholder='input your email' />
+                        </Form.Item>
+                        <Form.Item
+                            name={`lastName`}
+                            label={<span>Last Name</span>}
+                            rules={[
+                                {
+                                    message: 'last Name field is required',
                                     required: true
                                 }
                             ]}

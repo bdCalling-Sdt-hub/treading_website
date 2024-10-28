@@ -13,7 +13,7 @@ const ForgetPassword = () => {
             localStorage.setItem('email', value?.email)
             toast.dismiss()
             toast.success(res?.message || 'Otp send Successfully')
-            navigate('/otp')
+            navigate('/verify-otp')
         }).catch(err => {
             //console.log(err)
             toast.dismiss()

@@ -6,6 +6,7 @@ const MemberShipOptions = () => {
     const { data } = useFetchSubscriptionPackageQuery()
     const { data: myPlan } = useFetchMyPlnQuery()
     // console.log(data?.data)
+    console.log(myPlan, data)
     return (
         <div className='container mx-auto mt-32 mb-28'>
             <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Membership Options</p>
@@ -18,12 +19,14 @@ const MemberShipOptions = () => {
                             <p className='text-xl font-semibold'>{item?.planName === 'Trial' ? '7 Days free Trial plan for all user' : item?.planName === 'Gold' ? 'Per Months' : 'Points Need to Auto Upgrade'} </p>
                             <p className='text-xl font-semibold'>From ({item?.pointRangeStart}-{item?.pointRangeEnd}) points</p>
                             {
-                                myPlan?.data?.plan_type === item?.planName ? <p className='font-bold uppercase'>Active Now</p> : item?.planName === 'Gold' && <Link Link to={`/pre-questions/${item?._id}?amount=${item?.fee}&plan_type=${item?.planName}&payment_status=${item?.planName === 'Trial' ? 'trial' : 'unpaid'}`} className='px-8 rounded-md py-2 bg-white text-black'>
+                                myPlan?.data?.plan_type === item?.planName ? <p className='font-bold uppercase'>Active Now</p> : (!myPlan?.data && item?.planName === 'Trial') ? <Link Link to={`/pre-questions/${item?._id}?amount=${item?.fee}&plan_type=${item?.planName}&payment_status=${item?.planName === 'Trial' ? 'trial' : 'unpaid'}`} className='px-8 rounded-md py-2 bg-white text-black'>
+                                    Apply
+                                </Link> : item?.planName === 'Gold' && <Link Link to={`/pre-questions/${item?._id}?amount=${item?.fee}&plan_type=${item?.planName}&payment_status=${item?.planName === 'Trial' ? 'trial' : 'unpaid'}`} className='px-8 rounded-md py-2 bg-white text-black'>
                                     Apply
                                 </Link>
                             }
                             {
-                                myPlan?.data?.plan_type !== item?.planName && item?.planName === 'Trial' && <p>Trial Ended</p>
+                                myPlan?.data && myPlan?.data?.plan_type !== item?.planName && item?.planName === 'Trial' && <p>Trial Ended</p>
                             }
                         </div>
                     })

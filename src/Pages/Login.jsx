@@ -2,11 +2,12 @@ import { Form, Input } from 'antd'
 import { useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
-import { Link, useNavigate } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLoginUserMutation } from '../Redux/Apis/authApis'
 import toast from 'react-hot-toast'
 const Login = () => {
     const navigate = useNavigate()
+    const location = useLocation()
     const [passwordType, setPasswordType] = useState('password')
     const [loginUser, { isLoading }] = useLoginUserMutation()
     const onFinish = (value) => {
@@ -14,7 +15,7 @@ const Login = () => {
             localStorage.setItem('token', JSON.stringify(res?.data?.accessToken))
             toast.dismiss()
             toast.success(res?.message || 'Login Successfully')
-            navigate('/')
+            navigate(location?.state || '/')
             window.location.reload()
         }).catch(err => {
             //console.log(err)

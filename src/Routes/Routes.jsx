@@ -23,6 +23,8 @@ import HelpCenter from '../Pages/HelpCenter'
 import PreQuestions from '../Pages/PreQuestions'
 import Tutorial from '../Pages/Tutorial'
 import ResetPassword from '../Pages/ResetPassword'
+import Otp from '../Pages/Otp'
+import Payment from '../Pages/Payment'
 
 export const router = createBrowserRouter([
     {
@@ -97,6 +99,10 @@ export const router = createBrowserRouter([
                 path: '/tutorial',
                 element: <Tutorial />
             },
+            {
+                path: '/payment',
+                element: <Payment />
+            },
         ]
     },
     {
@@ -113,6 +119,10 @@ export const router = createBrowserRouter([
     },
     {
         path: '/otp',
+        element: <Otp />
+    },
+    {
+        path: '/verify-otp',
         element: <VerifyCode />
     },
     {
