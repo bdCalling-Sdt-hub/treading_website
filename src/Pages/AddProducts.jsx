@@ -7,8 +7,10 @@ import { RxCross2 } from 'react-icons/rx'
 import { useFetchCategorySubCategoryQuery } from '../Redux/Apis/categoryApis'
 import { useAddProductsMutation } from '../Redux/Apis/productsApis'
 import toast from 'react-hot-toast'
+import { useNavigate } from 'react-router-dom'
 
 const AddProducts = () => {
+    const navigate = useNavigate()
     const [form] = Form.useForm()
     const [image, setImage] = useState([])
     const { data: subCategories } = useFetchCategorySubCategoryQuery()
@@ -36,6 +38,7 @@ const AddProducts = () => {
         addProduct(formData).unwrap().then(res => {
             form.resetFields()
             toast.success(res?.data?.message || 'Product Added Successfully')
+            navigate('/swap')
         }).catch(err => {
             toast.error(err?.data?.message || 'Soothing went wrong')
         })

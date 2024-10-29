@@ -13,11 +13,11 @@ const Otp = () => {
             activation_code: value?.code
         }
         verifyCode(data).unwrap().then(res => {
-            // //console.log(res)
+            //console.log(res)
             toast.dismiss()
             toast.success(res?.message || 'Verified Successfully')
             // localStorage.removeItem('email')
-            navigate('/login')
+            navigate('/sign-in')
         }).catch(err => {
             // //console.log(err)
             toast.dismiss()
