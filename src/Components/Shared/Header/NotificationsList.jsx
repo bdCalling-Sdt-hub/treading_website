@@ -1,5 +1,7 @@
 import React from "react";
 import { FaUserCircle } from "react-icons/fa"; // Placeholder for user icons
+import { useGetNotificationQuery } from "../../../Redux/Apis/settingApis";
+import moment from "moment";
 
 const NotificationItem = ({ title, message, time }) => {
   return (
@@ -17,47 +19,23 @@ const NotificationItem = ({ title, message, time }) => {
 };
 
 const NotificationsList = () => {
-  const notifications = [
-    {
-      title: "Mike just messaged you!",
-      message: "Hello, Good morning, I...",
-      time: "12:28 PM",
-    },
-    {
-      title: "Your successfully registered!",
-      message: "Your application is approve...",
-      time: "10:22 AM",
-    },
-    {
-      title: "You got 500 points for swap",
-      message: "By swapping your OnePlus...",
-      time: "Yesterday",
-    },
-    {
-      title: "You have a swap request!",
-      message: "Zahid Hossain requests you...",
-      time: "Yesterday",
-    },
-    {
-      title: "Popular products nearby",
-      message: "Smart Television, mobiles, t...",
-      time: "26/06/24",
-    },
-    {
-      title: "Ronald accept your swap request!",
-      message: "Chat with Ronald to swap y...",
-      time: "22/06/24",
-    },
-  ];
+  const { data } = useGetNotificationQuery()
+  console.log(data)
+  const notifications = data?.data?.map(item => ({
+    title: item?.title,
+    message: item?.message,
+    time: moment(item?.createdAt).format('LT'),
+    _id:item?._id
+  })) || []
 
   return (
-    <div className="max-w-md mx-auto mt-6 bg-white rounded-md">
-      {[...Array(6).keys()].map((i) => (
+    <div className="max-w-md mx-auto mt-6 max-h-[500px] overflow-y-scroll bg-white rounded-md">
+      {notifications.map((item) => (
         <NotificationItem
-          key={i}
-          title={notifications[i].title}
-          message={notifications[i].message}
-          time={notifications[i].time}
+          key={item?._id}
+          title={item?.title}
+          message={item?.message}
+          time={item?.time}
         />
       ))}
     </div>

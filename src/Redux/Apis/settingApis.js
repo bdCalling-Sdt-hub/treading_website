@@ -21,10 +21,20 @@ const settingApis = baseApi.injectEndpoints({
             },
             providesTags: ['video'],
         }),
+        getNotification: builder.query({
+            query: () => {
+                return {
+                    url: '/notification/my-notifications',
+                    method: 'GET',
+                }
+            },
+            providesTags: ['notification'],
+        }),
 
     }),
 });
 export const {
     useGetSwapQuery,
-    useGetTutorialQuery
+    useGetTutorialQuery,
+    useGetNotificationQuery
 } = settingApis;
