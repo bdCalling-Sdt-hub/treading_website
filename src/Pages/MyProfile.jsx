@@ -1,6 +1,6 @@
 import { Carousel, Form, Input, Modal, Pagination, Spin } from 'antd';
 import { useEffect, useState } from 'react'
-import { FaRegStar, FaStar } from 'react-icons/fa6'
+import { FaInfo, FaRegStar, FaStar } from 'react-icons/fa6'
 import { Link, useNavigate, } from 'react-router-dom';
 import ProductCard from '../Components/Shared/ProductCard/ProductCard';
 import { IoMdSwap } from 'react-icons/io';
@@ -8,16 +8,14 @@ import TextArea from 'antd/es/input/TextArea';
 import { GrLocation } from 'react-icons/gr';
 import { useFetchProfileQuery, useUpdateProfileMutation } from '../Redux/Apis/authApis';
 import { imageUrl } from '../Redux/States/baseApi';
-import { useGetMyRatingQuery } from '../Redux/Apis/ratingsApis';
+import { useAddReviewMutation, useGetMyRatingQuery } from '../Redux/Apis/ratingsApis';
 import toast from 'react-hot-toast';
 import { useFetchMyProductsQuery } from '../Redux/Apis/productsApis';
-import { useGetPendingSwapQuery } from '../Redux/Apis/swapApis';
+import { useApproveSwapMutation, useGetPendingSwapQuery, useGetSwapHistoryQuery, useRejectSwapMutation } from '../Redux/Apis/swapApis';
 import moment from 'moment';
 
 const MyProfile = () => {
     const [form] = Form.useForm()
-    const [imageIndex, setImageIndex] = useState(0)
-    const images = ['https://i.ibb.co/Z2zHG1r/Rectangle-210.png', 'https://i.ibb.co/WysMnRt/Rectangle-210-1.png', 'https://i.ibb.co/ZYgRK5t/Rectangle-210-2.png']
     const [image, setImage] = useState(null)
     const [page, setPage] = useState(1)
     const [tab, setTab] = useState('info')
@@ -28,8 +26,12 @@ const MyProfile = () => {
     const { data } = useFetchProfileQuery()
     const [update, { isLoading }] = useUpdateProfileMutation()
     const { data: myRating } = useGetMyRatingQuery()
+    const { data: SwapHistory } = useGetSwapHistoryQuery()
     const { data: myProducts } = useFetchMyProductsQuery({ page })
     const { data: swapRequest } = useGetPendingSwapQuery({})
+    const [approve, { isLoading: approving }] = useApproveSwapMutation()
+    const [reject, { isLoading: rejecting }] = useRejectSwapMutation()
+    const [review, { isLoading: reviewing }] = useAddReviewMutation()
     const [selectedItem, setSelectedItem] = useState(null)
     const onFinish = (value) => {
         if (image) {
@@ -45,12 +47,47 @@ const MyProfile = () => {
             }).catch(err => toast.error(err?.data?.message || 'something went wrong'))
     }
     const onRating = (value) => {
-        //console.log(value)
+        review({
+            "swapId": selectedItem?._id,
+            "ratting": rating,
+            "comment": value?.review
+        }).unwrap()
+            .then(res => {
+                toast.success(res?.message)
+                setOpen(false)
+                setSelectedItem(null)
+            })
+            .catch(err => {
+                toast.error(err?.data?.message)
+            })
     }
     const Navigate = useNavigate()
 
     const handleSendMessage = () => {
         Navigate('/chat')
+    }
+
+    const handleApprove = () => {
+        approve(selectedItem?._id).unwrap()
+            .then(res => {
+                toast.success(res?.message)
+                setOpenAcceptModal(false)
+                setSelectedItem(null)
+                setTab('history')
+            }).catch(err => {
+                toast.error(err?.data?.message)
+            })
+    }
+    const handleReject = (id) => {
+        reject(id).unwrap()
+            .then(res => {
+                toast.success(res?.message)
+                setOpenAcceptModal(false)
+                setSelectedItem(null)
+                setTab('history')
+            }).catch(err => {
+                toast.error(err?.data?.message)
+            })
     }
     useEffect(() => {
         if (data?.data?.result) {
@@ -58,7 +95,7 @@ const MyProfile = () => {
 
         }
     }, [form, data?.data?.result])
-    console.log(swapRequest)
+
     return (
         <>
             <div className='container mx-auto bg-white'>
@@ -184,22 +221,22 @@ const MyProfile = () => {
                             <p className='font-semibold'>Action</p>
                         </div>
                         {
-                            [...Array(9).keys()].map((item, i) => {
+                            SwapHistory?.data.map((item, i) => {
                                 return <div key={i} className='flex flex-col  gap-2 md:grid grid-cols-3 my-2 text-[#222222]   border-b pb-8'>
                                     <div className='w-full flex md:justify-start justify-center items-center gap-2'>
-                                        <img src="https://images.unsplash.com/photo-1721679241368-465acff29360?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMDV8fHxlbnwwfHx8fHw%3D" className='w-10 h-10 rounded-full object-cover' alt="" />
+                                        <img src={imageUrl(item?.productTo?.user?.profile_image)} className='w-10 h-10 rounded-full object-cover' alt="" />
                                         <div>
-                                            <p className='text-blue-500 text-base'>nadim</p>
-                                            <p className='text-sm'>12/06/24</p>
+                                            <p className='text-blue-500 text-base'>{item?.productTo?.user?.name}</p>
+                                            <p className='text-sm'>{item?.createdAt?.split('T')?.[0]}</p>
                                         </div>
                                     </div>
                                     <div className='flex justify-center items-center gap-2'>
-                                        <p>Samsung Galaxy S22</p>
+                                        <p>{item?.productTo?.title}</p>
                                         <IoMdSwap className='text-blue-500' />
-                                        <p>Sony Y1G Android TV</p>
+                                        <p>{item?.productFrom?.title}</p>
                                     </div>
                                     <div className='md:text-end text-center'>
-                                        <button onClick={() => setOpen(true)} className='text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit'>
+                                        <button onClick={() => { setSelectedItem(item); setOpen(true) }} className='text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit'>
                                             Review
                                         </button>
                                     </div>
@@ -232,11 +269,11 @@ const MyProfile = () => {
                                         <p>{item?.productFrom?.title}</p>
                                     </div>
                                     <div className='md:text-end text-center'>
-                                        <button onClick={() => setOpenAcceptModal(true)} className='text-green-500 border border-green-500 rounded-md px-8 py-3 w-fit m-2'>
+                                        <button onClick={() => { setSelectedItem(item); setOpenAcceptModal(true) }} className='text-green-500 border border-green-500 rounded-md px-8 py-3 w-fit m-2'>
                                             Accept
                                         </button>
-                                        <button className='text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit m-2'>
-                                            Reject
+                                        <button onClick={() => handleReject(item?._id)} className='text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit m-2'>
+                                            {rejecting ? <Spin /> : 'Reject'}
                                         </button>
                                         <button onClick={() => { setSelectedItem(item); setOpenDetailsModal(true) }} className='text-blue-500 rounded-md px-3 py-3 w-fit m-2'>
                                             view details
@@ -300,8 +337,8 @@ const MyProfile = () => {
                                 height: 200
                             }} />
                         </Form.Item>
-                        <button onClick={() => setOpen(false)} className='w-full py-3 bg-blue-500 text-white mt-5 rounded-md'>
-                            Submit
+                        <button className='w-full py-3 bg-blue-500 text-white mt-5 rounded-md'>
+                            {reviewing ? <Spin /> : 'Submit'}
                         </button>
                     </Form>
                 </div>
@@ -311,26 +348,22 @@ const MyProfile = () => {
                 onCancel={() => setOpenAcceptModal(false)}
                 footer={false}
                 centered
+                width={400}
             >
                 <div className=' p-4 rounded-md gap-2'>
                     <div className='flex justify-center flex-col w-full  items-center py-3'>
-                        <img className='h-16 w-16 rounded-full object-cover' src="https://images.unsplash.com/photo-1503235930437-8c6293ba41f5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="" />
-                        <p className='text-[#222222] text-xl font-semibold'>Zahid Hossain</p>
-                        <span className=' text-[#4E4E4E] flex justify-start items-center gap-1 my-2'>
-                            <FaRegStar className='text-yellow-400 text-2xl' />
-                            <FaRegStar className='text-yellow-400 text-2xl' />
-                            <FaRegStar className='text-yellow-400 text-2xl' />
-                            <FaRegStar className='text-yellow-400 text-2xl' />
-                            <FaRegStar className='text-yellow-400 text-2xl' />
-                        </span>
-                        <p className=' text-center px-8'>I highly recommend this swapper for anyone in need of a reliable service. My overall experience with it has been exceptionally positive.</p>
+                        <FaInfo size={50} className='p-2 border rounded-full text-yellow-600 border-yellow-600' />
+                        <p>are rou sure you want to approve this request </p>
                     </div>
                     <div className='flex justify-between items-center'>
-                        <button onClick={() => setOpenAcceptModal(false)} className='text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
+                        {/* <button onClick={() => setOpenAcceptModal(false)} className='text-blue-500 border border-blue-500 rounded-md px-6 py-2 w-fit m-2 whitespace-nowrap'>
                             Not now
-                        </button>
-                        <button onClick={() => handleSendMessage()} className='bg-blue-500 border text-white border-blue-500 rounded-md px-8 py-3 w-fit m-2'>
+                        </button> */}
+                        <button onClick={() => handleSendMessage()} className='bg-blue-500 border text-white border-blue-500 rounded-md px-6 py-2 w-fit m-2'>
                             Message
+                        </button>
+                        <button onClick={() => handleApprove()} className='bg-blue-500 border text-white border-blue-500 rounded-md px-6 py-2 w-fit m-2'>
+                            {approving ? <Spin /> : 'Approve'}
                         </button>
                     </div>
                 </div>

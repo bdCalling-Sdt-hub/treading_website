@@ -31,11 +31,31 @@ const swapApis = baseApi.injectEndpoints({
             },
             providesTags: ['swap'],
         }),
+        approveSwap: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `swap/approve/${id}`,
+                    method: 'PATCH',
+                }
+            },
+            invalidatesTags: ['swap'],
+        }),
+        rejectSwap: builder.mutation({
+            query: (id) => {
+                return {
+                    url: `swap/reject/${id}`,
+                    method: 'PATCH',
+                }
+            },
+            invalidatesTags: ['swap'],
+        }),
 
     }),
 });
 export const {
     useAddToSwapMutation,
     useGetSwapHistoryQuery,
-    useGetPendingSwapQuery
+    useGetPendingSwapQuery,
+    useApproveSwapMutation,
+    useRejectSwapMutation
 } = swapApis;
