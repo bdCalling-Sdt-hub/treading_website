@@ -1,22 +1,48 @@
-import { Carousel, Form, Input, Modal } from 'antd';
-import { useState } from 'react'
+import { Carousel, Form, Input, Modal, Pagination, Spin } from 'antd';
+import { useEffect, useState } from 'react'
 import { FaRegStar, FaStar } from 'react-icons/fa6'
 import { Link, useNavigate, } from 'react-router-dom';
 import ProductCard from '../Components/Shared/ProductCard/ProductCard';
 import { IoMdSwap } from 'react-icons/io';
 import TextArea from 'antd/es/input/TextArea';
 import { GrLocation } from 'react-icons/gr';
+import { useFetchProfileQuery, useUpdateProfileMutation } from '../Redux/Apis/authApis';
+import { imageUrl } from '../Redux/States/baseApi';
+import { useGetMyRatingQuery } from '../Redux/Apis/ratingsApis';
+import toast from 'react-hot-toast';
+import { useFetchMyProductsQuery } from '../Redux/Apis/productsApis';
+import { useGetPendingSwapQuery } from '../Redux/Apis/swapApis';
+import moment from 'moment';
 
 const MyProfile = () => {
+    const [form] = Form.useForm()
     const [imageIndex, setImageIndex] = useState(0)
     const images = ['https://i.ibb.co/Z2zHG1r/Rectangle-210.png', 'https://i.ibb.co/WysMnRt/Rectangle-210-1.png', 'https://i.ibb.co/ZYgRK5t/Rectangle-210-2.png']
+    const [image, setImage] = useState(null)
+    const [page, setPage] = useState(1)
     const [tab, setTab] = useState('info')
     const [rating, setRating] = useState(3)
     const [open, setOpen] = useState(false)
     const [OpenAcceptModal, setOpenAcceptModal] = useState(false)
     const [OpenDetailsModal, setOpenDetailsModal] = useState(false)
+    const { data } = useFetchProfileQuery()
+    const [update, { isLoading }] = useUpdateProfileMutation()
+    const { data: myRating } = useGetMyRatingQuery()
+    const { data: myProducts } = useFetchMyProductsQuery({ page })
+    const { data: swapRequest } = useGetPendingSwapQuery({})
+    const [selectedItem, setSelectedItem] = useState(null)
     const onFinish = (value) => {
-        //console.log(value)
+        if (image) {
+            value.profile_image = image
+        }
+        const formData = new FormData()
+        Object.keys(value)?.map(key => {
+            formData.append(key, value[key])
+        })
+        update(formData).unwrap()
+            .then(res => {
+                toast.success(res?.message || 'profile updated')
+            }).catch(err => toast.error(err?.data?.message || 'something went wrong'))
     }
     const onRating = (value) => {
         //console.log(value)
@@ -26,24 +52,38 @@ const MyProfile = () => {
     const handleSendMessage = () => {
         Navigate('/chat')
     }
+    useEffect(() => {
+        if (data?.data?.result) {
+            form.setFieldsValue(data?.data?.result)
+
+        }
+    }, [form, data?.data?.result])
+    console.log(swapRequest)
     return (
         <>
             <div className='container mx-auto bg-white'>
                 <div className=' p-6 rounded-md  flex justify-center items-center flex-col mt-10'>
-                    <img className='h-24 w-24 rounded-full object-cover' src="https://images.unsplash.com/photo-1503235930437-8c6293ba41f5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="" />
-                    <p className='text-[#222222] text-3xl font-semibold'>Zahid Hossain</p>
+                    <label htmlFor='image'>
+                        <img className='h-24 w-24 rounded-full object-cover cursor-pointer' src={image ? URL.createObjectURL(image) : data?.data?.result?.profile_image ? imageUrl(data?.data?.result?.profile_image) : 'https://placehold.co/400'} alt="" />
+                        <input hidden type="file" onChange={(e) => setImage(e.target.files?.[0])} id='image' />
+                    </label>
+                    <p className='text-[#222222] text-3xl font-semibold'>{data?.data?.result?.name}</p>
                     <div className='flex justify-center items-center gap-4 mt-3'>
                         <p className='text-lg font-medium'>Overall Rating:</p>
-                        <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
+                        <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'><FaRegStar className='text-yellow-400 text-2xl' /> {data?.data?.ratting}</p>
+                    </div>
+                    <div className='flex justify-center items-center gap-4 mt-3'>
+                        <p className='text-lg font-medium'>Total points:</p>
+                        <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'><FaRegStar className='text-yellow-400 text-2xl' /> {data?.data?.result?.points} Points</p>
                     </div>
                     <div className='flex justify-center items-center gap-4 mt-3'>
                         <div>
                             <p className='text-lg font-medium'>Membership Since:</p>
-                            <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'>12/08/22</p>
+                            <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'>{data?.data?.planStartDate?.split('T')?.[0]}</p>
                         </div>
                         <div>
                             <p className='text-lg font-medium'>Last Site Visit:</p>
-                            <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'>12/08/22</p>
+                            <p className=' text-[#4E4E4E] flex justify-start items-center gap-1'>{data?.data?.planEndDate?.split('T')?.[0]}</p>
                         </div>
                     </div>
                     {/* <div className='flex justify-center items-center gap-2 mt-3'>
@@ -58,19 +98,17 @@ const MyProfile = () => {
                 <div className='max-w-[600px] mx-auto'>
                     <Carousel arrows infinite={false}>
                         {
-                            [...Array(7).keys()].map((item, i) => {
+                            myRating?.data?.map((item, i) => {
                                 return <div key={i} className=' p-4 rounded-md gap-2'>
                                     <div className='flex justify-center flex-col w-full  items-center py-3'>
-                                        <img className='h-16 w-16 rounded-full object-cover' src="https://images.unsplash.com/photo-1503235930437-8c6293ba41f5?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHByb2ZpbGV8ZW58MHx8MHx8fDA%3D" alt="" />
-                                        <p className='text-[#222222] text-xl font-semibold'>Zahid Hossain</p>
+                                        <img className='h-16 w-16 rounded-full object-cover' src={imageUrl(item?.user?.profile_image)} alt="" />
+                                        <p className='text-[#222222] text-xl font-semibold'>{item?.user?.name}</p>
                                         <span className=' text-[#4E4E4E] flex justify-start items-center gap-1 my-2'>
-                                            <FaRegStar className='text-yellow-400 text-2xl' />
-                                            <FaRegStar className='text-yellow-400 text-2xl' />
-                                            <FaRegStar className='text-yellow-400 text-2xl' />
-                                            <FaRegStar className='text-yellow-400 text-2xl' />
-                                            <FaRegStar className='text-yellow-400 text-2xl' />
+                                            {
+                                                [...Array(item?.ratting).keys()].map(star => <FaRegStar key={star} className='text-yellow-400 text-2xl' />)
+                                            }
                                         </span>
-                                        <p className=' text-center px-8'>I highly recommend this swapper for anyone in need of a reliable service. My overall experience with it has been exceptionally positive.</p>
+                                        <p className=' text-center px-8'>{item?.comment}</p>
                                     </div>
 
                                 </div>
@@ -94,34 +132,36 @@ const MyProfile = () => {
                 {
                     tab === 'info' && <div className='my-4 w-full mt-8'>
                         <Form
+                            onFinish={onFinish}
+                            form={form}
                             layout='vertical'
                             className='w-full md:grid grid-cols-2 gap-3 max-w-3xl mx-auto'
                         >
                             <Form.Item className='w-full'
                                 label='First Name'
-                                name={`first_name`}
+                                name={`name`}
                             >
-                                <Input placeholder='shaharul' />
+                                <Input placeholder='shaharul siyam' />
                             </Form.Item>
-                            <Form.Item className='w-full'
+                            {/* <Form.Item className='w-full'
                                 label='Last Name'
                                 name={`last_name`}
                             >
                                 <Input placeholder='siyam' />
-                            </Form.Item>
+                            </Form.Item> */}
                             <Form.Item className='w-full'
                                 label='Email'
                                 name={`email`}
                             >
-                                <Input type='email' placeholder='siyam@gmail.com' />
+                                <Input disabled type='email' placeholder='siyamoffice0273@gmail.com' />
                             </Form.Item>
                             <Form.Item className='w-full'
                                 label='Phone Number'
-                                name={`phone`}
+                                name={`phone_number`}
                             >
-                                <Input type='text' placeholder='65421541850' />
+                                <Input type='text' placeholder='+8801566026301' />
                             </Form.Item>
-                            <Form.Item className='w-full col-span-2'
+                            <Form.Item className='w-full '
                                 label='Address'
                                 name={`address`}
                             >
@@ -129,7 +169,7 @@ const MyProfile = () => {
                             </Form.Item>
                             <div className='col-span-2 text-center mb-5'>
                                 <button className='px-8 py-3 rounded-md text-white bg-blue-500'>
-                                    update
+                                    {isLoading ? <Spin /> : 'Update'}
                                 </button>
                             </div>
                         </Form>
@@ -177,19 +217,19 @@ const MyProfile = () => {
                             <p className='font-semibold'>Action</p>
                         </div>
                         {
-                            [...Array(9).keys()].map((item, i) => {
+                            swapRequest?.data.map((item, i) => {
                                 return <div key={i} className='flex flex-col gap-2 md:grid grid-cols-3 my-2 text-[#222222]'>
                                     <div className='w-full flex md:justify-start justify-center items-center gap-2'>
-                                        <img src="https://images.unsplash.com/photo-1721679241368-465acff29360?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxmZWF0dXJlZC1waG90b3MtZmVlZHwxMDV8fHxlbnwwfHx8fHw%3D" className='w-10 h-10 rounded-full object-cover' alt="" />
+                                        <img src={imageUrl(item?.userTo?.profile_image)} className='w-10 h-10 rounded-full object-cover' alt="" />
                                         <div>
-                                            <p className='text-blue-500 text-base'>nadim</p>
-                                            <p className='text-sm'>12/06/24</p>
+                                            <p className='text-blue-500 text-base'>{item?.userTo?.name}</p>
+                                            <p className='text-sm'>{item?.createdAt?.split('T')?.[0]}</p>
                                         </div>
                                     </div>
                                     <div className='flex justify-center items-center gap-2'>
-                                        <p>Samsung Galaxy S22</p>
+                                        <p>{item?.productTo?.title}</p>
                                         <IoMdSwap className='text-blue-500' />
-                                        <p>Sony Y1G Android TV</p>
+                                        <p>{item?.productFrom?.title}</p>
                                     </div>
                                     <div className='md:text-end text-center'>
                                         <button onClick={() => setOpenAcceptModal(true)} className='text-green-500 border border-green-500 rounded-md px-8 py-3 w-fit m-2'>
@@ -198,7 +238,7 @@ const MyProfile = () => {
                                         <button className='text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit m-2'>
                                             Reject
                                         </button>
-                                        <button onClick={() => setOpenDetailsModal(true)} className='text-blue-500 rounded-md px-3 py-3 w-fit m-2'>
+                                        <button onClick={() => { setSelectedItem(item); setOpenDetailsModal(true) }} className='text-blue-500 rounded-md px-3 py-3 w-fit m-2'>
                                             view details
                                         </button>
                                     </div>
@@ -212,16 +252,23 @@ const MyProfile = () => {
             <div className='container w-full mx-auto mt-10 col-span-3'>
                 <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Available Items</p>
                 <div className='text-end'>
-                    <Link className='text-blue-500'>
+                    {/* <Link className='text-blue-500'>
                         view all
-                    </Link>
+                    </Link> */}
                 </div>
                 <div className='pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-4'>
                     {
-                        [...Array(4).keys()].map((item, i) => {
+                        myProducts?.data.map((item, i) => {
                             return <ProductCard key={i} data={item} />
                         })
                     }
+                </div>
+                <div className='flex justify-center items-center'>
+                    <Pagination
+                        pageSize={myProducts?.meta?.limit}
+                        total={myProducts?.meta?.total}
+                        onChange={(page) => setPage(page)}
+                    />
                 </div>
             </div>
             <Modal
@@ -299,7 +346,7 @@ const MyProfile = () => {
                     <div className='overflow-y-scroll'>
                         <div className='w-full h-fit'>
                             <div className='w-full h-[400px] rounded-md flex justify-center items-center'>
-                                <img className='w-full h-full object-contain' src={images[imageIndex]} alt="" />
+                                <img className='w-full h-full object-contain' src={imageUrl(selectedItem?.productTo?.images[0])} alt="" />
                             </div>
                             {/* <div className='w-full h-fit rounded-md items-center flex mt-1 gap-3 justify-start bg-white px-1'>
                                 {
@@ -313,27 +360,27 @@ const MyProfile = () => {
                         </div>
                         <div className='w-full col-span-2 p-6 rounded-md text-[#4E4E4E] '>
                             <div className='flex justify-start items-center gap-4'>
-                                <p className=' text-[#4E4E4E]'>Swap on 21 Mar 2:45 PM </p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Condition:</span> Used</p>
+                                <p className=' text-[#4E4E4E]'>Swap on {moment(selectedItem?.createdAt).format('LLL')}</p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Condition:</span> {selectedItem?.productTo?.condition}</p>
                             </div>
-                            <p className='text-xl font-semibold mt-2'>Samsung Galaxy S23</p>
+                            <p className='text-xl font-semibold mt-2'>{selectedItem?.productTo?.title}</p>
                             <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Value : </span> <span className='text-blue-600 font-bold'>$465+</span></p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'>Earned</p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Value : </span> <span className='text-blue-600 font-bold'>${selectedItem?.productTo?.productValue}</span></p>
+                                {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'>Earned</p> */}
+                                {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p> */}
                             </div>
                             <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>Zahid Hossain (Gold)</span></p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> Naperville</p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>{selectedItem?.userTo?.name} ({selectedItem?.userTo?.userType})</span></p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> {selectedItem?.userTo?.address}</p>
                             </div>
                             <p className='font-medium mt-2'>Description: </p>
-                            <p className='text-justify mb-2'>The Samsung 32 Y1G Y Series 32-Inch Android TV is Give your eyes pleasure with the 16M Display colors. You can connect anything with the Samsung TV Y series, very useful connections, including video games and your favorite binge-worthy TV shows.</p>
-                            <p className=' flex justify-start items-center gap-2'>By swapping you can earn up to  <FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
+                            <p className='text-justify mb-2'>{selectedItem?.productTo?.description}</p>
+                            {/* <p className=' flex justify-start items-center gap-2'>By swapping you can earn up to  <FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p> */}
                             <div className='flex justify-start items-center gap-2 mt-3'>
-                                <img src="https://plus.unsplash.com/premium_photo-1688740375397-34605b6abe48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHx8MA%3D%3D" className='w-12 h-12 rounded-full object-cover' alt="" />
+                                <img src={imageUrl(selectedItem?.userTo?.profile_image)} className='w-12 h-12 rounded-full object-cover' alt="" />
                                 <div>
-                                    <p className='font-semibold'>MD. Abdullah Al Mamun</p>
-                                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaStar className='text-yellow-400 text-2xl' /> 4.7/5.0</p>
+                                    <p className='font-semibold'>{selectedItem?.userTo?.name}</p>
+                                    {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaStar className='text-yellow-400 text-2xl' /> 4.7/5.0</p> */}
                                 </div>
                             </div>
                         </div>
@@ -341,7 +388,7 @@ const MyProfile = () => {
                     <div className='overflow-y-scroll'>
                         <div className='w-full h-fit'>
                             <div className='w-full h-[400px] rounded-md flex justify-center items-center'>
-                                <img className='w-full h-full object-contain' src={images[imageIndex]} alt="" />
+                                <img className='w-full h-full object-contain' src={imageUrl(selectedItem?.productFrom?.images[0])} alt="" />
                             </div>
                             {/* <div className='w-full h-fit rounded-md items-center flex mt-1 gap-3 justify-start bg-white px-1'>
                                 {
@@ -355,27 +402,27 @@ const MyProfile = () => {
                         </div>
                         <div className='w-full col-span-2 p-6 rounded-md text-[#4E4E4E] '>
                             <div className='flex justify-start items-center gap-4'>
-                                <p className=' text-[#4E4E4E]'>Swap on 21 Mar 2:45 PM </p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Condition:</span> Used</p>
+                                <p className=' text-[#4E4E4E]'>Swap on {moment(selectedItem?.createdAt).format('LLL')}</p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Condition:</span> {selectedItem?.productFrom?.condition}</p>
                             </div>
-                            <p className='text-xl font-semibold mt-2'>Samsung Galaxy S23</p>
+                            <p className='text-xl font-semibold mt-2'>{selectedItem?.productFrom?.title}</p>
                             <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Value : </span> <span className='text-blue-600 font-bold'>$465+</span></p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'>Earned</p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Value : </span> <span className='text-blue-600 font-bold'>${selectedItem?.productFrom?.productValue}</span></p>
+                                {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'>Earned</p> */}
+                                {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p> */}
                             </div>
                             <div className='flex justify-start items-center w-full gap-1 my-2 flex-wrap'>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>Zahid Hossain (Gold)</span></p>
-                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> Naperville</p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'> <span>Post by: </span> <span className='text-blue-600 '>{selectedItem?.userFrom?.name} ({selectedItem?.userFrom?.userType})</span></p>
+                                <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><GrLocation className=' text-2xl' /> {selectedItem?.userFrom?.address}</p>
                             </div>
                             <p className='font-medium mt-2'>Description: </p>
-                            <p className='text-justify mb-2'>The Samsung 32 Y1G Y Series 32-Inch Android TV is Give your eyes pleasure with the 16M Display colors. You can connect anything with the Samsung TV Y series, very useful connections, including video games and your favorite binge-worthy TV shows.</p>
-                            <p className=' flex justify-start items-center gap-2'>By swapping you can earn up to  <FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p>
+                            <p className='text-justify mb-2'>{selectedItem?.productFrom?.description}</p>
+                            {/* <p className=' flex justify-start items-center gap-2'>By swapping you can earn up to  <FaRegStar className='text-yellow-400 text-2xl' /> 500 Points</p> */}
                             <div className='flex justify-start items-center gap-2 mt-3'>
-                                <img src="https://plus.unsplash.com/premium_photo-1688740375397-34605b6abe48?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MXx8cHJvZmlsZSUyMHBpY3xlbnwwfHwwfHx8MA%3D%3D" className='w-12 h-12 rounded-full object-cover' alt="" />
+                                <img src={imageUrl(selectedItem?.userFrom?.profile_image)} className='w-12 h-12 rounded-full object-cover' alt="" />
                                 <div>
-                                    <p className='font-semibold'>MD. Abdullah Al Mamun</p>
-                                    <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaStar className='text-yellow-400 text-2xl' /> 4.7/5.0</p>
+                                    <p className='font-semibold'>{selectedItem?.userFrom?.name}</p>
+                                    {/* <p className=' text-[#4E4E4E] flex justify-start items-center gap-2'><FaStar className='text-yellow-400 text-2xl' /> 4.7/5.0</p> */}
                                 </div>
                             </div>
                         </div>

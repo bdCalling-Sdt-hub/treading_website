@@ -99,11 +99,12 @@ import React, { useEffect, useState } from 'react';
 import { FaCircleCheck } from 'react-icons/fa6';
 import { useFetchMyPlnQuery, useFetchSubscriptionPackageQuery } from '../Redux/Apis/subscriptionApis';
 import { useUserData } from '../ContextProvider/UserDataProvider';
-import { Navigate, useLocation, useNavigate } from 'react-router-dom';
+import {  useLocation, useNavigate } from 'react-router-dom';
 import { Modal } from 'antd';
 import PaymentComponent from '../Components/Payment/PaymentComponent';
 import { useConfirmPaymentMutation } from '../Redux/Apis/paymentApis';
 import toast from 'react-hot-toast';
+import { imageUrl } from '../Redux/States/baseApi';
 const Agreements = () => {
     const [openPaymentModal, setOpenPaymentModal] = useState(false)
     const location = useLocation()
@@ -113,23 +114,22 @@ const Agreements = () => {
     const { data } = useFetchSubscriptionPackageQuery();
     const { data: myPlan } = useFetchMyPlnQuery();
     const [plan, setPlan] = useState({})
-    const formattedData = transformData(data?.data || []);
+    const formattedData = transformData(data?.data?.subscriptions || []);
     const { minPointRange, maxPointRange, data: planData } = formattedData;
-    const currentPlan = planData.find(plan => user?.data?.points >= plan.pointRangeStart && user?.data?.points <= plan.pointRangeEnd) || {};
-    const monthlyFee = currentPlan.fee || "N/A";
-
-    const percentage = ((user?.data?.points - minPointRange) / (maxPointRange - minPointRange)) * 100;
+    const currentPlan = planData.find(plan => user?.data?.result?.points >= plan.pointRangeStart && user?.data?.result?.points <= plan.pointRangeEnd) || {};
+    const monthlyFee = currentPlan?.fee || "N/A";
+    const percentage = ((user?.data?.result?.points - minPointRange) / (maxPointRange - minPointRange)) * 100;
     useEffect(() => {
         if (!myPlan || !data) {
             return
         }
-        const filterData = data?.data?.filter(item => item?._id === myPlan?.data?.plan_id?._id)
+        const filterData = data?.data?.subscriptions?.filter(item => item?._id === myPlan?.data?.plan_id?._id)
         setPlan(filterData?.[0])
     }, [myPlan, data])
-    console.log(myPlan?.data?.plan_id)
+    // console.log(myPlan)
     const benefit = ['Can exchange products', 'Earn upto 1000 points by a single swap', 'Exclusive offers', 'Partner benefits']
     useEffect(() => {
-        if ((!user || !user?.data?._id) && (!isFetching || !isLoading)) {
+        if ((!user || !user?.data?.result?._id) && (!isFetching || !isLoading)) {
             navigate('/sign-in', { state: { from: location?.pathname } });
         }
     }, [user, isFetching, isLoading, navigate, location]);
@@ -137,31 +137,32 @@ const Agreements = () => {
         // console.log(data)
         const formateData = {
             "amount": Number(plan?.fee) || 0,
-            "user": user?.data?._id,
+            "user": user?.data?.result?._id,
             "transaction_id": data?.paymentIntent?.id,
             "plan_id": myPlan?.data?._id,
-            "subscriptions_id": myPlan?.data?.plan_id
+            "package_id": myPlan?.data?.plan_id
         }
         confirmPayment(formateData).then(res => {
             // console.log(res)
             toast.success(res?.data?.message)
+            setOpenPaymentModal(false)
+            window.location.reload()
         }).catch(err => {
             // console.log(err)
             toast.error(err?.data?.message)
-        }).finally(() => {
-            setOpenPaymentModal(false)
-            window.location.reload()
         })
     }
-    // console.log(myPlan?.data?._id,myPlan?.data?.plan_id)
+    console.log({
+        data,myPlan
+    })
     return (
         <div id='assignment' className='py-8 container mx-auto bg-white my-10 rounded-md text-[#FEFEFE]'>
             <div className='max-w-[850px] bg-[#FAA316] py-10 flex flex-col gap-4 justify-center items-center mx-auto rounded-md'>
-                <img className='w-24 h-24 rounded-full object-cover' src={user?.data?.profile_image} alt="" />
-                <p className='text-2xl font-bold'>{user?.data?.name}</p>
-                <p className='text-base'>Membership Status: {user?.data?.userType}</p>
+                <img className='w-24 h-24 rounded-full object-cover' src={imageUrl(user?.data?.result?.profile_image)} alt="" />
+                <p className='text-2xl font-bold'>{user?.data?.result?.name}</p>
+                <p className='text-base'>Membership Status: {user?.data?.result?.userType}</p>
                 <p className='text-lg font-medium'>Total Points Earned</p>
-                <p className='text-3xl font-bold'>{user?.data?.points}</p>
+                <p className='text-3xl font-bold'>{user?.data?.result?.points}</p>
 
                 {/* Slider Section */}
                 <div className='w-[80%] mx-auto py-6'>
@@ -177,7 +178,7 @@ const Agreements = () => {
                             type="range"
                             min={minPointRange}
                             max={maxPointRange}
-                            value={user?.data?.points}
+                            value={user?.data?.result?.points}
                             className="slider"
                             style={{
                                 background: `linear-gradient(to right, #3475F1 0%, #3475F1 ${percentage}%, #ddd ${percentage}%, #ddd 100%)`,

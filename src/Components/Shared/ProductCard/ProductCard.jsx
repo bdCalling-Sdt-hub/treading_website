@@ -48,10 +48,10 @@ const ProductCard = ({ data }) => {
                 Details
             </Link>
             <button onClick={() => {
-                if (data?.user === user?.data?._id) {
+                if (!user?.data?.result?._id) {
                     navigate('/sign-in')
                 }
-                if (data?.user === user?.data?._id) {
+                if (data?.user === user?.data?.result?._id) {
                     toast.dismiss()
                     return toast.error("This is you won Product")
                 }

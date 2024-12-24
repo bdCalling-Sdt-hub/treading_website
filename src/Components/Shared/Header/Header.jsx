@@ -23,7 +23,10 @@ const Header = () => {
         {
             key: '2',
             label: (
-                <button onClick={() => localStorage.removeItem('token')}>
+                <button onClick={() =>{
+                    localStorage.removeItem('token')
+                    window.location.href='/'
+                }}>
                     {language === "eng" ? "Log Out" : "Cerrar sesión"}
                 </button>
             ),
@@ -113,7 +116,7 @@ const Header = () => {
                             </ul>
                         </Drawer>
                     </div>
-                    {user?.data?.email ? (
+                    {user?.data?.result?.email ? (
                         <div className='flex justify-between items-center gap-2 mr-1'>
                             <Popover
                                 content={<NotificationsList />}
@@ -134,11 +137,11 @@ const Header = () => {
                                     arrow
                                 >
                                     <button className="flex justify-between items-center bg-white  text-blue-500 md:px-3 w-full rounded-md gap-2">
-                                        <img src={imageUrl(user?.data?.profile_image)} className="h-8 w-8 rounded-full" alt="" />
+                                        <img src={imageUrl(user?.data?.result?.profile_image)} className="h-8 w-8 rounded-full" alt="" />
                                         <div className="text-left md:block hidden mr-8 w-fit">
-                                            <p className="text-base font-normal whitespace-nowrap w-fit">{user?.data?.name}</p>
+                                            <p className="text-base font-normal whitespace-nowrap w-fit">{user?.data?.result?.name}</p>
                                             <p className="text-sm -mt-1 whitespace-nowrap">
-                                                {language === "eng" ? 'Point' : 'Punto'}: {user?.data?.points}
+                                                {language === "eng" ? 'Point' : 'Punto'}: {user?.data?.result?.points}
                                             </p>
                                         </div>
                                     </button>

@@ -7,7 +7,26 @@ const swapApis = baseApi.injectEndpoints({
                 return {
                     url: '/swap/make-swap',
                     method: 'POST',
-                    body:data
+                    body: data
+                }
+            },
+            invalidatesTags: ['swap'],
+        }),
+        getSwapHistory: builder.query({
+            query: () => {
+                return {
+                    url: '/swap/swap-histoy',
+                    method: 'GET',
+                }
+            },
+            providesTags: ['swap'],
+        }),
+        getPendingSwap: builder.query({
+            query: ({ status = 'receive_request' }) => {
+                return {
+                    url: '/swap/pending-swap',
+                    method: 'GET',
+                    params: { status }
                 }
             },
             providesTags: ['swap'],
@@ -16,5 +35,7 @@ const swapApis = baseApi.injectEndpoints({
     }),
 });
 export const {
-    useAddToSwapMutation
+    useAddToSwapMutation,
+    useGetSwapHistoryQuery,
+    useGetPendingSwapQuery
 } = swapApis;

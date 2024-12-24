@@ -3,11 +3,21 @@ import { baseApi } from "../States/baseApi";
 const productsApis = baseApi.injectEndpoints({
     endpoints: (builder) => ({
         fetchAllProducts: builder.query({
-            query: ({ limit = 50 }) => {
+            query: ({ limit, address, page, searchTerm, category, subCategory }) => {
+                const param = { limit, page, searchTerm }
+                if (address) {
+                    param.address = address
+                }
+                if (subCategory) {
+                    param.subCategory = subCategory
+                }
+                if (category) {
+                    param.category = category
+                }
                 return {
                     url: '/product/get-all',
                     method: 'GET',
-                    params: { limit }
+                    params: { ...param }
                 }
             },
             providesTags: ['products'],
@@ -22,11 +32,11 @@ const productsApis = baseApi.injectEndpoints({
             providesTags: ['products'],
         }),
         fetchMyProducts: builder.query({
-            query: () => {
+            query: ({ page }) => {
                 return {
                     url: '/product/my-products',
                     method: 'GET',
-                    params: { limit: 99999 }
+                    params: { page }
                 }
             },
             providesTags: ['products'],

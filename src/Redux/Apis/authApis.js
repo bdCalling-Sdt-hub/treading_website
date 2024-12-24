@@ -20,7 +20,6 @@ const authApis = baseApi.injectEndpoints({
             }),
             invalidatesTags: ['Auth'],
         }),
-
         activateUser: builder.mutation({
             query: (activationData) => ({
                 url: '/auth/activate-user',
@@ -84,6 +83,16 @@ const authApis = baseApi.injectEndpoints({
             },
             providesTags: ['Auth'],
         }),
+        updateProfile: builder.mutation({
+            query: (data) => {
+                return {
+                    url: 'auth/edit-profile',
+                    method: 'PATCH',
+                    body: data
+                }
+            },
+            invalidatesTags: ['Auth'],
+        })
 
     }),
 });
@@ -97,5 +106,6 @@ export const {
     useFetchProfileQuery,
     useResendOtpMutation,
     useVerifyUserMutation,
-    useResetPasswordMutation
+    useResetPasswordMutation,
+    useUpdateProfileMutation
 } = authApis;

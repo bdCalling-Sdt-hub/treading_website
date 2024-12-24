@@ -2,7 +2,7 @@ import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 export const baseApi = createApi({
     reducerPath: 'TradingApp',
     baseQuery: fetchBaseQuery({
-        baseUrl: "http://192.168.10.14:5070",
+        baseUrl: "http://103.145.138.200:5071",
         // mode: 'no-cors',
         headers: {
             Authorization: `Bearer ${localStorage.getItem('token') ? JSON.parse((localStorage.getItem('token'))) : ""}`,
@@ -15,6 +15,6 @@ export const baseApi = createApi({
 
 
 export const imageUrl = (url) => {
-    return url?.includes('http') ? url : `http://192.168.10.14:5070${url}`
+    return url?.includes('http') ? url : `http://103.145.138.200:5071${url}`
 
 }
