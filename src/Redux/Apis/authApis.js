@@ -83,6 +83,15 @@ const authApis = baseApi.injectEndpoints({
             },
             providesTags: ['Auth'],
         }),
+        fetchPartnerProfile: builder.query({
+            query: (id) => {
+                return {
+                    url: `swap/partner_profile/${id}`,
+                    method: 'GET'
+                }
+            },
+            providesTags: ['Auth'],
+        }),
         updateProfile: builder.mutation({
             query: (data) => {
                 return {
@@ -107,5 +116,6 @@ export const {
     useResendOtpMutation,
     useVerifyUserMutation,
     useResetPasswordMutation,
-    useUpdateProfileMutation
+    useUpdateProfileMutation,
+    useFetchPartnerProfileQuery
 } = authApis;

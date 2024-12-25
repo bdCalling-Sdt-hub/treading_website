@@ -9,7 +9,7 @@ export const baseApi = createApi({
         },
     }),
     endpoints: () => ({}),
-    tagTypes: ["Auth", 'category',],
+    tagTypes: ["Auth", 'category','message'],
 })
 
 

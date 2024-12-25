@@ -12,7 +12,7 @@ import { useUserData } from '../../../ContextProvider/UserDataProvider'
 const ProductCard = ({ data }) => {
     const navigate = useNavigate()
     const { user } = useUserData()
-    const { data: myProducts } = useFetchMyProductsQuery()
+    const { data: myProducts } = useFetchMyProductsQuery({})
     const [open, setOpen] = useState(false)
     const [selectedProduct, setSelectedProduct] = useState()
     const [addToSwap] = useAddToSwapMutation()

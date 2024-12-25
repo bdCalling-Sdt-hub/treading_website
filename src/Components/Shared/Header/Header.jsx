@@ -1,4 +1,4 @@
-import { Drawer, Dropdown, Popover } from "antd";
+import { Drawer, Dropdown, FloatButton, Popover } from "antd";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
 import { IoLanguage, IoNotificationsOutline } from "react-icons/io5";
@@ -6,10 +6,13 @@ import { Link, NavLink } from "react-router-dom";
 import { useUserData } from "../../../ContextProvider/UserDataProvider";
 import NotificationsList from "./NotificationsList";
 import { imageUrl } from "../../../Redux/States/baseApi";
+import { FaPause, FaPlay } from "react-icons/fa";
+import ReactPlayer from "react-player";
 
 const Header = () => {
     const { user, isFetching, isLoading, language, setLanguage } = useUserData();
     const [open, setOpen] = useState(false);
+    const [play, setPlay] = useState(false)
     // console.log(user?.data) 
     const items = [
         {
@@ -23,9 +26,9 @@ const Header = () => {
         {
             key: '2',
             label: (
-                <button onClick={() =>{
+                <button onClick={() => {
                     localStorage.removeItem('token')
-                    window.location.href='/'
+                    window.location.href = '/'
                 }}>
                     {language === "eng" ? "Log Out" : "Cerrar sesión"}
                 </button>
@@ -62,6 +65,18 @@ const Header = () => {
 
     return (
         <div className="bg-[#5D91F4] py-2 text-white">
+            <FloatButton
+                icon={play ?  <FaPause /> :<FaPlay />}
+                onClick={() => setPlay(!play)} />
+            <ReactPlayer
+                url={`https://www.youtube.com/watch?v=fsgjKzO_X70`}
+                playing={play}
+                controls={false}
+                loop={true}
+                height="0"
+                width="0"
+                style={{ display: "none" }}
+            />
             <div className='container mx-auto'>
                 <div className='flex justify-between items-center gap-2'>
                     <div className='flex justify-start items-center gap-3'>

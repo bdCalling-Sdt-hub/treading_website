@@ -62,9 +62,9 @@ const MyProfile = () => {
             })
     }
     const Navigate = useNavigate()
-
+    console.log(selectedItem)
     const handleSendMessage = () => {
-        Navigate('/chat')
+        Navigate(`/chat?id=${selectedItem?.userFrom?._id}`)
     }
 
     const handleApprove = () => {

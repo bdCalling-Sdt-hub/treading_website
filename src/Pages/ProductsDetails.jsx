@@ -19,7 +19,7 @@ const ProductsDetails = () => {
     const { data } = useFetchProductDetailsQuery(id)
     const { user } = useUserData()
     const [selectedProduct, setSelectedProduct] = useState()
-    const { data: myProducts } = useFetchMyProductsQuery()
+    const { data: myProducts } = useFetchMyProductsQuery({})
     const [imageIndex, setImageIndex] = useState(0)//.slice(0, 4)?
     const images = data?.data?.product?.images?.map(item => item) || []//['https://i.ibb.co/Z2zHG1r/Rectangle-210.png', 'https://i.ibb.co/WysMnRt/Rectangle-210-1.png', 'https://i.ibb.co/ZYgRK5t/Rectangle-210-2.png']
     const handleSubmit = () => {

@@ -56,7 +56,7 @@ export const router = createBrowserRouter([
                 element: <Agreements />
             },
             {
-                path: '/profile',
+                path: '/profile/:id',
                 element: <Profile />
             },
             {
