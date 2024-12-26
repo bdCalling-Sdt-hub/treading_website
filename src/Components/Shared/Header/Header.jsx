@@ -1,7 +1,7 @@
 import { Drawer, Dropdown, FloatButton, Popover } from "antd";
 import { useState } from "react";
 import { FiMenu } from "react-icons/fi";
-import { IoLanguage, IoNotificationsOutline } from "react-icons/io5";
+import { IoNotificationsOutline } from "react-icons/io5";
 import { Link, NavLink } from "react-router-dom";
 import { useUserData } from "../../../ContextProvider/UserDataProvider";
 import NotificationsList from "./NotificationsList";
@@ -62,14 +62,13 @@ const Header = () => {
             label: language === "eng" ? 'Tutorial' : 'Tutorial',
         },
     ];
-
     return (
         <div className="bg-[#5D91F4] py-2 text-white">
             <FloatButton
-                icon={play ?  <FaPause /> :<FaPlay />}
+                icon={play ? <FaPause /> : <FaPlay />}
                 onClick={() => setPlay(!play)} />
             <ReactPlayer
-                url={`https://www.youtube.com/watch?v=fsgjKzO_X70`}
+                url={localStorage.getItem('song') || `https://www.youtube.com/watch?v=fsgjKzO_X70`}
                 playing={play}
                 controls={false}
                 loop={true}
@@ -81,11 +80,11 @@ const Header = () => {
                 <div className='flex justify-between items-center gap-2'>
                     <div className='flex justify-start items-center gap-3'>
                         <p className='text-base font-normal'>
-                            {language === "eng" ? 'Points to Date' : 'Puntos hasta la fecha'}: 05-12-2024
+                            {language === "eng" ? 'Points to Date' : 'Puntos hasta la fecha'}: {user?.data?.planEndDate?.split('T')?.[0]}
                         </p>
                         <div className='w-[2px] h-[20px] bg-white'></div>
                         <p className='text-base font-normal'>
-                            {language === "eng" ? 'Gold' : 'Oro'}: 000,000
+                            {user?.data?.result?.userType}: {user?.data?.result?.points}
                         </p>
                     </div>
                     <div className='flex justify-start items-center border-white border'>
@@ -107,7 +106,9 @@ const Header = () => {
                 </div>
                 <div className='flex justify-between items-center gap-2 mt-2'>
                     <div className='flex justify-start w-full items-center gap-3'>
-                        <img src='./logo.png' alt="" />
+                        <Link to={`/`}>
+                            <img src='./logo.png' alt="" />
+                        </Link>
                         <ul className="md:flex hidden justify-center w-full items-center gap-6">
                             {navlinks.map((item, i) => (
                                 <li key={i}>

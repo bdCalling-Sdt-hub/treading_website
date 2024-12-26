@@ -58,6 +58,7 @@ const Chat = () => {
         sendMessage({ data: formData }).unwrap()
             .then(res => {
                 // toast.success(res?.message)
+                setMessage('')
             }).catch(err => {
                 toast.error(err?.data?.message)
             })

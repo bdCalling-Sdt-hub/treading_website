@@ -1,10 +1,11 @@
 import { Form, Input } from 'antd'
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 import { FaEye, FaEyeSlash } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { useLoginUserMutation } from '../Redux/Apis/authApis'
 import toast from 'react-hot-toast'
+import FevSong from '../Components/Shared/FevSong'
 const Login = () => {
     const navigate = useNavigate()
     const location = useLocation()
@@ -23,6 +24,7 @@ const Login = () => {
             toast.error(err?.data?.message || 'Something went wrong')
         })
     }
+
     return (
         <div className='h-screen w-full md:grid flex flex-col gap-4 md:gap-0 grid-cols-2 text-[#4E4E4E]'>
             <div className='w-full h-full flex flex-col justify-center items-center bg-white'>
@@ -77,6 +79,7 @@ const Login = () => {
                             {isLoading ? "Loading please wait" : " Sign in"}
                         </button>
                     </Form>
+                    <FevSong />
                     <p className='text-center mt-2'>Don’t have a account? <Link to={`/sign-up`} className='text-blue-500'>Sign Up</Link> </p>
                 </div>
             </div>

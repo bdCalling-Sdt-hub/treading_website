@@ -13,6 +13,7 @@ import toast from 'react-hot-toast';
 import { useFetchMyProductsQuery } from '../Redux/Apis/productsApis';
 import { useApproveSwapMutation, useGetPendingSwapQuery, useGetSwapHistoryQuery, useRejectSwapMutation } from '../Redux/Apis/swapApis';
 import moment from 'moment';
+import FevSong from '../Components/Shared/FevSong';
 
 const MyProfile = () => {
     const [form] = Form.useForm()
@@ -162,7 +163,7 @@ const MyProfile = () => {
                             Swaping History
                         </button>
                         <button onClick={() => setTab('request')} className={`sm:text-xl text-sm  sm:font-bold pb-3 ${tab === 'request' ? 'border-b-4' : ''} border-blue-500`}>
-                            Swiping Request
+                            Swaping Request
                         </button>
                     </div>
                 }
@@ -210,6 +211,7 @@ const MyProfile = () => {
                                 </button>
                             </div>
                         </Form>
+                        <FevSong/>
                     </div>
                 }
 
