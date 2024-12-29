@@ -16,7 +16,7 @@ const UserDataProvider = ({ children }) => {
     }
     useEffect(() => {
         if (user?.data?.result?._id) {
-            const socket = io(`http://103.145.138.200:5071?id=${user?.data?.result?._id}`);
+            const socket = io(`http://138.197.37.38:5071?id=${user?.data?.result?._id}`);
             setSocket(socket);
             // socket.on("getOnlineUsers", (users) => {
             //     // setOnlineUsers(users);
