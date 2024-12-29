@@ -1,4 +1,4 @@
-import { Empty, Form, Input, Modal } from 'antd'
+import { Checkbox, Empty, Form, Input, Modal } from 'antd'
 import { useState } from 'react'
 import { FaEye, FaEyeSlash, FaLocationDot } from 'react-icons/fa6'
 import loginImage from '../assets/icon/loginImage.png'
@@ -15,7 +15,9 @@ const Register = () => {
     const [registerUser, { isLoading }] = useRegisterUserMutation()
     const navigate = useNavigate()
     const [open, setOpen] = useState(false)
+    const [isCheck, setIsCheck] = useState(true)
     const onFinish = (value) => {
+        if (!isCheck) return toast.error('please agree with terms and conditions') 
         registerUser({ data: value }).unwrap().then(res => {
             // //console.log(res)
             localStorage.setItem('email', value?.email)
@@ -135,7 +137,7 @@ const Register = () => {
                                 name={`remember`}
                             >
                                 <label className='flex justify-start items-center gap-2 whitespace-nowrap ' htmlFor='checkbox'>
-                                    <Input id='checkbox' type='checkbox' className='py-2' /> agree terms and condition
+                                    <Checkbox onClick={() => setIsCheck(!isCheck)} checked={isCheck} id='checkbox' type='checkbox' className='py-2' /> agree terms and condition
                                 </label>
                             </Form.Item>
                             <button type='button' onClick={() => {

@@ -152,9 +152,6 @@ const Agreements = () => {
             toast.error(err?.data?.message)
         })
     }
-    console.log({
-        data,myPlan
-    })
     return (
         <div id='assignment' className='py-8 container mx-auto bg-white my-10 rounded-md text-[#FEFEFE]'>
             <div className='max-w-[850px] bg-[#FAA316] py-10 flex flex-col gap-4 justify-center items-center mx-auto rounded-md'>

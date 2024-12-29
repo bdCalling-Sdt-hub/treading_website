@@ -1,7 +1,7 @@
 import { useState } from 'react'
 import { FaRegStar, FaStar } from 'react-icons/fa6'
 import { GrLocation } from 'react-icons/gr'
-import {  MdOutlineSwapVerticalCircle } from 'react-icons/md'
+import { MdOutlineSwapVerticalCircle } from 'react-icons/md'
 import ProductCard from '../Components/Shared/ProductCard/ProductCard'
 import { Link, useNavigate, useParams } from 'react-router-dom'
 import { useFetchMyProductsQuery, useFetchProductDetailsQuery } from '../Redux/Apis/productsApis'
@@ -85,18 +85,21 @@ const ProductsDetails = () => {
                     </div>
                 </div>
                 {/* <div className='flex justify-start items-center gap-7'> */}
-                <button onClick={() => {
-                    if (!user?.data?.result?._id) {
-                        navigate('/sign-in')
-                    }
-                    if (data?.user === user?.data?.result?._id) {
-                        toast.dismiss()
-                        return toast.error("This is you won Product")
-                    }
-                    setOpen(true)
-                }} className='flex justify-center items-center w-fit whitespace-nowrap p-3 px-[70px] text-base bg-blue-500 text-white mt-3 rounded-md'>
-                    <MdOutlineSwapVerticalCircle className='rotate-90 text-2xl' />   Add to Swap
-                </button>
+                {
+                    user?.data?.result?._id != data?.data?.product?.user?._id && <button onClick={() => {
+                        if (!user?.data?.result?._id) {
+                            navigate('/sign-in')
+                        }
+                        if (data?.user === user?.data?.result?._id) {
+                            toast.dismiss()
+                            return toast.error("This is you won Product")
+                        }
+                        setOpen(true)
+                    }} className='flex justify-center items-center w-fit whitespace-nowrap p-3 px-[70px] text-base bg-blue-500 text-white mt-3 rounded-md'>
+                        <MdOutlineSwapVerticalCircle className='rotate-90 text-2xl' />   Add to Swap
+                    </button>
+                }
+
                 {/* <button className='flex justify-center items-center w-fit whitespace-nowrap p-3  text-base bg-blue-500 text-white mt-3 rounded-md'>
                         <MdKeyboardArrowDown className=' text-2xl' />
                     </button> */}
