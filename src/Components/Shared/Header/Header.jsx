@@ -41,6 +41,7 @@ const Header = () => {
             path: '/',
             label: language === "eng" ? 'Home' : 'Inicio',
         },
+        user?.data?.result?.email &&
         {
             path: '/chat',
             label: language === "eng" ? 'Chat' : 'Chat',
@@ -49,11 +50,12 @@ const Header = () => {
             path: '/swap',
             label: language === "eng" ? 'Swap' : 'Intercambio',
         },
+        user?.data?.result?.email &&
         {
             path: '/swift-points',
             label: language === "eng" ? 'Swift Points' : 'Puntos Swift',
         },
-        {
+        user?.data?.result?.email && {
             path: '/agreements',
             label: language === "eng" ? 'Agreements' : 'Acuerdos',
         },

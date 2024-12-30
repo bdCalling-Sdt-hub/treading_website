@@ -1,4 +1,4 @@
-import { Input, Spin } from 'antd'
+import { Empty, Input, Spin } from 'antd'
 import { useEffect, useRef, useState } from 'react'
 import { BsFillTriangleFill, BsThreeDotsVertical } from 'react-icons/bs'
 import { FaArrowLeft } from 'react-icons/fa'
@@ -89,27 +89,30 @@ const Chat = () => {
                 </div>
             </div>
             <div className={`${tab ? ' col-span-4 hidden lg:block' : 'col-span-7 lg:col-span-4'} bg-white p-3 rounded-md`}>
-                <div className='flex justify-between items-center gap-2  w-full rounded-md p-1 pb-4 border-b' >
-                    <div onClick={() => {
-                        navigate(`/profile/${data?.userDetails?._id}`)
-                    }} className='flex justify-start items-center gap-2'>
-                        <button onClick={(e) => {
-                            e.stopPropagation()
-                            setTab(true)
+                {
+                    data?.userDetails?.profile_image ? <div className='flex justify-between items-center gap-2  w-full rounded-md p-1 pb-4 border-b' >
+                        <div onClick={() => {
+                            navigate(`/profile/${data?.userDetails?._id}`)
+                        }} className='flex justify-start items-center gap-2'>
+                            <button onClick={(e) => {
+                                e.stopPropagation()
+                                setTab(true)
 
-                        }} className='p-3 bg-gray-300 text-xl lg:hidden block'>
-                            <FaArrowLeft />
-                        </button>
-                        <img className='w-16 h-16 rounded-full object-cover' src={imageUrl(data?.userDetails?.profile_image)} alt="" />
-                        <div>
-                            <p className='text-[#4E4E4E] text-lg font-medium'>{data?.userDetails?.name}</p>
-                            {/* <p className='text-[#666666] text-sm '>Hi Friends, Wassup!</p> */}
+                            }} className='p-3 bg-gray-300 text-xl lg:hidden block'>
+                                <FaArrowLeft />
+                            </button>
+                            <img className='w-16 h-16 rounded-full object-cover' src={imageUrl(data?.userDetails?.profile_image)} alt="" />
+                            <div>
+                                <p className='text-[#4E4E4E] text-lg font-medium'>{data?.userDetails?.name}</p>
+                                {/* <p className='text-[#666666] text-sm '>Hi Friends, Wassup!</p> */}
+                            </div>
                         </div>
-                    </div>
-                    <Link to={`/profile/${data?.userDetails?._id}`}>
-                        <IoIosArrowForward size={30} />
-                    </Link>
-                </div>
+                        <Link to={`/profile/${data?.userDetails?._id}`}>
+                            <IoIosArrowForward size={30} />
+                        </Link>
+                    </div> : <Empty />
+                }
+
                 <div ref={messageRef} className=' h-[600px] overflow-y-scroll py-2'>
                     {
                         (isLoading) ? <div className='flex justify-center items-center h-full'>

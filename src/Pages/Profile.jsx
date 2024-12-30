@@ -10,7 +10,7 @@ import { imageUrl } from '../Redux/States/baseApi';
 const Profile = () => {
     const { id } = useParams()
     const { data } = useFetchPartnerProfileQuery(id)
-    console.log(data)
+    // console.log(data)
     return (
         <>
             <div className='container mx-auto bg-white'>
