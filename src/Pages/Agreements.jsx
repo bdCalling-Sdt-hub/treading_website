@@ -254,7 +254,8 @@ const Agreements = () => {
               onClick={() => setOpenPaymentModal(true)}
               disabled={
                 myPlan?.data?.status === "pending" ||
-                myPlan?.data?.payment_status == "paid"
+                myPlan?.data?.payment_status == "paid" ||
+                plan?.fee == 0
               }
               className="py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white"
             >
