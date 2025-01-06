@@ -49,9 +49,15 @@ const MemberShipOptions = () => {
                   ? "Per Months"
                   : "Points Need to Auto Upgrade"}{" "}
               </p>
-              {item?.planName !== "Trial" && (
+              {item?.planName === "Trial" ? (
+                <></>
+              ) : item?.planName === "Diamond" ? (
+                <> {item?.pointRangeEnd}++ points</>
+              ) : item?.planName === "Gold" ? (
+                <>From (0-{item?.pointRangeEnd}) points</>
+              ) : (
                 <p className="text-xl font-semibold">
-                  From ({item?.pointRangeStart}-{item?.pointRangeEnd}) points
+                  From (24999-{item?.pointRangeEnd}) points
                 </p>
               )}
 
