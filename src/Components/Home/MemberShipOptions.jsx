@@ -38,8 +38,10 @@ const MemberShipOptions = () => {
             >
               <p className="text-2xl font-semibold">{item?.planName}</p>
               <p className="text-7xl font-bold">
-                {item?.planName === "Platinum" || item?.planName === "Diamond"
-                  ? item?.pointRangeStart
+                {item?.planName === "Platinum"
+                  ? "25,000"
+                  : item?.planName === "Diamond"
+                  ? "100,000"
                   : `$${item?.fee}`}{" "}
               </p>
               <p className="text-xl font-semibold">
@@ -52,7 +54,7 @@ const MemberShipOptions = () => {
               {item?.planName === "Trial" ? (
                 <></>
               ) : item?.planName === "Diamond" ? (
-                <> {item?.pointRangeEnd}++ points</>
+                <> {item?.pointRangeEnd}+ points</>
               ) : item?.planName === "Gold" ? (
                 <>From (0-{item?.pointRangeEnd}) points</>
               ) : (
