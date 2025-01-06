@@ -31,11 +31,11 @@ const Footer = () => {
                   ? "Rules & Regulation"
                   : "Reglas y Regulaciones"}
               </Link>
-              <Link to={`/careers-opportunities`}>
+              {/* <Link to={`/careers-opportunities`}>
                 {language === "eng"
                   ? "Careers + Job Opportunities"
                   : "Carreras + Oportunidades Laborales"}
-              </Link>
+              </Link> */}
             </div>
           </div>
           <div className="flex flex-col space-y-4">
@@ -95,8 +95,8 @@ const Footer = () => {
         <div className="flex items-center justify-between pt-6 text-sm">
           <span>
             {language === "eng"
-              ? "© Copyright 1986. All Rights Reserved."
-              : "© Copyright 1986. Todos los Derechos Reservados."}
+              ? "© Copyright 2024. All Rights Reserved."
+              : "© Copyright 2024. Todos los Derechos Reservados."}
           </span>
           <span className="flex justify-end items-center gap-3">
             <FaFacebook />
