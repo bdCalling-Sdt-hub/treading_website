@@ -9,8 +9,11 @@ const Footer = () => {
   const footerLinks = [
     { path: "/about-us", label: { eng: "About Us", es: "Sobre Nosotros" } },
     { path: "/facts", label: { eng: "Facts", es: "Hechos" } },
-    { path: "/help-center", label: { eng: "Help Center", es: "Centro de Ayuda" } },
-    { path: "/sponsor-ship", label: { eng: "Sponsorship", es: "Patrocinio" } },
+    {
+      path: "/help-center",
+      label: { eng: "Help Center", es: "Centro de Ayuda" },
+    },
+    // { path: "/sponsor-ship", label: { eng: "Sponsorship", es: "Patrocinio" } },
     {
       path: "/rules-regulation",
       label: { eng: "Rules & Regulation", es: "Reglas y Regulaciones" },
@@ -20,9 +23,8 @@ const Footer = () => {
   return (
     <footer className="p-6 bg-[#3475F1] text-white mt-10">
       <div className="container mx-auto">
-
         <div className="w-full h-[2px] bg-white mt-6"></div>
-        <div className="flex items-center justify-between pt-6 text-sm">
+        <div className="flex items-center flex-col md:flex-row gap-4 justify-between pt-6 text-sm">
           <span>
             {language === "eng"
               ? "© Copyright 2024. All Rights Reserved."

@@ -34,7 +34,6 @@ const PreQuestions = () => {
       plan_id: id,
       payment_status: payment_status,
     };
-    console.log(formattedValues);
     BuySubscription(formattedValues)
       .unwrap()
       .then((res) => {
@@ -79,10 +78,7 @@ const PreQuestions = () => {
         //   aboutSwap: "Swap details go here.",
         //   departureArrival: moment("2024-12-01"),
         //   datesOfTravel: moment("2024-12-10"),
-        //   startDestination: "City A",
-        //   startState: "State A",
-        //   travelStartCounty: "County A",
-        //   travelStartCountry: "Country A",
+
         //   endDestination: "City B",
         //   endState: "State B",
         //   endCounty: "County B",

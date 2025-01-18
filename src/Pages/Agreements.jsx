@@ -125,6 +125,7 @@ const Agreements = () => {
         user?.data?.result?.points >= plan.pointRangeStart &&
         user?.data?.result?.points <= plan.pointRangeEnd
     ) || {};
+
   const monthlyFee = currentPlan?.fee || "N/A";
   const percentage =
     ((user?.data?.result?.points - minPointRange) /
@@ -134,6 +135,7 @@ const Agreements = () => {
     if (!myPlan || !data) {
       return;
     }
+
     const filterData = data?.data?.subscriptions?.filter(
       (item) => item?._id === myPlan?.data?.plan_id?._id
     );
@@ -146,11 +148,13 @@ const Agreements = () => {
     "Exclusive offers",
     "Partner benefits",
   ];
+
   useEffect(() => {
     if ((!user || !user?.data?.result?._id) && (!isFetching || !isLoading)) {
       navigate("/sign-in", { state: { from: location?.pathname } });
     }
   }, [user, isFetching, isLoading, navigate, location]);
+
   const handlePayment = (data) => {
     // console.log(data)
     const formateData = {
@@ -172,6 +176,7 @@ const Agreements = () => {
         toast.error(err?.data?.message);
       });
   };
+
   return (
     <div
       id="assignment"
@@ -234,57 +239,62 @@ const Agreements = () => {
           </div>
         </div>
       </div>
+      {myPlan?.data && (
+        <div className="mt-10 max-w-[650px] flex flex-col gap-4 justify-center items-center mx-auto rounded-md p-4 border text-[#4F4F4F] capitalize">
+          <p className="font-medium">Monthly Subscription Fee</p>
+          <p className="text-[#3475F1] text-3xl font-bold">
+            {plan?.fee ? `$${plan?.fee}` : "your using a trial"}
+          </p>
+          <div className="w-[80%] text-left">
+            <div className="px-4 box-border">
+              <p className="font-medium">Your Membership Benefits:</p>
+              {benefit.map((item, i) => (
+                <p
+                  className="flex justify-start items-center gap-2 my-2"
+                  key={i}
+                >
+                  <FaCircleCheck className="text-blue-500" /> {item}
+                </p>
+              ))}
+            </div>
+            {myPlan?.data?.plan_type !== "Trial" ? (
+              <button
+                onClick={() => setOpenPaymentModal(true)}
+                disabled={
+                  myPlan?.data?.status === "pending" ||
+                  myPlan?.data?.payment_status == "paid" ||
+                  plan?.fee == 0
+                }
+                className="py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white"
+              >
+                {myPlan?.data?.status === "pending"
+                  ? "wait For Admins Approval"
+                  : myPlan?.data?.payment_status == "paid"
+                  ? "Already Paid For This Month"
+                  : "Pay Now"}
+              </button>
+            ) : (
+              <button
+                disabled
+                className="py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white"
+              >
+                {myPlan?.data?.plan_type == "Trial" &&
+                myPlan?.data?.status === "pending"
+                  ? "wait For Admins Approval"
+                  : "7 days free Trial"}
+              </button>
+            )}
 
-      <div className="mt-10 max-w-[650px] flex flex-col gap-4 justify-center items-center mx-auto rounded-md p-4 border text-[#4F4F4F] capitalize">
-        <p className="font-medium">Monthly Subscription Fee</p>
-        <p className="text-[#3475F1] text-3xl font-bold">
-          {plan?.fee ? `$${plan?.fee}` : "your using a trial"}
-        </p>
-        <div className="w-[80%] text-left">
-          <div className="px-4 box-border">
-            <p className="font-medium">Your Membership Benefits:</p>
-            {benefit.map((item, i) => (
-              <p className="flex justify-start items-center gap-2 my-2" key={i}>
-                <FaCircleCheck className="text-blue-500" /> {item}
+            {
+              <p className="text-center mt-5 px-8">
+                Pay your subscription fee in time otherwise you may lose your
+                points or downgrade your membership.
               </p>
-            ))}
+            }
           </div>
-          {myPlan?.data?.plan_type !== "Trial" ? (
-            <button
-              onClick={() => setOpenPaymentModal(true)}
-              disabled={
-                myPlan?.data?.status === "pending" ||
-                myPlan?.data?.payment_status == "paid" ||
-                plan?.fee == 0
-              }
-              className="py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white"
-            >
-              {myPlan?.data?.status === "pending"
-                ? "wait For Admins Approval"
-                : myPlan?.data?.payment_status == "paid"
-                ? "Already Paid For This Month"
-                : "Pay Now"}
-            </button>
-          ) : (
-            <button
-              disabled
-              className="py-3 rounded-md mt-3 w-full disabled:bg-gray-400 bg-blue-500 text-white"
-            >
-              {myPlan?.data?.plan_type == "Trial" &&
-              myPlan?.data?.status === "pending"
-                ? "wait For Admins Approval"
-                : "7 days free Trial"}
-            </button>
-          )}
-
-          {
-            <p className="text-center mt-5 px-8">
-              Pay your subscription fee in time otherwise you may lose your
-              points or downgrade your membership.
-            </p>
-          }
         </div>
-      </div>
+      )}
+
       <Modal
         open={openPaymentModal}
         onCancel={() => setOpenPaymentModal(false)}

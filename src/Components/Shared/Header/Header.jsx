@@ -85,19 +85,21 @@ const Header = () => {
       <div className="container mx-auto">
         <div className="flex justify-between items-center gap-2">
           <div className="flex justify-start items-center gap-3">
-            {user?.data && (
+            {user?.data ? (
               <>
                 <p className="text-base font-normal">
                   {language === "eng"
                     ? "Points to Date"
                     : "Puntos hasta la fecha"}
-                  : {user?.data?.planEndDate?.split("T")?.[0]}
+                  : {user?.data?.planEndDate?.split("T")?.[0] || "no point"}
                 </p>
                 <div className="w-[2px] h-[20px] bg-white"></div>
                 <p className="text-base font-normal">
                   {user?.data?.result?.userType}: {user?.data?.result?.points}
                 </p>
               </>
+            ) : (
+              <p>guest</p>
             )}
           </div>
           <div className="flex justify-start items-center border-white border">

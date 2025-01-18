@@ -1,4 +1,3 @@
-import React from "react";
 import { Link } from "react-router-dom";
 import {
   useFetchMyPlnQuery,
@@ -10,9 +9,6 @@ const MemberShipOptions = () => {
   const { data } = useFetchSubscriptionPackageQuery();
   const { data: profile } = useFetchProfileQuery();
   const { data: myPlan } = useFetchMyPlnQuery();
-  // console.log(data?.data) myPlan,
-  // console.log('member shop options',data)
-  console.log(profile);
   return (
     <div className="container mx-auto mt-32 mb-28">
       <p
@@ -64,7 +60,11 @@ const MemberShipOptions = () => {
               )}
 
               {myPlan?.data?.plan_type === item?.planName ? (
-                <p className="font-bold uppercase">Active Now</p>
+                myPlan?.data?.status === "pending" ? (
+                  <p className="font-bold">Awaiting Approval</p>
+                ) : (
+                  <p className="font-bold uppercase">Active Now</p>
+                )
               ) : !myPlan?.data && item?.planName === "Trial" ? (
                 <Link
                   Link

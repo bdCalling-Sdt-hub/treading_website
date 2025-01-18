@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ProductCard from "../Components/Shared/ProductCard/ProductCard";
-import { Input, Pagination } from "antd";
+import { Empty, Input, Pagination } from "antd";
 import { IoSearch } from "react-icons/io5";
 import earth from "../assets/icon/earth.png";
 import CategoryList from "../Components/Shared/Category/CategoryList";
@@ -30,6 +30,7 @@ const Swap = () => {
   });
 
   const { data: myPlan } = useFetchMyPlnQuery();
+  
   return (
     <div className="flex justify-start items-start flex-col md:grid-cols-4 lg:grid grid-cols-5  gap-2 container mx-auto mt-6">
       <div
@@ -69,9 +70,13 @@ const Swap = () => {
           }
         </div>
         <div className="pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {data?.data?.map((item, i) => {
-            return <ProductCard key={i} data={item} />;
-          })}
+          {data?.data?.length <= 0 ? (
+            <Empty className="col-span-4" />
+          ) : (
+            data?.data?.map((item, i) => {
+              return <ProductCard key={i} data={item} />;
+            })
+          )}
         </div>
         <Pagination
           total={data?.meta?.total}
