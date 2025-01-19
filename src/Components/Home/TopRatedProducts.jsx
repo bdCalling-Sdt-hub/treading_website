@@ -19,8 +19,8 @@ const TopRatedProducts = () => {
           view all
         </Link>
       </div>
-      <div className="pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
-        <div className="col-span-2">
+      <div className="pt-6 grid-cols-1 md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
+        <div className="col-span-1 md:col-span-2">
           <Banner2 />
         </div>
         {isLoading

@@ -14,14 +14,12 @@ const ResetPassword = () => {
     const onFinish = (value) => {
         value.email = localStorage.getItem('email')
         resetPassword(value).unwrap().then(res => {
-            //console.log(res)
             toast.dismiss()
             toast.success(res?.message || 'Password Reset Successfully')
             localStorage.removeItem('email')
             localStorage.removeItem('token')
             navigate('/sign-in')
         }).catch(err => {
-            //console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message || 'Something went wrong')
         })

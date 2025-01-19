@@ -1,3 +1,4 @@
+import { data } from "autoprefixer";
 import { baseApi } from "../States/baseApi";
 
 const swapApis = baseApi.injectEndpoints({
@@ -49,6 +50,13 @@ const swapApis = baseApi.injectEndpoints({
             },
             invalidatesTags: ['swap'],
         }),
+        reportSwap: builder.mutation({
+            query: ({ data }) => ({
+                url: `/swap/create-report`,
+                method: `POST`,
+                body: data
+            })
+        })
 
     }),
 });
@@ -57,5 +65,6 @@ export const {
     useGetSwapHistoryQuery,
     useGetPendingSwapQuery,
     useApproveSwapMutation,
-    useRejectSwapMutation
+    useRejectSwapMutation,
+    useReportSwapMutation
 } = swapApis;

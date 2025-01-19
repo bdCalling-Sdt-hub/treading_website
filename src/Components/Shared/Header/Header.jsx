@@ -13,7 +13,6 @@ const Header = () => {
   const { user, isFetching, isLoading, language, setLanguage } = useUserData();
   const [open, setOpen] = useState(false);
   const [play, setPlay] = useState(false);
-  // console.log(user?.data)
   const items = [
     {
       key: "1",

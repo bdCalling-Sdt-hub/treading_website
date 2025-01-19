@@ -1,8 +1,7 @@
-import { Carousel, Form, Input, Modal, Pagination, Spin } from "antd";
+import { Carousel, Form, Input, Modal, Pagination, Spin, Upload } from "antd";
 import { useEffect, useState } from "react";
-import { FaInfo, FaRegStar, FaStar } from "react-icons/fa6";
+import { FaInfo, FaPlus, FaRegStar, FaStar } from "react-icons/fa6";
 import { Link, useNavigate } from "react-router-dom";
-import ProductCard from "../Components/Shared/ProductCard/ProductCard";
 import { IoMdSwap } from "react-icons/io";
 import TextArea from "antd/es/input/TextArea";
 import { GrLocation } from "react-icons/gr";
@@ -22,9 +21,11 @@ import {
   useGetPendingSwapQuery,
   useGetSwapHistoryQuery,
   useRejectSwapMutation,
+  useReportSwapMutation,
 } from "../Redux/Apis/swapApis";
 import moment from "moment";
 import FevSong from "../Components/Shared/FevSong";
+import MyProductCard from "../Components/Shared/ProductCard/MyProductCard";
 
 const MyProfile = () => {
   const [form] = Form.useForm();
@@ -33,6 +34,7 @@ const MyProfile = () => {
   const [tab, setTab] = useState("info");
   const [rating, setRating] = useState(3);
   const [open, setOpen] = useState(false);
+  const [openReport, setOpenReport] = useState(false);
   const [OpenAcceptModal, setOpenAcceptModal] = useState(false);
   const [OpenDetailsModal, setOpenDetailsModal] = useState(false);
   const { data } = useFetchProfileQuery();
@@ -45,7 +47,8 @@ const MyProfile = () => {
   const [reject, { isLoading: rejecting }] = useRejectSwapMutation();
   const [review, { isLoading: reviewing }] = useAddReviewMutation();
   const [selectedItem, setSelectedItem] = useState(null);
-
+  const [fileList, setFileList] = useState([]);
+  const [report, reporting] = useReportSwapMutation();
   const onFinish = (value) => {
     if (image) {
       value.profile_image = image;
@@ -73,6 +76,35 @@ const MyProfile = () => {
       .then((res) => {
         toast.success(res?.message);
         setOpen(false);
+        setSelectedItem(null);
+      })
+      .catch((err) => {
+        toast.error(err?.data?.message);
+      });
+  };
+  const onReport = (value) => {
+    const data = {
+      againstUser: selectedItem?.productTo?.user?._id,
+      // reportFrom: selectedItem?.productFrom?.user?._id,
+      description: value?.report,
+      swapId: selectedItem?._id,
+    };
+    const formData = new FormData();
+    Object.keys(data)?.map((key) => {
+      formData.append(key, data[key]);
+    });
+    console.log(value?.image.fileList);
+    if (value?.image.fileList) {
+      value?.image.fileList?.map((item) => {
+        formData.append("reportImage", item?.originFileObj);
+      });
+    }
+    report({ data: formData })
+      .unwrap()
+      .then((res) => {
+        console.log(res);
+        toast.success(res?.message);
+        setOpenReport(false);
         setSelectedItem(null);
       })
       .catch((err) => {
@@ -110,12 +142,14 @@ const MyProfile = () => {
         toast.error(err?.data?.message);
       });
   };
-  console.log(data?.data?.result);
+
   useEffect(() => {
     if (data?.data?.result) {
       form.setFieldsValue(data?.data?.result);
     }
   }, [form, data?.data?.result]);
+
+  const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
   return (
     <>
@@ -318,9 +352,18 @@ const MyProfile = () => {
                     <button
                       onClick={() => {
                         setSelectedItem(item);
+                        setOpenReport(true);
+                      }}
+                      className="text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit"
+                    >
+                      Report
+                    </button>
+                    <button
+                      onClick={() => {
+                        setSelectedItem(item);
                         setOpen(true);
                       }}
-                      className="text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit"
+                      className="text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit ml-2"
                     >
                       Review
                     </button>
@@ -409,7 +452,7 @@ const MyProfile = () => {
         </div>
         <div className="pt-6 flex justify-center items-center flex-col md:gap-2 gap-4 md:grid md:grid-cols-2 lg:grid-cols-4">
           {myProducts?.data.map((item, i) => {
-            return <ProductCard key={i} data={item} />;
+            return <MyProductCard key={i} data={item} />;
           })}
         </div>
         <div className="flex justify-center items-center">
@@ -649,6 +692,65 @@ const MyProfile = () => {
               </div>
             </div>
           </div>
+        </div>
+      </Modal>
+
+      <Modal
+        open={openReport}
+        onCancel={() => setOpenReport(false)}
+        footer={false}
+        centered
+      >
+        <div>
+          <p className="text-red-500 text-2xl font-bold">Report</p>
+
+          <Form layout="vertical" onFinish={onReport} className="mt-4">
+            <Form.Item
+              label="Report"
+              name={`report`}
+              rules={[
+                {
+                  message: "report is required",
+                  required: true,
+                },
+              ]}
+            >
+              <TextArea
+                style={{
+                  resize: "none",
+                  height: 200,
+                }}
+              />
+            </Form.Item>
+            <Form.Item
+              name={`image`}
+              rules={[
+                {
+                  message: "image is required",
+                  required: true,
+                },
+              ]}
+            >
+              <Upload
+                fileList={fileList}
+                onChange={handleChange}
+                beforeUpload={() => false}
+              >
+                {fileList.length >= 8 ? null : (
+                  <button
+                    type="button"
+                    className="flex justify-center items-center flex-col border-dashed border p-5 rounded-md"
+                  >
+                    <FaPlus />
+                    <p>Upload</p>
+                  </button>
+                )}
+              </Upload>
+            </Form.Item>
+            <button className="w-full py-3 bg-blue-500 text-white mt-5 rounded-md">
+              {reporting ? <Spin /> : "Submit"}
+            </button>
+          </Form>
         </div>
       </Modal>
     </>

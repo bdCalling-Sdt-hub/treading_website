@@ -32,11 +32,21 @@ const addApis = baseApi.injectEndpoints({
             },
             providesTags: ['about'],
         }),
+        fetchSmallBanner: builder.query({
+            query: () => {
+                return {
+                    url: '/adds/get-small-banner',
+                    method: 'GET',
+                }
+            },
+            providesTags: ['banner'],
+        }),
 
     }),
 });
 export const {
     useFetchBannerQuery,
     useFetchAboutQuery,
-    useFetchRulesQuery
+    useFetchRulesQuery,
+    useFetchSmallBannerQuery
 } = addApis;

@@ -12,7 +12,6 @@ import { useFetchMyPlnQuery } from "../Redux/Apis/subscriptionApis";
 
 const AddProducts = () => {
   const { data: myPlan } = useFetchMyPlnQuery();
-  console.log(myPlan);
   const navigate = useNavigate();
   const [form] = Form.useForm();
   const [image, setImage] = useState([]);
@@ -44,7 +43,6 @@ const AddProducts = () => {
       formData.append("product_img", item);
     });
     formData.forEach((e) => {
-      //console.log(e)
     });
     addProduct(formData)
       .unwrap()

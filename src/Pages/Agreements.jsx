@@ -141,7 +141,6 @@ const Agreements = () => {
     );
     setPlan(filterData?.[0]);
   }, [myPlan, data]);
-  // console.log(myPlan)
   const benefit = [
     "Can exchange products",
     "Earn upto 1000 points by a single swap",
@@ -156,7 +155,6 @@ const Agreements = () => {
   }, [user, isFetching, isLoading, navigate, location]);
 
   const handlePayment = (data) => {
-    // console.log(data)
     const formateData = {
       amount: Number(plan?.fee) || 0,
       user: user?.data?.result?._id,
@@ -166,13 +164,11 @@ const Agreements = () => {
     };
     confirmPayment(formateData)
       .then((res) => {
-        // console.log(res)
         toast.success(res?.data?.message);
         setOpenPaymentModal(false);
         window.location.reload();
       })
       .catch((err) => {
-        // console.log(err)
         toast.error(err?.data?.message);
       });
   };

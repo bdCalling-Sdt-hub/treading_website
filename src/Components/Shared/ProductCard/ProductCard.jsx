@@ -23,19 +23,15 @@ const ProductCard = ({ data }) => {
             "productTo": data?._id
         }
         addToSwap(SwapData).unwrap().then(res => {
-            // console.log(res)
             toast.dismiss()
             toast.success(res?.message)
             setOpen(false)
             setSelectedProduct({})
         }).catch(err => {
-            // console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message)
         })
-        // console.log('SwapData', SwapData)
-        //console.log()
-        // console.log('myProducts', myProducts)
+
     }
     return (
         <div className='p-4 bg-white rounded-md text-center flex flex-col justify-center items-center gap-2 w-full'>

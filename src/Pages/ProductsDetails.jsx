@@ -29,19 +29,15 @@ const ProductsDetails = () => {
             "productTo": data?.data?.product?._id
         }
         addToSwap(SwapData).unwrap().then(res => {
-            // console.log(res)
             toast.dismiss()
             toast.success(res?.message)
             setOpen(false)
             setSelectedProduct({})
         }).catch(err => {
-            // console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message)
         })
-        // console.log('SwapData', SwapData)
-        //console.log()
-        // console.log('myProducts', myProducts)
+
     }
     return (
         <div className='container mx-auto md:grid grid-cols-3 flex flex-col mt-10 gap-6'>

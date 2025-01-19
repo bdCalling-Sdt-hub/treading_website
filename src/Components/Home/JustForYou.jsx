@@ -5,7 +5,6 @@ import { Link } from 'react-router-dom'
 
 const JustForYou = () => {
     const { data } = useFetchJustForMeQuery()
-    //console.log(data?.data)
     return (
         <div className='container mx-auto mt-10'>
             <p id='sectionHeading' className='text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3'>Just For You</p>

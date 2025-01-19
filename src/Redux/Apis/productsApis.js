@@ -70,7 +70,13 @@ const productsApis = baseApi.injectEndpoints({
             },
             invalidatesTags: ['products'],
         }),
-
+        deleteProduct: builder.mutation({
+            query: (id) => ({
+                url: `product/delete/${id}`,
+                method: `DELETE`
+            }),
+            invalidatesTags: ['products']
+        })
     }),
 });
 
@@ -80,5 +86,6 @@ export const {
     useAddProductsMutation,
     useFetchJustForMeQuery,
     useFetchProductDetailsQuery,
-    useFetchAllProductsQuery
+    useFetchAllProductsQuery,
+    useDeleteProductMutation
 } = productsApis;

@@ -19,7 +19,6 @@ const Login = () => {
             navigate(location?.state || '/')
             window.location.reload()
         }).catch(err => {
-            //console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message || 'Something went wrong')
         })

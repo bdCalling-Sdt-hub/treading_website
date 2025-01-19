@@ -13,20 +13,17 @@ const VerifyCode = () => {
             code: value?.code
         }
         verifyCode(data).unwrap().then(res => {
-            // //console.log(res)
             toast.dismiss()
             toast.success(res?.message || 'Verified Successfully')
             // localStorage.removeItem('email')
             navigate('/reset-password')
         }).catch(err => {
-            // //console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message || 'Something went wrong')
         })
         // navigate('/')
     }
     const onChange = (text) => {
-        //console.log('onChange:', text);
     };
     //resend otp 
     const [sendOtp, { isLoading: sendingOtp }] = useResendOtpMutation()

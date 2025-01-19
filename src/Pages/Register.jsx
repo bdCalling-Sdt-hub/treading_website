@@ -23,7 +23,6 @@ const Register = () => {
     registerUser({ data: value })
       .unwrap()
       .then((res) => {
-        // //console.log(res)
         localStorage.setItem("email", value?.email);
         toast.dismiss();
         toast.success(res?.message || "Registered Successfully");

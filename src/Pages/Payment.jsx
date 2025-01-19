@@ -5,7 +5,6 @@ import { useUserData } from '../ContextProvider/UserDataProvider';
 
 const Payment = () => {
     const handlePayment = (data) => {
-        console.log(data)
    
     }
     return (

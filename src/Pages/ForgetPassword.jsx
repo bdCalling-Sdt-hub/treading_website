@@ -9,13 +9,11 @@ const ForgetPassword = () => {
     const navigate = useNavigate()
     const onFinish = (value) => {
         sendOtp(value?.email).unwrap().then(res => {
-            //console.log(res)
             localStorage.setItem('email', value?.email)
             toast.dismiss()
             toast.success(res?.message || 'Otp send Successfully')
             navigate('/verify-otp')
         }).catch(err => {
-            //console.log(err)
             toast.dismiss()
             toast.error(err?.data?.message || 'Something went wrong')
         })

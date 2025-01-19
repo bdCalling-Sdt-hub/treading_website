@@ -43,7 +43,6 @@ const CheckoutForm = ({ onPaymentSuccess, amount }) => {
         createIntent(data)
             .unwrap()
             .then((res) => {
-                // console.log('res?.data', res?.data);
                 setClientSecret(res?.data?.client_secret);
             }).catch((err) => {
                 toast.error(err?.data?.message || 'something went wrong')
@@ -82,7 +81,6 @@ const CheckoutForm = ({ onPaymentSuccess, amount }) => {
             setPaymentMethod(null);
             setLoading(false);
         } else {
-            // console.log('payload', payload)
             setErrorMessage(null);
             onPaymentSuccess(payload);
             event.target.reset();
@@ -91,8 +89,6 @@ const CheckoutForm = ({ onPaymentSuccess, amount }) => {
         }
         setLoading(false);
     };
-    // console.log(clientSecret)
-    // console.log(stripe, loading, isLoading, amount, clientSecret)
     return (
         <form onSubmit={handleSubmit} className="w-full">
             <div className="md:grid md:grid-cols-2  gap-2 flex flex-col items-start justify-start md:items-center mb-2">

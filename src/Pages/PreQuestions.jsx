@@ -486,7 +486,6 @@ export default PreQuestions;
 // const PreQuestions = () => {
 //     const [value, setValue] = useState(1);
 //     const onFinish = (values) => {
-//         console.log(values);
 //     };
 //     const onChange = (e) => {
 //         setValue(e.target.value);
