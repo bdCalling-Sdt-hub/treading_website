@@ -447,7 +447,7 @@ const MyProfile = () => {
           id="sectionHeading"
           className="text-[#4E4E4E] text-2xl lg:text-4xl font-medium pl-3"
         >
-          Available Items
+          My Items
         </p>
         <div className="text-end">
           {/* <Link className='text-blue-500'>

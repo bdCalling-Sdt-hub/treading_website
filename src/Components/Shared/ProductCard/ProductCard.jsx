@@ -51,6 +51,7 @@ const ProductCard = ({ data }) => {
         </span>
       </p>
       <Link
+        onClick={() => window.scrollTo(0, 0)}
         to={`/product-details/${data?._id}`}
         className="bg-blue-100 text-blue-500 w-full py-2 rounded-md"
       >
