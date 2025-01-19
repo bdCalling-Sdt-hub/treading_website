@@ -48,7 +48,7 @@ const MyProfile = () => {
   const [review, { isLoading: reviewing }] = useAddReviewMutation();
   const [selectedItem, setSelectedItem] = useState(null);
   const [fileList, setFileList] = useState([]);
-  const [report, reporting] = useReportSwapMutation();
+  const [report, { isLoading: reporting }] = useReportSwapMutation();
   const onFinish = (value) => {
     if (image) {
       value.profile_image = image;
