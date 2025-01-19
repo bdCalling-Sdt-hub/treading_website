@@ -188,7 +188,7 @@ const MyProfile = () => {
             <p className="text-lg font-medium">Total points:</p>
             <p className=" text-[#4E4E4E] flex justify-start items-center gap-1">
               <FaRegStar className="text-yellow-400 text-2xl" />{" "}
-              {data?.data?.result?.points} Points
+              {data?.data?.point} Points
             </p>
           </div>
           <div className="flex justify-center items-center gap-4 mt-3">
@@ -306,7 +306,10 @@ const MyProfile = () => {
                 <Input type="text" placeholder="bogra bangladesh " />
               </Form.Item>
               <div className="col-span-2 text-center mb-5">
-                <button className="px-8 py-3 rounded-md text-white bg-blue-500">
+                <button
+                  disabled={isLoading}
+                  className="px-8 py-3 disabled:bg-gray-600 rounded-md text-white bg-blue-500"
+                >
                   {isLoading ? <Spin /> : "Update"}
                 </button>
               </div>
@@ -354,7 +357,7 @@ const MyProfile = () => {
                         setSelectedItem(item);
                         setOpenReport(true);
                       }}
-                      className="text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit"
+                      className="text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit m-1"
                     >
                       Report
                     </button>
@@ -363,7 +366,7 @@ const MyProfile = () => {
                         setSelectedItem(item);
                         setOpen(true);
                       }}
-                      className="text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit ml-2"
+                      className="text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit m-1"
                     >
                       Review
                     </button>

@@ -22,13 +22,13 @@ const SwiftPoints = () => {
             <p className="text-xl text-[#4E4E4E]">Total Points: </p>
             <p className="text-xl text-[#4E4E4E] flex justify-start items-center gap-2">
               <FaRegStar className="text-yellow-400 text-2xl" />{" "}
-              {profile?.data?.result?.points} Points
+              {profile?.data?.point} Points
             </p>
           </div>
         </div>
         {/* <Input className='py-2 max-w-48' prefix={<IoSearch />} /> */}
       </div>
-      <div className="flex flex-col justify-start items-center gap-2 mt-6 bg-white">
+      <div className="flex flex-col justify-start items-center gap-2 mt-6 bg-white min-h-[60vh]">
         {isLoading ? (
           <div className="w-full h-[500px]">
             <Loading />

@@ -1,4 +1,4 @@
-import { Form, Input, Select } from "antd";
+import { Form, Input, Select, Spin } from "antd";
 import TextArea from "antd/es/input/TextArea";
 import React, { useEffect, useState } from "react";
 import { IoSearch } from "react-icons/io5";
@@ -18,7 +18,7 @@ const AddProducts = () => {
   const { data: subCategories } = useFetchCategorySubCategoryQuery();
   const [selectedCategory, setSelectedCategory] = useState({});
   const [category, setCategory] = useState([]);
-  const [addProduct] = useAddProductsMutation();
+  const [addProduct, { isLoading }] = useAddProductsMutation();
   useEffect(() => {
     const formateData = groupByCategory(subCategories?.data || []);
     setCategory(formateData);
@@ -42,8 +42,7 @@ const AddProducts = () => {
     image.map((item) => {
       formData.append("product_img", item);
     });
-    formData.forEach((e) => {
-    });
+    formData.forEach((e) => {});
     addProduct(formData)
       .unwrap()
       .then((res) => {
@@ -252,8 +251,11 @@ const AddProducts = () => {
           </label>
         </div>
         <div className="flex justify-center items-center mt-6">
-          <button className="bg-blue-500 text-white py-2 px-6 rounded-md">
-            Publish
+          <button
+            disabled={isLoading}
+            className="bg-blue-500 disabled:bg-gray-600 text-white py-2 px-6 rounded-md"
+          >
+            {isLoading ? <Spin /> : `Publish`}
           </button>
         </div>
       </Form>

@@ -22,6 +22,7 @@ const productsApis = baseApi.injectEndpoints({
             },
             providesTags: ['products'],
         }),
+
         fetchTopProducts: builder.query({
             query: () => {
                 return {
@@ -31,6 +32,7 @@ const productsApis = baseApi.injectEndpoints({
             },
             providesTags: ['products'],
         }),
+
         fetchMyProducts: builder.query({
             query: ({ page }) => {
                 return {
@@ -41,6 +43,7 @@ const productsApis = baseApi.injectEndpoints({
             },
             providesTags: ['products'],
         }),
+
         fetchJustForMe: builder.query({
             query: () => {
                 return {
@@ -51,6 +54,7 @@ const productsApis = baseApi.injectEndpoints({
             },
             providesTags: ['products'],
         }),
+
         fetchProductDetails: builder.query({
             query: (id) => {
                 return {
@@ -60,6 +64,7 @@ const productsApis = baseApi.injectEndpoints({
             },
             providesTags: ['products'],
         }),
+
         addProducts: builder.mutation({
             query: (data) => {
                 return {

@@ -22,7 +22,6 @@ const Swap = () => {
 
   const navigate = useNavigate();
   const { user } = useUserData();
-
   const { data, isLoading, isFetching } = useFetchAllProductsQuery({
     limit,
     address,

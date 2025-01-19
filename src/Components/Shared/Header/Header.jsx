@@ -63,6 +63,7 @@ const Header = () => {
       label: language === "eng" ? "Tutorial" : "Tutorial",
     },
   ];
+  console.log(user?.data);
   return (
     <div className="bg-[#5D91F4] py-2 text-white">
       <FloatButton
@@ -94,7 +95,7 @@ const Header = () => {
                 </p>
                 <div className="w-[2px] h-[20px] bg-white"></div>
                 <p className="text-base font-normal">
-                  {user?.data?.result?.userType}: {user?.data?.result?.points}
+                  {user?.data?.result?.userType}: {user?.data?.point}
                 </p>
               </>
             ) : (
@@ -187,7 +188,7 @@ const Header = () => {
                       </p>
                       <p className="text-sm -mt-1 whitespace-nowrap">
                         {language === "eng" ? "Point" : "Punto"}:{" "}
-                        {user?.data?.result?.points}
+                        {user?.data?.point}
                       </p>
                     </div>
                   </button>

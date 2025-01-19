@@ -122,14 +122,13 @@ const Agreements = () => {
   const currentPlan =
     planData.find(
       (plan) =>
-        user?.data?.result?.points >= plan.pointRangeStart &&
-        user?.data?.result?.points <= plan.pointRangeEnd
+        user?.data?.point >= plan.pointRangeStart &&
+        user?.data?.point <= plan.pointRangeEnd
     ) || {};
 
   const monthlyFee = currentPlan?.fee || "N/A";
   const percentage =
-    ((user?.data?.result?.points - minPointRange) /
-      (maxPointRange - minPointRange)) *
+    ((user?.data?.point - minPointRange) / (maxPointRange - minPointRange)) *
     100;
   useEffect(() => {
     if (!myPlan || !data) {
@@ -189,7 +188,7 @@ const Agreements = () => {
           Membership Status: {user?.data?.result?.userType}
         </p>
         <p className="text-lg font-medium">Total Points Earned</p>
-        <p className="text-3xl font-bold">{user?.data?.result?.points}</p>
+        <p className="text-3xl font-bold">{user?.data?.point}</p>
 
         {/* Slider Section */}
         <div className="w-[80%] mx-auto py-6">
@@ -205,7 +204,7 @@ const Agreements = () => {
               type="range"
               min={minPointRange}
               max={maxPointRange}
-              value={user?.data?.result?.points}
+              value={user?.data?.point}
               className="slider"
               style={{
                 background: `linear-gradient(to right, #3475F1 0%, #3475F1 ${percentage}%, #ddd ${percentage}%, #ddd 100%)`,
