@@ -6,9 +6,10 @@ import { useGetSwapHistoryQuery } from "../Redux/Apis/swapApis";
 import { imageUrl } from "../Redux/States/baseApi";
 import moment from "moment";
 import { useFetchProfileQuery } from "../Redux/Apis/authApis";
+import Loading from "../Components/Shared/Loading";
 
 const SwiftPoints = () => {
-  const { data } = useGetSwapHistoryQuery();
+  const { data, isLoading } = useGetSwapHistoryQuery();
   const { data: profile } = useFetchProfileQuery();
   return (
     <div className="container mx-auto mt-4">
@@ -28,7 +29,11 @@ const SwiftPoints = () => {
         {/* <Input className='py-2 max-w-48' prefix={<IoSearch />} /> */}
       </div>
       <div className="flex flex-col justify-start items-center gap-2 mt-6 bg-white">
-        {data?.data?.length <= 0 ? (
+        {isLoading ? (
+          <div className="w-full h-[500px]">
+            <Loading />
+          </div>
+        ) : data?.data?.length <= 0 ? (
           <Empty className="h-[60vh]" />
         ) : (
           data?.data.map((item, i) => {

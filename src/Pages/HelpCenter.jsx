@@ -67,7 +67,7 @@ const faqs = [
 
 const HelpCenter = () => {
   return (
-    <div className="container mx-auto p-4 rounded-md bg-white text-[#4E4E4E]">
+    <div className="container mx-auto p-4 rounded-md bg-white text-[#4E4E4E] min-h-[71vh]">
       {/* <p className="text-3xl font-medium ">How can we help you?</p>
       <Input className="w-48 mt-2" prefix={<IoSearch />} /> */}
       <p className="text-3xl font-medium text-center my-2">
@@ -101,6 +101,7 @@ const HelpCenter = () => {
           );
         })}
       </div>
+      {/*
       <p className="text-3xl font-medium text-center my-2">Need More Help?</p>
       <div className="flex justify-center items-center gap-2 mt-4">
         <img src={help_center} alt="" />
@@ -109,6 +110,7 @@ const HelpCenter = () => {
           <p className="text-base">Our help line service is active: 24/7</p>
         </div>
       </div>
+      */}
     </div>
   );
 };

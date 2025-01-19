@@ -6,7 +6,8 @@ import { Navigation, Pagination } from "swiper/modules";
 import { useFetchBannerQuery } from "../../Redux/Apis/addsApis";
 import { imageUrl } from "../../Redux/States/baseApi";
 import Loading from "../Shared/Loading";
-const Banner = () => {
+
+const Banner2 = () => {
   const { data, isLoading } = useFetchBannerQuery();
   return (
     <>
@@ -21,14 +22,13 @@ const Banner = () => {
         ) : (
           data?.data?.map((item, i) => (
             <SwiperSlide key={i}>
-              <div
-                onClick={() => {
-                  window.open(item.url, "_blank");
-                }}
-                className="w-full h-[550px]"
-              >
+              <div className="w-full h-[400px]">
                 <img
-                  className="w-full h-full object-cover cursor-pointer"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    window.open(item.url, "_blank");
+                  }}
+                  className="w-full h-full object-cover"
                   src={imageUrl(item?.image)}
                   alt=""
                 />
@@ -41,4 +41,4 @@ const Banner = () => {
   );
 };
 
-export default Banner;
+export default Banner2;
