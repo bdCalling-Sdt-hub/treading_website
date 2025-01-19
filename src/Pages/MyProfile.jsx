@@ -93,7 +93,6 @@ const MyProfile = () => {
     Object.keys(data)?.map((key) => {
       formData.append(key, data[key]);
     });
-    console.log(value?.image.fileList);
     if (value?.image.fileList) {
       value?.image.fileList?.map((item) => {
         formData.append("reportImage", item?.originFileObj);
@@ -102,10 +101,11 @@ const MyProfile = () => {
     report({ data: formData })
       .unwrap()
       .then((res) => {
-        console.log(res);
         toast.success(res?.message);
         setOpenReport(false);
         setSelectedItem(null);
+        form.resetFields();
+        setFileList([]);
       })
       .catch((err) => {
         toast.error(err?.data?.message);
@@ -353,13 +353,14 @@ const MyProfile = () => {
                   </div>
                   <div className="md:text-end text-center">
                     <button
+                      disabled={item?.report}
                       onClick={() => {
                         setSelectedItem(item);
                         setOpenReport(true);
                       }}
-                      className="text-red-500 border border-red-500 rounded-md px-8 py-3 w-fit m-1"
+                      className="text-red-500 border disabled:bg-gray-500 disabled:border-gray-500 disabled:cursor-not-allowed disabled:text-black border-red-500 rounded-md px-8 py-3 w-fit m-1"
                     >
-                      Report
+                      {item?.report ? `Reported` : `Report`}
                     </button>
                     <button
                       onClick={() => {
@@ -707,7 +708,12 @@ const MyProfile = () => {
         <div>
           <p className="text-red-500 text-2xl font-bold">Report</p>
 
-          <Form layout="vertical" onFinish={onReport} className="mt-4">
+          <Form
+            form={form}
+            layout="vertical"
+            onFinish={onReport}
+            className="mt-4"
+          >
             <Form.Item
               label="Report"
               name={`report`}
@@ -735,6 +741,7 @@ const MyProfile = () => {
               ]}
             >
               <Upload
+                accept="image/*"
                 fileList={fileList}
                 onChange={handleChange}
                 beforeUpload={() => false}

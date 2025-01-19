@@ -55,7 +55,8 @@ const swapApis = baseApi.injectEndpoints({
                 url: `/swap/create-report`,
                 method: `POST`,
                 body: data
-            })
+            }),
+            invalidatesTags: ['swap']
         })
 
     }),
