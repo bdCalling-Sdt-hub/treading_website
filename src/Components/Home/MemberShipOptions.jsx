@@ -17,7 +17,7 @@ const MemberShipOptions = () => {
       >
         Membership Options
       </p>
-      <div className="pt-6 flex flex-col justify-center items-center gap-5 md:grid md:grid-cols-2 lg:grid-cols-4">
+      <div className="pt-6 flex flex-col justify-center items-center gap-5 md:grid md:grid-cols-2 xl:grid-cols-4">
         {data?.data?.subscriptions?.map((item, i) => {
           return (
             <div
