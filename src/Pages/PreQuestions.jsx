@@ -117,22 +117,19 @@ const PreQuestions = () => {
         </Form.Item>
 
         <Form.Item
-          label="License Number"
+          label="License Number Or ID number"
           name="license_number"
           rules={[
-            { required: true, message: "Please enter your license number." },
+            {
+              required: true,
+              message: "Please enter your license number. Or ID number",
+            },
           ]}
         >
           <Input placeholder="Enter your license number" />
         </Form.Item>
 
-        <Form.Item
-          label="Passport Number"
-          name="passport_number"
-          rules={[
-            { required: true, message: "Please enter your passport number." },
-          ]}
-        >
+        <Form.Item label="Passport Number" name="passport_number">
           <Input placeholder="Enter your passport number" />
         </Form.Item>
 
