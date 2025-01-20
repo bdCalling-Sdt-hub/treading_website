@@ -25,7 +25,7 @@ const UserDataProvider = ({ children }) => {
   useEffect(() => {
     if (user?.data?.result?._id) {
       const socket = io(
-        `http://138.197.37.38:5071?id=${user?.data?.result?._id}`
+        `https://backend.swiftswapp.com?id=${user?.data?.result?._id}`
       );
       setSocket(socket);
       // socket.on("getOnlineUsers", (users) => {
