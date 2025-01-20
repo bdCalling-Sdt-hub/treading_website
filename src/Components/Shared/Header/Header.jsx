@@ -89,8 +89,8 @@ const Header = () => {
               <>
                 <p className="text-base font-normal">
                   {language === "eng"
-                    ? "Points to Date"
-                    : "Puntos hasta la fecha"}
+                    ? "Subscription End Date"
+                    : "Fecha de Finalización de la Suscripción"}
                   : {user?.data?.planEndDate?.split("T")?.[0] || "no point"}
                 </p>
                 <div className="w-[2px] h-[20px] bg-white"></div>
