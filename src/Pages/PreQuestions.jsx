@@ -182,7 +182,7 @@ const PreQuestions = () => {
           name="startDestination"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter your travel start destination.",
             },
           ]}
@@ -195,7 +195,7 @@ const PreQuestions = () => {
           name="startState"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter your travel start state.",
             },
           ]}
@@ -208,7 +208,7 @@ const PreQuestions = () => {
           name="travelStartCounty"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter your travel start county.",
             },
           ]}
@@ -221,7 +221,7 @@ const PreQuestions = () => {
           name="travelStartCountry"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter your travel start country.",
             },
           ]}
@@ -234,7 +234,7 @@ const PreQuestions = () => {
           name="endDestination"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter your travel end destination.",
             },
           ]}
@@ -246,7 +246,10 @@ const PreQuestions = () => {
           label="Travel End State"
           name="endState"
           rules={[
-            { required: true, message: "Please enter your travel end state." },
+            {
+              // required: true,
+              message: "Please enter your travel end state.",
+            },
           ]}
         >
           <Input placeholder="Enter your end state" />
@@ -256,7 +259,10 @@ const PreQuestions = () => {
           label="Travel End County"
           name="endCounty"
           rules={[
-            { required: true, message: "Please enter your travel end county." },
+            {
+              // required: true,
+              message: "Please enter your travel end county.",
+            },
           ]}
         >
           <Input placeholder="Enter your end county" />
@@ -267,7 +273,7 @@ const PreQuestions = () => {
           name="endCountry"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter your travel end country.",
             },
           ]}
@@ -280,7 +286,7 @@ const PreQuestions = () => {
           name="purposeOfTravel"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please enter the purpose of your travel.",
             },
           ]}
@@ -293,7 +299,7 @@ const PreQuestions = () => {
           name="departureArrival"
           rules={[
             {
-              required: true,
+              // required: true,
               message: "Please select your departure arrival date.",
             },
           ]}
@@ -305,7 +311,10 @@ const PreQuestions = () => {
           label="Dates of Travel"
           name="datesOfTravel"
           rules={[
-            { required: true, message: "Please select your dates of travel." },
+            {
+              // required: true,
+              message: "Please select your dates of travel.",
+            },
           ]}
         >
           <DatePicker style={{ width: "100%" }} />
