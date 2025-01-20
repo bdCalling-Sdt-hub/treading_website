@@ -14,7 +14,6 @@ const Header = () => {
   const [open, setOpen] = useState(false);
   const [play, setPlay] = useState(false);
 
-
   const items = [
     {
       key: "1",
@@ -65,7 +64,6 @@ const Header = () => {
       label: language === "eng" ? "Tutorial" : "Tutorial",
     },
   ];
-  console.log(user?.data);
   return (
     <div className="bg-[#5D91F4] py-2 text-white">
       <FloatButton
