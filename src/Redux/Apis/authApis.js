@@ -14,7 +14,7 @@ const authApis = baseApi.injectEndpoints({
         }),
         resendActivationCode: builder.mutation({
             query: (email) => ({
-                url: '/user/auth/resend-activation-code',
+                url: '/auth/resend-verify',
                 method: 'POST',
                 body: { email },
             }),
@@ -64,7 +64,7 @@ const authApis = baseApi.injectEndpoints({
         }),
         resendOtp: builder.mutation({
             query: (email) => ({
-                url: '/auth/resend',
+                url: '/auth/resend-active',
                 method: 'POST',
                 body: { email },
             }),
