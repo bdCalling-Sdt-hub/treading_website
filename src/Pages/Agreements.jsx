@@ -275,7 +275,7 @@ const Agreements = () => {
               >
                 {myPlan?.data?.plan_type == "Trial" &&
                 myPlan?.data?.status === "pending"
-                  ? "wait For Admins Approval"
+                  ? "Wait For Admins Approval"
                   : "7 days free Trial"}
               </button>
             )}

@@ -10,7 +10,8 @@ const ratingsApis = baseApi.injectEndpoints({
                 url: 'review/send',
                 method: 'POST',
                 body: data
-            })
+            }),
+            invalidatesTags: ['swap']
         })
     })
 })

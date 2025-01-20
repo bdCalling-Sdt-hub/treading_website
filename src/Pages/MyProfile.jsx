@@ -363,13 +363,14 @@ const MyProfile = () => {
                       {item?.report ? `Reported` : `Report`}
                     </button>
                     <button
+                      disabled={item?.isRetting}
                       onClick={() => {
                         setSelectedItem(item);
                         setOpen(true);
                       }}
                       className="text-blue-500 border border-blue-500 rounded-md px-8 py-3 w-fit m-1"
                     >
-                      Review
+                      {item?.isRetting ? `Reviewed` : `Review`}
                     </button>
                   </div>
                 </div>
