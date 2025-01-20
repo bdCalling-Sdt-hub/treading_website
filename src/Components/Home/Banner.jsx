@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
-import { Navigation, Pagination } from "swiper/modules";
+import { Autoplay, Navigation, Pagination } from "swiper/modules";
 import { useFetchBannerQuery } from "../../Redux/Apis/addsApis";
 import { imageUrl } from "../../Redux/States/baseApi";
 import Loading from "../Shared/Loading";
@@ -13,7 +13,8 @@ const Banner = () => {
       <Swiper
         navigation={true}
         pagination={true}
-        modules={[Navigation, Pagination]}
+        autoplay={{ delay: 3000 }}
+        modules={[Navigation, Pagination, Autoplay]}
         className="mySwiper"
       >
         {isLoading ? (
