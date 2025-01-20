@@ -1,4 +1,4 @@
-import { Empty, Input, Spin } from "antd";
+import { Empty, Form, Input, Spin } from "antd";
 import { useEffect, useRef, useState } from "react";
 import { BsFillTriangleFill, BsThreeDotsVertical } from "react-icons/bs";
 import { FaArrowLeft } from "react-icons/fa";
@@ -210,26 +210,29 @@ const Chat = () => {
             })
           )}
         </div>
+
         <div>
-          <Input
-            onChange={(e) => setMessage(e.target.value)}
-            value={message}
-            placeholder="write your message "
-            className={`py-2 ${
-              id ? "" : "select-none pointer-events-none cursor-not-allowed"
-            }`}
-            suffix={
-              sendingMessage ? (
-                <Spin size="small" />
-              ) : (
-                <IoIosSend
-                  onClick={handleSendMessage}
-                  size={30}
-                  className="cursor-pointer hover:text-blue-500"
-                />
-              )
-            }
-          />
+          <Form onFinish={handleSendMessage}>
+            <Input
+              onChange={(e) => setMessage(e.target.value)}
+              value={message}
+              placeholder="write your message "
+              className={`py-2 ${
+                id ? "" : "select-none pointer-events-none cursor-not-allowed"
+              }`}
+              suffix={
+                sendingMessage ? (
+                  <Spin size="small" />
+                ) : (
+                  <IoIosSend
+                    onClick={handleSendMessage}
+                    size={30}
+                    className="cursor-pointer hover:text-blue-500"
+                  />
+                )
+              }
+            />
+          </Form>
         </div>
       </div>
     </div>
