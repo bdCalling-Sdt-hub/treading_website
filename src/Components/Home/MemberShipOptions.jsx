@@ -62,8 +62,20 @@ const MemberShipOptions = () => {
               {myPlan?.data?.plan_type === item?.planName ? (
                 myPlan?.data?.status === "pending" ? (
                   <p className="font-bold">Awaiting Approval</p>
-                ) : (
+                ) : myPlan?.data?.active ? (
                   <p className="font-bold uppercase">Active Now</p>
+                ) : (
+                  <Link
+                    Link
+                    to={`/pre-questions/${item?._id}?amount=${
+                      item?.fee
+                    }&plan_type=${item?.planName}&payment_status=${
+                      item?.planName === "Trial" ? "trial" : "unpaid"
+                    }`}
+                    className="px-8 rounded-md py-2 bg-white text-black"
+                  >
+                    Apply
+                  </Link>
                 )
               ) : !myPlan?.data && item?.planName === "Trial" ? (
                 <Link
