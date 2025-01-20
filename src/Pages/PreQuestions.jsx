@@ -78,15 +78,14 @@ const PreQuestions = () => {
         //   aboutSwap: "Swap details go here.",
         //   departureArrival: moment("2024-12-01"),
         //   datesOfTravel: moment("2024-12-10"),
-
         //   endDestination: "City B",
         //   endState: "State B",
         //   endCounty: "County B",
         //   endCountry: "Country B",
         //   purposeOfTravel: "Business",
         //   religion: "Islam",
-        //   // planStartDate: moment("2024-12-10"),
-        //   // planEndDate: moment("2024-12-10"),
+        //   planStartDate: moment("2024-12-10"),
+        //   planEndDate: moment("2024-12-10"),
         // }}
       >
         <Form.Item
@@ -177,146 +176,47 @@ const PreQuestions = () => {
           <Input placeholder="Enter your religion" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel Start Destination"
-          name="startDestination"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel start destination.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel Start Destination" name="startDestination">
           <Input placeholder="Enter your travel start destination" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel Start State"
-          name="startState"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel start state.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel Start State" name="startState">
           <Input placeholder="Enter your start state" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel Start County"
-          name="travelStartCounty"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel start county.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel Start County" name="travelStartCounty">
           <Input placeholder="Enter your start county" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel Start Country"
-          name="travelStartCountry"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel start country.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel Start Country" name="travelStartCountry">
           <Input placeholder="Enter your start country" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel End Destination"
-          name="endDestination"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel end destination.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel End Destination" name="endDestination">
           <Input placeholder="Enter your travel end destination" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel End State"
-          name="endState"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel end state.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel End State" name="endState">
           <Input placeholder="Enter your end state" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel End County"
-          name="endCounty"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel end county.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel End County" name="endCounty">
           <Input placeholder="Enter your end county" />
         </Form.Item>
 
-        <Form.Item
-          label="Travel End Country"
-          name="endCountry"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter your travel end country.",
-            },
-          ]}
-        >
+        <Form.Item label="Travel End Country" name="endCountry">
           <Input placeholder="Enter your end country" />
         </Form.Item>
 
-        <Form.Item
-          label="Purpose of Travel"
-          name="purposeOfTravel"
-          rules={[
-            {
-              // required: true,
-              message: "Please enter the purpose of your travel.",
-            },
-          ]}
-        >
+        <Form.Item label="Purpose of Travel" name="purposeOfTravel">
           <Input placeholder="Enter the purpose of your travel" />
         </Form.Item>
 
-        <Form.Item
-          label="Departure Arrival Date"
-          name="departureArrival"
-          rules={[
-            {
-              // required: true,
-              message: "Please select your departure arrival date.",
-            },
-          ]}
-        >
+        <Form.Item label="Departure Arrival Date" name="departureArrival">
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
 
-        <Form.Item
-          label="Dates of Travel"
-          name="datesOfTravel"
-          rules={[
-            {
-              // required: true,
-              message: "Please select your dates of travel.",
-            },
-          ]}
-        >
+        <Form.Item label="Dates of Travel" name="datesOfTravel">
           <DatePicker style={{ width: "100%" }} />
         </Form.Item>
 
