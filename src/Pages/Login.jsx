@@ -15,8 +15,7 @@ const Login = () => {
     loginUser(value)
       .unwrap()
       .then((res) => {
-        return console.log(user?.data?.role);
-        if (user?.data?.role !== "USER") {
+        if (res?.data?.user?.role !== "USER") {
           return toast.error(`admin can't login to website`);
         } else {
           localStorage.setItem("token", JSON.stringify(res?.data?.accessToken));
