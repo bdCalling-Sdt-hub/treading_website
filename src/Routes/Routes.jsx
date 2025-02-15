@@ -25,6 +25,7 @@ import ResetPassword from "../Pages/ResetPassword";
 import Otp from "../Pages/Otp";
 import Payment from "../Pages/Payment";
 import ErrorElement from "../Pages/ErrorElement";
+import Privacy from "../Pages/Privacy";
 
 export const router = createBrowserRouter([
   {
@@ -35,6 +36,10 @@ export const router = createBrowserRouter([
       {
         path: "/",
         element: <Home />,
+      },
+      {
+        path: "/privacy-policy",
+        element: <Privacy />,
       },
       {
         path: "/chat",
